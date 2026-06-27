@@ -190,6 +190,8 @@ export default function ListingPage({
   const [collectionFilter, setCollectionFilter] = useState<string>(initialCollection ?? 'all');
   const [metalFilter, setMetalFilter] = useState<MetalFilter['value']>('all');
   const [sortKey, setSortKey] = useState<SortKey>('featured');
+  const [perPage, setPerPage] = useState<number>(24);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const filtered = useMemo(() => {
     const result = products.filter((p) => {
@@ -276,6 +278,9 @@ export default function ListingPage({
     return deduped;
   }, [products, collectionFilter, metalFilter, sortKey, collections, category, showMetalFilter]);
 
+  // Reset to page 1 whenever filters, sort, or per-page changes
+  useEffect(() => { setCurrentPage(1); }, [collectionFilter, metalFilter, sortKey, perPage]);
+
   // Total distinct designs (collapsed across metal variants), independent
   // of the active filters — drives the "X handcrafted styles" hero count.
   const totalCount = useMemo(
@@ -283,6 +288,11 @@ export default function ListingPage({
     [products],
   );
   const visibleCount = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(visibleCount / perPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const pageStart = (safePage - 1) * perPage;
+  const pageEnd = pageStart + perPage;
+  const paginated = filtered.slice(pageStart, pageEnd);
 
   return (
     <main className="listing-page">
@@ -482,20 +492,13 @@ export default function ListingPage({
         ) : (
           <div className="vc-grid">
             {(() => {
-              // We track which editorial slot we're on so each inserted
-              // tile picks the *next* message from EDITORIAL_COPY rather
-              // than repeating the same headline down the page.
               let editorialSlot = 0;
-              const items = filtered.flatMap((p, idx) => {
+              const items = paginated.flatMap((p, idx) => {
                 const nodes: React.ReactNode[] = [
                   <VanCleefCard key={p.sku} product={p} placeholder={PLACEHOLDER_SVG} cardHref={cardHref} showWishlist={showWishlist} />,
                 ];
-                // Van Cleef rhythm: after the 6th card insert a wide
-                // editorial spread (spans 2 of 3 columns); the next card
-                // fills the row's last column. Subsequent editorials land
-                // every 10th card so the grid tiles cleanly.
                 const isInsertSlot = idx === 5 || (idx > 5 && (idx - 5) % 10 === 0);
-                if (isInsertSlot && idx !== filtered.length - 1) {
+                if (isInsertSlot && idx !== paginated.length - 1) {
                   const slotIndex = editorialSlot++;
                   nodes.push(
                     <EditorialTile
@@ -507,11 +510,63 @@ export default function ListingPage({
                 }
                 return nodes;
               });
-              if (resolvedShowLifePathTeaser) {
+              if (resolvedShowLifePathTeaser && safePage === totalPages) {
                 items.push(<LifePathTeaser key="life-path-teaser" />);
               }
               return items;
             })()}
+          </div>
+        )}
+
+        {/* PAGINATION */}
+        {visibleCount > 0 && (
+          <div className="vc-pagination">
+            <div className="vc-per-page">
+              <span className="vc-per-page-label">Per page</span>
+              {[12, 24, 48].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  className={`vc-per-page-btn${perPage === n ? ' is-active' : ''}`}
+                  onClick={() => setPerPage(n)}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="vc-page-nums">
+                <button
+                  type="button"
+                  className="vc-page-btn vc-page-btn--arrow"
+                  disabled={safePage === 1}
+                  onClick={() => { setCurrentPage(safePage - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  aria-label="Previous page"
+                >
+                  ‹
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    className={`vc-page-btn${safePage === n ? ' is-active' : ''}`}
+                    onClick={() => { setCurrentPage(n); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  >
+                    {n}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className="vc-page-btn vc-page-btn--arrow"
+                  disabled={safePage === totalPages}
+                  onClick={() => { setCurrentPage(safePage + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  aria-label="Next page"
+                >
+                  ›
+                </button>
+              </div>
+            )}
           </div>
         )}
       </section>

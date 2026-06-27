@@ -1716,7 +1716,7 @@ footer {
 
 .product-detail {
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 60% 40%;
   max-width: 100%;
   margin: 0;
   padding: 12px 0 96px;
@@ -3609,10 +3609,22 @@ footer {
 
 /* listing page AI button override */
 .dnh-trigger--listing {
-  background: var(--logo-red) !important;
-  color: #fff !important;
-  border-color: var(--logo-red) !important;
-  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--logo-red) !important;
+  border: 1px solid rgba(172, 52, 56, 0.7) !important;
+  border-radius: 4px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  padding: 14px 36px !important;
+  gap: 10px !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+.dnh-trigger--listing:hover {
+  background: rgba(172, 52, 56, 0.92) !important;
+  color: #fff8f6 !important;
+  border-color: rgba(200, 70, 74, 0.95) !important;
 }
 
 /* Toolbar: FILTER trigger on left, SORT BY on right */
@@ -4299,6 +4311,88 @@ footer {
   text-transform: uppercase;
   color: rgba(255, 226, 158, 0.95);
   margin-top: 8px;
+}
+
+/* ── Pagination ───────────────────────────────────────────────── */
+.vc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 48px 56px;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid rgba(172, 52, 56, 0.08);
+}
+.vc-per-page {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vc-per-page-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6a5f57;
+  margin-right: 4px;
+}
+.vc-per-page-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(172, 52, 56, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #3d2520;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.vc-per-page-btn:hover { border-color: var(--logo-red); color: var(--logo-red); }
+.vc-per-page-btn.is-active {
+  background: var(--logo-red);
+  border-color: var(--logo-red);
+  color: #fff8f6;
+}
+.vc-page-nums {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.vc-page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(172, 52, 56, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3d2520;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.vc-page-btn:hover:not(:disabled) { border-color: var(--logo-red); color: var(--logo-red); }
+.vc-page-btn.is-active {
+  background: var(--logo-red);
+  border-color: var(--logo-red);
+  color: #fff8f6;
+}
+.vc-page-btn:disabled { opacity: 0.3; cursor: default; }
+.vc-page-btn--arrow { font-size: 18px; letter-spacing: 0; }
+
+@media (max-width: 560px) {
+  .vc-pagination { padding: 28px 20px 40px; flex-direction: column; align-items: flex-start; }
 }
 
 .vc-empty {

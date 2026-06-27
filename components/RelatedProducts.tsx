@@ -24,7 +24,13 @@ export default async function RelatedProducts({ currentSlug, collection, categor
 
       <div className="related-track">
         {products.map((p) => {
-          const img = p.images?.[0] ?? null;
+          const rawImg = p.images?.[0] ?? null;
+          // Encode any unencoded spaces in the URL path so Next.js Image can resolve it
+          const img = rawImg
+            ? rawImg.replace(/^(https?:\/\/[^/]+)(\/.*)?$/, (_, origin, path) =>
+                origin + (path ? path.split('/').map((seg: string) => encodeURIComponent(decodeURIComponent(seg))).join('/') : '')
+              )
+            : null;
           const name = stripMetalSuffix(p.name);
           return (
             <Link key={p.slug} href={`/product/${p.slug}`} className="related-card">
@@ -34,8 +40,9 @@ export default async function RelatedProducts({ currentSlug, collection, categor
                     src={img}
                     alt={name}
                     fill
+                    unoptimized
                     sizes="(max-width: 640px) 44vw, (max-width: 1024px) 22vw, 16vw"
-                    style={{ objectFit: 'contain', padding: '16px', mixBlendMode: 'multiply' }}
+                    style={{ objectFit: 'contain', padding: '16px' }}
                   />
                 ) : (
                   <div className="related-card-placeholder">
