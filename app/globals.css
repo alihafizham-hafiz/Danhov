@@ -1761,12 +1761,15 @@ footer {
 }
 
 .product-info-col {
-  padding: 20px 40px 32px 28px;
+  padding: 28px 48px 32px 32px;
   display: flex; flex-direction: column;
   gap: 0;
   position: sticky;
   top: 80px;
   align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .product-info-col::-webkit-scrollbar { display: none; }
 .product-category-label {
@@ -1914,7 +1917,7 @@ footer {
   }
   .product-name { font-size: 28px; }
   .product-price { font-size: 22px; }
-  .pg-cell { height: 360px; }
+  .pg-cell { aspect-ratio: 1; height: auto; }
   .product-breadcrumb { padding: 16px 20px; margin-top: 70px; }
 }
 
@@ -3275,8 +3278,8 @@ footer {
 .pg-cell {
   position: relative;
   width: 100%;
-  aspect-ratio: unset;
-  height: 440px;
+  aspect-ratio: 1;
+  height: auto;
   background: #fff;
   overflow: hidden;
 }
@@ -3514,13 +3517,23 @@ footer {
 
 /* ── Inline tag filter bar ─────────────────────────────────────── */
 .tag-filter-bar {
-  padding: 24px 48px 8px;
+  padding: 20px 48px 12px;
   max-width: 1400px;
   margin: 0 auto;
+  border-top: 1px solid rgba(172, 52, 56, 0.08);
+}
+.tag-filter-main-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+.tag-filter-chips {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border-top: 1px solid rgba(172, 52, 56, 0.08);
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 .tag-filter-group {
   display: flex;
@@ -3643,18 +3656,23 @@ footer {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  border: 1px solid var(--logo-red);
-  padding: 6px 14px 6px 10px;
+  gap: 6px;
+  border: 1px solid rgba(172,52,56,0.25);
+  padding: 6px 28px 6px 10px;
   border-radius: 4px;
+  flex-shrink: 0;
+  align-self: center;
+  background: #fff8f6;
 }
 .vc-sort-label {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--logo-red);
+  letter-spacing: 0.1em;
+  color: #6a5f57;
   text-transform: uppercase;
+  white-space: nowrap;
+  cursor: default;
 }
 .vc-sort-select {
   -webkit-appearance: none;
@@ -3662,19 +3680,20 @@ footer {
   appearance: none;
   background: transparent;
   border: none;
-  padding: 8px 28px 8px 4px;
+  padding: 0;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 17px;
-  color: var(--logo-red);
+  font-size: 12px;
+  color: #1a1410;
   cursor: pointer;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   outline: none;
+  min-width: 130px;
 }
 .vc-sort-chevron {
   position: absolute;
   right: 8px; top: 50%;
   transform: translateY(-50%);
-  color: var(--logo-red);
+  color: #6a5f57;
   pointer-events: none;
 }
 
@@ -4319,6 +4338,7 @@ footer {
   .vc-toolbar { padding: 22px 28px 18px; }
   .vc-products { padding: 24px 28px 80px; }
   .vc-grid { grid-template-columns: repeat(2, 1fr); gap: 44px 0; }
+  .tag-filter-bar { padding: 18px 28px 10px; }
 }
 @media (max-width: 560px) {
   .vc-toolbar { padding: 18px 20px 14px; }
@@ -4328,6 +4348,9 @@ footer {
   .vc-card-meta { text-align: center; }
   /* On phones, price always shows since hover doesn't exist */
   .vc-card-price { opacity: 1; transform: none; }
+  .tag-filter-bar { padding: 16px 20px 10px; }
+  .tag-filter-main-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .vc-toolbar-sort { align-self: flex-end; }
 }
 
 

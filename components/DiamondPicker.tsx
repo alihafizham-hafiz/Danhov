@@ -244,19 +244,19 @@ export type Diamond = {
   };
 };
 
-function ShapeIcon({ shape }: { shape: Shape }) {
-  const common = { stroke: '#AC3438', strokeWidth: 1.5, fill: 'none' } as const;
+function ShapeIcon({ shape, color = 'currentColor' }: { shape: Shape; color?: string }) {
+  const s = { stroke: color, strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   switch (shape) {
-    case 'ROUND':    return <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" {...common} /></svg>;
-    case 'OVAL':     return <svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="11" ry="16" {...common} /></svg>;
-    case 'CUSHION':  return <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="30" height="30" rx="7" {...common} /></svg>;
-    case 'PRINCESS': return <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="6" width="28" height="28" {...common} /></svg>;
-    case 'EMERALD':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="12,4 28,4 36,12 36,28 28,36 12,36 4,28 4,12" {...common} /></svg>;
-    case 'PEAR':     return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 C24 7 29 14 29 22 C29 30 25 36 20 36 C15 36 11 30 11 22 C11 14 16 7 20 4 Z" {...common} /></svg>;
-    case 'RADIANT':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="13,4 27,4 36,13 36,27 27,36 13,36 4,27 4,13" {...common} /></svg>;
-    case 'HEART':    return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 36 C8 28 4 18 9 11 C13 6 18 8 20 12 C22 8 27 6 31 11 C36 18 32 28 20 36 Z" {...common} /></svg>;
-    case 'MARQUISE': return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 C28 12 28 28 20 36 C12 28 12 12 20 4 Z" {...common} /></svg>;
-    case 'ASSCHER':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="12,4 28,4 36,12 36,28 28,36 12,36 4,28 4,12" {...common} /><polygon points="16,11 24,11 29,16 29,24 24,29 16,29 11,24 11,16" stroke="#AC3438" strokeWidth="0.8" fill="none" /></svg>;
+    case 'ROUND':    return <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" {...s} /></svg>;
+    case 'OVAL':     return <svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="12" ry="17" {...s} /></svg>;
+    case 'CUSHION':  return <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="4" width="32" height="32" rx="8" {...s} /></svg>;
+    case 'PRINCESS': return <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="30" height="30" {...s} /></svg>;
+    case 'EMERALD':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="13,3 27,3 36,11 36,29 27,37 13,37 4,29 4,11" {...s} /></svg>;
+    case 'PEAR':     return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 C27 7 34 15 34 23 C34 32 28 37 20 37 C12 37 6 32 6 23 C6 15 13 7 20 4 Z" {...s} /></svg>;
+    case 'RADIANT':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="11,5 29,5 35,11 35,29 29,35 11,35 5,29 5,11" {...s} /></svg>;
+    case 'HEART':    return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34 C14 30 4 22 4 16 C4 10 8 5 14 5 C17 5 19 8 20 11 C21 8 23 5 26 5 C32 5 36 10 36 16 C36 22 26 30 20 34 Z" {...s} /></svg>;
+    case 'MARQUISE': return <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 C30 10 36 15 36 20 C36 25 30 30 20 37 C10 30 4 25 4 20 C4 15 10 10 20 3 Z" {...s} /></svg>;
+    case 'ASSCHER':  return <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="12,4 28,4 36,12 36,28 28,36 12,36 4,28 4,12" {...s} /><polygon points="15,10 25,10 30,15 30,25 25,30 15,30 10,25 10,15" stroke={color} strokeWidth="0.8" fill="none" /></svg>;
     default: return null;
   }
 }
@@ -285,7 +285,7 @@ function DiamondGlyph({ shape, carat }: { shape: Shape; carat: number }) {
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#bg)" />
         <g transform={`translate(50 50) scale(${scale}) translate(-20 -20)`}>
-          <ShapeIcon shape={shape} />
+          <ShapeIcon shape={shape} color="#AC3438" />
         </g>
       </svg>
     );
@@ -646,8 +646,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
                     aria-label={s.label}
                   >
                     <span className="be-shape-icon">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={SHAPE_IMAGES[s.value]} alt="" aria-hidden="true" />
+                      <ShapeIcon shape={s.value} />
                     </span>
                     <span className="be-shape-label">{s.label}</span>
                   </button>

@@ -84,7 +84,7 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
     : `/ring-builder/diamond?setting=${encodeURIComponent(params.slug)}`;
 
   return (
-    <main className="builder-page" style={{ paddingTop: 0 }}>
+    <main className="builder-page">
       <BuilderStepper current={1} hasSetting={false} hasDiamond={hasDiamond} />
 
       {/* Breadcrumb / back */}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BuilderStepper from '@/components/BuilderStepper';
+import BuilderStepper, { DiamondIcon, SettingIcon, CompleteIcon } from '@/components/BuilderStepper';
 import AIDesignSection from '@/components/AIDesignSection';
 import './builder.css';
 
@@ -29,7 +29,7 @@ export default function RingBuilderLandingPage() {
 
       <section className="builder-intro-grid">
         <article className="builder-intro-card">
-          <span className="builder-intro-step">01</span>
+          <span className="builder-intro-step">I</span>
           <h3>Choose your setting</h3>
           <p>
             Browse our handcrafted settings — Abbraccio, Voltaggio, Classico, and more.
@@ -37,7 +37,7 @@ export default function RingBuilderLandingPage() {
           </p>
         </article>
         <article className="builder-intro-card">
-          <span className="builder-intro-step">02</span>
+          <span className="builder-intro-step">II</span>
           <h3>Choose your diamond</h3>
           <p>
             Pick your shape, carat, color, clarity and cut. Every diamond is GIA-graded,
@@ -45,7 +45,7 @@ export default function RingBuilderLandingPage() {
           </p>
         </article>
         <article className="builder-intro-card">
-          <span className="builder-intro-step">03</span>
+          <span className="builder-intro-step">III</span>
           <h3>Complete your commission</h3>
           <p>
             We confirm the pairing, lock today&apos;s gold price for 24 hours, and a master
@@ -60,11 +60,7 @@ export default function RingBuilderLandingPage() {
         <div className="builder-paths-grid">
           <article className="builder-path-card" style={{ textAlign: 'center', alignItems: 'center' }}>
             <div className="builder-path-icon">
-              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <circle cx="20" cy="20" r="13" stroke="#AC3438" strokeWidth="1.4" />
-                <circle cx="20" cy="20" r="7" stroke="#AC3438" strokeWidth="0.8" />
-                <circle cx="20" cy="7" r="2.5" fill="#AC3438" />
-              </svg>
+              <CompleteIcon />
             </div>
             <h3>Build a Complete Ring</h3>
             <p>Choose your setting, then pair it with a certified diamond. The classic commission path.</p>
@@ -75,10 +71,7 @@ export default function RingBuilderLandingPage() {
 
           <article className="builder-path-card" style={{ textAlign: 'center', alignItems: 'center' }}>
             <div className="builder-path-icon">
-              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <circle cx="20" cy="20" r="13" stroke="#AC3438" strokeWidth="1.4" />
-                <circle cx="20" cy="20" r="7" stroke="#AC3438" strokeWidth="0.8" />
-              </svg>
+              <SettingIcon />
             </div>
             <h3>Buy a Setting Alone</h3>
             <p>Purchase just the ring setting — handcrafted to your size and metal choice, without a diamond.</p>
@@ -89,10 +82,7 @@ export default function RingBuilderLandingPage() {
 
           <article className="builder-path-card" style={{ textAlign: 'center', alignItems: 'center' }}>
             <div className="builder-path-icon">
-              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <polygon points="20,5 34,15 20,35 6,15" stroke="#AC3438" strokeWidth="1.4" fill="none" />
-                <polyline points="6,15 20,22 34,15" stroke="#AC3438" strokeWidth="0.8" />
-              </svg>
+              <DiamondIcon />
             </div>
             <h3>Buy a Loose Diamond</h3>
             <p>Select a GIA-graded diamond from live inventory. No setting required — a specialist will assist.</p>

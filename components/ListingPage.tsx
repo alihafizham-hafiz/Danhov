@@ -333,53 +333,55 @@ export default function ListingPage({
       </div>
 
       {/* INLINE TAG FILTER BAR */}
-      {((collections && collections.length > 0) || showMetalFilter) && (
-        <div className="tag-filter-bar">
-          {collections && collections.length > 0 && (
-            <div className="tag-filter-group">
-              <button
-                type="button"
-                className={`tag-chip${collectionFilter === 'all' ? ' is-active' : ''}`}
-                onClick={() => setCollectionFilter('all')}
-              >
-                All
-              </button>
-              {collections.map((c) => (
+      <div className="tag-filter-bar">
+        <div className="tag-filter-main-row">
+          <div className="tag-filter-chips">
+            {collections && collections.length > 0 && (
+              <div className="tag-filter-group">
                 <button
-                  key={c.value}
                   type="button"
-                  className={`tag-chip${collectionFilter === c.value ? ' is-active' : ''}`}
-                  onClick={() => setCollectionFilter(c.value)}
+                  className={`tag-chip${collectionFilter === 'all' ? ' is-active' : ''}`}
+                  onClick={() => setCollectionFilter('all')}
                 >
-                  {c.label}
+                  All
                 </button>
-              ))}
-            </div>
-          )}
+                {collections.map((c) => (
+                  <button
+                    key={c.value}
+                    type="button"
+                    className={`tag-chip${collectionFilter === c.value ? ' is-active' : ''}`}
+                    onClick={() => setCollectionFilter(c.value)}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            )}
 
-          {showMetalFilter && (
-            <div className="tag-filter-group tag-filter-group--metals">
-              {METAL_FILTERS.map((m) => (
-                <button
-                  key={m.value}
-                  type="button"
-                  className={`tag-chip${metalFilter === m.value ? ' is-active' : ''}`}
-                  onClick={() => setMetalFilter(m.value)}
-                >
-                  {m.swatch && (
-                    <span
-                      className="tag-chip-swatch"
-                      style={{ background: m.swatch.background, border: m.swatch.border }}
-                    />
-                  )}
-                  {m.label}
-                </button>
-              ))}
-            </div>
-          )}
+            {showMetalFilter && (
+              <div className="tag-filter-group tag-filter-group--metals">
+                {METAL_FILTERS.map((m) => (
+                  <button
+                    key={m.value}
+                    type="button"
+                    className={`tag-chip${metalFilter === m.value ? ' is-active' : ''}`}
+                    onClick={() => setMetalFilter(m.value)}
+                  >
+                    {m.swatch && (
+                      <span
+                        className="tag-chip-swatch"
+                        style={{ background: m.swatch.background, border: m.swatch.border }}
+                      />
+                    )}
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           <div className="vc-toolbar-sort">
-            <label htmlFor="vc-sort" className="vc-sort-label">Sort by</label>
+            <label htmlFor="vc-sort" className="vc-sort-label">Sort</label>
             <select
               id="vc-sort"
               className="vc-sort-select"
@@ -387,8 +389,8 @@ export default function ListingPage({
               onChange={(e) => setSortKey(e.target.value as SortKey)}
             >
               <option value="featured">Featured</option>
-              <option value="price_asc">Price · Low to High</option>
-              <option value="price_desc">Price · High to Low</option>
+              <option value="price_asc">Price: Low → High</option>
+              <option value="price_desc">Price: High → Low</option>
               <option value="newest">Newest</option>
             </select>
             <svg className="vc-sort-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
@@ -396,7 +398,7 @@ export default function ListingPage({
             </svg>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Per Lei = the U Collection per the client. When the Per Lei
           chip is active we render the U narrative FIRST, then the
