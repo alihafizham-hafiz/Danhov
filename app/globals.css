@@ -1764,14 +1764,7 @@ footer {
   padding: 28px 48px 32px 32px;
   display: flex; flex-direction: column;
   gap: 0;
-  position: sticky;
-  top: 80px;
-  align-self: start;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  scrollbar-width: none;
 }
-.product-info-col::-webkit-scrollbar { display: none; }
 .product-category-label {
   font-family: 'Cormorant Garamond', serif;
   font-size: 11px; font-weight: 700;
@@ -1910,9 +1903,6 @@ footer {
   .product-image-col { padding: 0 20px; }
   .product-info-col {
     padding: 28px 24px 24px;
-    position: static;
-    max-height: none;
-    overflow: visible;
     border-top: 1px solid rgba(172,52,56,0.07);
   }
   .product-name { font-size: 28px; }
