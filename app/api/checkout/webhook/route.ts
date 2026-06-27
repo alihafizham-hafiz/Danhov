@@ -168,7 +168,7 @@ async function onCheckoutCompleted(
           .update({ status: 'converted', updated_at: new Date().toISOString() })
           .eq('offer_id', offerId)
           .eq('status', 'active');
-        console.log('nivoda order placed', { danhov: order.id, nivoda: r.data.id });
+        console.info('nivoda order placed', { danhov: order.id, nivoda: r.data.id });
       } else {
         console.error('nivoda order failed', { danhov: order.id, error: r.error });
         // Notify studio so they can place the Nivoda order manually
@@ -241,7 +241,7 @@ async function onGiftCardPaid(
     const deliverAt = card.deliver_at ? new Date(card.deliver_at) : null;
     if (deliverAt && deliverAt > now) {
       // Scheduled for future — skip for now (a cron job would handle this)
-      console.log('gift card scheduled for future delivery:', card.code, card.deliver_at);
+      console.info('gift card scheduled for future delivery:', card.code, card.deliver_at);
       continue;
     }
     const tpl = giftCardEmail({

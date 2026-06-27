@@ -78,6 +78,12 @@ async function fetchArticleContent(danhovPath: string): Promise<string | null> {
       .replace(/<div[^>]*class="[^"]*(?:sharedaddy|share-|social-|related-|comments|wp-caption)[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
       // Remove WordPress shortcodes
       .replace(/\[[\w_-]+[^\]]*\]/g, '')
+      // Strip all on* event handler attributes (onerror, onload, onclick, etc.)
+      .replace(/\s+on\w+="[^"]*"/gi, '')
+      .replace(/\s+on\w+='[^']*'/gi, '')
+      // Strip javascript: URLs in href/src attributes
+      .replace(/(href|src)="javascript:[^"]*"/gi, '$1="#"')
+      .replace(/(href|src)='javascript:[^']*'/gi, "$1='#'")
       // Fix relative image URLs to point to danhov.com
       .replace(/src="\/(?!\/)/g, 'src="https://www.danhov.com/')
       .replace(/src='\/(?!\/)/g, "src='https://www.danhov.com/")
