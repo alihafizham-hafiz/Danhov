@@ -9,14 +9,16 @@ const cormorant = Cormorant_Garamond({
   style: ['normal', 'italic'],
   display: 'swap',
 });
+import dynamic from 'next/dynamic';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Cursor from '@/components/Cursor';
-import ChatWidget from '@/components/ChatWidget';
 import { CartProvider } from '@/components/CartProvider';
 import WishlistProvider from '@/components/WishlistProvider';
 import CartDrawer from '@/components/CartDrawer';
 import ScrollTopOnRoute from '@/components/ScrollTopOnRoute';
+
+const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false });
 import { buildOrganization, jsonLdScript, SITE_URL } from '@/lib/seo';
 import './globals.css';
 

@@ -76,6 +76,8 @@ export default async function HomePage() {
             muted
             loop
             playsInline
+            preload="none"
+            poster="/danhov-video-poster.jpg"
             style={{ width: '100%', height: 'auto', display: 'block' }}
             src="/danhov-brand-video.mp4"
           />

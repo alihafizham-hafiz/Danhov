@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Product } from '@/lib/products';
 import { collectionToSlug } from '@/lib/products';
 import WishlistHeart from '@/components/WishlistHeart';
@@ -704,12 +705,13 @@ function VanCleefCard({
         {displayImages.length > 0 ? (
           displayImages.map((src, i) => (
             <div key={src} className={`img-slide${i === cyclingIdx ? ' img-slide--active' : ''}`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={safeUrl(src)}
                 alt={product.name}
-                style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block' }}
-                loading={i <= 1 ? 'eager' : 'lazy'}
+                fill
+                sizes="(max-width: 560px) 50vw, (max-width: 980px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                style={{ objectFit: 'contain', objectPosition: 'center' }}
+                loading={i === 0 ? 'eager' : 'lazy'}
               />
             </div>
           ))
