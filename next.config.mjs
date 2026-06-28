@@ -12,6 +12,7 @@ const nextConfig = {
   },
 
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'www.danhov.com' },
       { protocol: 'https', hostname: 'danhov.com' },

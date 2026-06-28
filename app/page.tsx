@@ -123,51 +123,6 @@ export default async function HomePage() {
 
       </section>
 
-      {/* ── SELF-LOVE MANIFESTO ──────────────────────────────────── */}
-      <section style={{
-        background: '#0a0806',
-        padding: 'clamp(48px, 6vw, 80px) clamp(24px, 8vw, 120px)',
-        textAlign: 'center',
-        borderTop: '1px solid rgba(242,236,228,0.07)',
-      }}>
-        <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: '0.58rem',
-          letterSpacing: '0.55em',
-          textTransform: 'uppercase',
-          color: '#AC3438',
-          marginBottom: 28,
-          fontWeight: 600,
-        }}>
-          A Message from Jack
-        </p>
-        <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: 'clamp(1.05rem, 2.2vw, 1.55rem)',
-          fontStyle: 'italic',
-          fontWeight: 300,
-          color: '#f2ece4',
-          maxWidth: 720,
-          margin: '0 auto 28px',
-          lineHeight: 1.75,
-        }}>
-          &ldquo;In the silence, I understood — the whole universe is one, and you are the center of it.
-          To love yourself is to love the universe itself. This ring was not designed.
-          It was received. A swirl for the self. A circle with no beginning and no end,
-          because love — real love — starts within.&rdquo;
-        </p>
-        <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: '0.58rem',
-          letterSpacing: '0.42em',
-          textTransform: 'uppercase',
-          color: 'rgba(242,236,228,0.38)',
-          fontWeight: 500,
-        }}>
-          — Jack Hovsepian &nbsp;·&nbsp; Founder, DANHOV &nbsp;·&nbsp; Est. 1984
-        </p>
-      </section>
-
       {/* ── DAILY SIGNPOST ───────────────────────────────────────── */}
       <DailySignpostSection />
 

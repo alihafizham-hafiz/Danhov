@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import SearchOverlay from '@/components/SearchOverlay';
 import { useCart } from '@/components/CartProvider';
 import { useWishlist } from '@/components/WishlistProvider';
+
+const BookingModal = dynamic(() => import('@/components/BookingModal'), { ssr: false });
 
 // Single row of links rendered below the centred DANHOV logo.
 // Product-category links use homepage hash anchors so the nav scrolls
@@ -34,6 +37,7 @@ const LINKS = LINKS_ROW;
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const pathname = usePathname();
   const { count: cartCount, openDrawer } = useCart();
   const { slugs: wishlistSlugs } = useWishlist();
@@ -46,6 +50,7 @@ export default function Nav() {
   useEffect(() => {
     setOpen(false);
     setSearchOpen(false);
+    setBookingOpen(false);
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
@@ -63,36 +68,48 @@ export default function Nav() {
     }
   };
 
-  // Lock body scroll while drawer or search is open
+  // Lock body scroll while drawer, search, or booking modal is open
   useEffect(() => {
-    if (open || searchOpen) {
+    if (open || searchOpen || bookingOpen) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       return () => {
         document.body.style.overflow = prev;
       };
     }
-  }, [open, searchOpen]);
+  }, [open, searchOpen, bookingOpen]);
 
   // Close on Escape
   useEffect(() => {
-    if (!open && !searchOpen) return;
+    if (!open && !searchOpen && !bookingOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setOpen(false);
         setSearchOpen(false);
+        setBookingOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open, searchOpen]);
+  }, [open, searchOpen, bookingOpen]);
 
   return (
     <>
       <nav className="site-nav site-nav--stacked" aria-label="Main navigation">
 
-        {/* Top row: centred DANHOV logo + right-side action icons */}
+        {/* Top row: VM button left · DANHOV logo centred · icons right */}
         <div className="nav-logo-row">
+          {/* Left — Virtual Meeting CTA */}
+          <button
+            type="button"
+            className="nav-vm-btn"
+            aria-label="Book a virtual meeting"
+            onClick={() => setBookingOpen(true)}
+          >
+            <VideoIcon />
+            <span>Virtual Meeting</span>
+          </button>
+
           <Link href="/" className="nav-logo nav-glow-frame" aria-label="DANHOV — Home">
             <Image
               src="/danhov-logo-transparent.png"
@@ -103,7 +120,7 @@ export default function Nav() {
             />
           </Link>
 
-          {/* Right-side action cluster — search, phone, wishlist, account, cart */}
+          {/* Right-side action cluster — search, phone, account, wishlist, cart */}
           <div className="nav-actions">
             <button
               type="button"
@@ -203,6 +220,14 @@ export default function Nav() {
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          className="nav-cta nav-drawer-cta nav-drawer-vm"
+          onClick={() => { setOpen(false); setBookingOpen(true); }}
+        >
+          <VideoIcon />
+          Virtual Meeting
+        </button>
         <Link
           href="/#appointment"
           className="nav-cta nav-drawer-cta"
@@ -228,6 +253,9 @@ export default function Nav() {
 
       {/* Site-wide search overlay */}
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+
+      {/* Virtual Meeting — Calendly/Zoom booking modal */}
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
     </>
   );
 }
@@ -285,6 +313,15 @@ function CartIcon() {
       />
       <circle cx="10" cy="20.5" r="1.4" fill="currentColor" />
       <circle cx="18" cy="20.5" r="1.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+function VideoIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="2" y="6" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M16 10l6-4v12l-6-4V10Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
     </svg>
   );
 }
