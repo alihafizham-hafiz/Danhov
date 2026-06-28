@@ -97,19 +97,8 @@ export default function Nav() {
     <>
       <nav className="site-nav site-nav--stacked" aria-label="Main navigation">
 
-        {/* Top row: VM button left · DANHOV logo centred · icons right */}
+        {/* Top row: DANHOV logo centred · icons right */}
         <div className="nav-logo-row">
-          {/* Left — Virtual Meeting CTA */}
-          <button
-            type="button"
-            className="nav-vm-btn"
-            aria-label="Book a virtual meeting"
-            onClick={() => setBookingOpen(true)}
-          >
-            <VideoIcon />
-            <span>Virtual Meeting</span>
-          </button>
-
           <Link href="/" className="nav-logo nav-glow-frame" aria-label="DANHOV — Home">
             <Image
               src="/danhov-logo-transparent.png"
@@ -120,8 +109,17 @@ export default function Nav() {
             />
           </Link>
 
-          {/* Right-side action cluster — search, phone, account, wishlist, cart */}
+          {/* Right-side action cluster — VM, search, phone, account, wishlist, cart */}
           <div className="nav-actions">
+            <button
+              type="button"
+              className="nav-vm-btn"
+              aria-label="Book a virtual meeting"
+              onClick={() => setBookingOpen(true)}
+            >
+              <VideoIcon />
+              <span>Virtual Meeting</span>
+            </button>
             <button
               type="button"
               className="nav-icon-btn nav-glow-frame"

@@ -123,6 +123,48 @@ export default async function HomePage() {
 
       </section>
 
+      {/* ── A MESSAGE FROM JACK ──────────────────────────────────── */}
+      <section style={{
+        background: '#0a0806',
+        padding: 'clamp(48px, 7vw, 96px) clamp(24px, 8vw, 120px)',
+        textAlign: 'center',
+      }}>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: 'clamp(9px, 1vw, 11px)',
+          letterSpacing: '0.38em',
+          textTransform: 'uppercase',
+          color: 'rgba(172,52,56,0.7)',
+          marginBottom: '2em',
+        }}>
+          A Message from Jack
+        </p>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: 'clamp(18px, 2.6vw, 32px)',
+          fontStyle: 'italic',
+          fontWeight: 300,
+          color: '#f2ece4',
+          lineHeight: 1.7,
+          maxWidth: '760px',
+          margin: '0 auto 2.4em',
+          letterSpacing: '0.02em',
+        }}>
+          &ldquo;In the silence, I understood that true love is not something you
+          find in another&nbsp;— it is something you discover within yourself first.
+          The ring is only the mirror.&rdquo;
+        </p>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: 'clamp(9px, 0.95vw, 11px)',
+          letterSpacing: '0.35em',
+          textTransform: 'uppercase',
+          color: 'rgba(242,236,228,0.45)',
+        }}>
+          — Jack Hovsepian &nbsp;·&nbsp; Founder, DANHOV &nbsp;·&nbsp; Est. 1984
+        </p>
+      </section>
+
       {/* ── DAILY SIGNPOST ───────────────────────────────────────── */}
       <DailySignpostSection />
 

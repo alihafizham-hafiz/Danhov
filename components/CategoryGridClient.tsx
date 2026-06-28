@@ -166,14 +166,16 @@ export default function CategoryGridClient({
     return () => rail.removeEventListener('scroll', update);
   }, []);
 
-  // Mouse-wheel → horizontal scroll
+  // Mouse-wheel → horizontal scroll (one card per tick, works with snap)
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
     function onWheel(e: WheelEvent) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
-        rail!.scrollLeft += e.deltaY;
+        const card = rail!.querySelector<HTMLElement>('.cat-rail-card');
+        const step = card ? card.offsetWidth + 20 : 300;
+        rail!.scrollBy({ left: e.deltaY > 0 ? step : -step, behavior: 'smooth' });
       }
     }
     rail.addEventListener('wheel', onWheel, { passive: false });
