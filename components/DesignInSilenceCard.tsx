@@ -26,10 +26,12 @@ export default function DesignInSilenceCard() {
         onClick={() => setOpen(true)}
       >
         <div className="invmore-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-              <path d="M12 3l1.5 4.5h4.5l-3.5 2.5 1.5 4.5L12 12l-4 2.5 1.5-4.5L6 7.5h4.5z" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2L13.4 8.4L20 10L13.4 11.6L12 18L10.6 11.6L4 10L10.6 8.4L12 2Z" fill="currentColor"/>
+            <circle cx="19" cy="19" r="1.8" fill="currentColor" opacity="0.7"/>
+            <circle cx="5.5" cy="17" r="1.1" fill="currentColor" opacity="0.5"/>
+          </svg>
+        </div>
         <span className="invmore-label">Guided Ring Creator</span>
         <h3 className="invmore-name">Design in <em>Silence</em></h3>
         <p className="invmore-body">

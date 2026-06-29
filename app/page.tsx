@@ -145,14 +145,17 @@ export default async function HomePage() {
           fontStyle: 'italic',
           fontWeight: 300,
           color: '#f2ece4',
-          lineHeight: 1.7,
-          maxWidth: '760px',
+          lineHeight: 1.85,
+          maxWidth: '820px',
           margin: '0 auto 2.4em',
           letterSpacing: '0.02em',
         }}>
-          &ldquo;In the silence, I understood that true love is not something you
-          find in another&nbsp;— it is something you discover within yourself first.
-          The ring is only the mirror.&rdquo;
+          &ldquo;In silence, I saw the oneness of the universe&nbsp;&mdash; and that we are not
+          part of it. We <em>are</em> it. There, in that stillness, I caught the design
+          of the ring, which is the universe itself. And self&nbsp;love was messaged to me:
+          that the kingdom of heaven is not out there, somewhere to be searched for.
+          It is inside us. I was only the one it came through&nbsp;&mdash; messaged to gift
+          it to humanity, as the Self&nbsp;Love Ring.&rdquo;
         </p>
         <p style={{
           fontFamily: "'Cormorant Garamond', serif",
