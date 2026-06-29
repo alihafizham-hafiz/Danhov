@@ -237,12 +237,44 @@ export default function CategoryGridClient({
     (c) => !c.isLifePath && !CATEGORY_BADGES[c.value]
   ).length;
 
+  function scrollByCard(dir: 1 | -1) {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.querySelector<HTMLElement>('.cat-rail-card');
+    const step = card ? card.offsetWidth + 20 : 300;
+    rail.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+
   return (
     <>
-      <div className="cat-rail" ref={railRef}>
-        {engagementCards.map((card) => (
-          <RailCard key={card.value} card={card} />
-        ))}
+      <div className="cat-rail-wrap">
+        <button
+          type="button"
+          className="cat-rail-arrow cat-rail-arrow--left"
+          aria-label="Scroll left"
+          onClick={() => scrollByCard(-1)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        <div className="cat-rail" ref={railRef}>
+          {engagementCards.map((card) => (
+            <RailCard key={card.value} card={card} />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="cat-rail-arrow cat-rail-arrow--right"
+          aria-label="Scroll right"
+          onClick={() => scrollByCard(1)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
 
       <div className="cat-rail-cue">

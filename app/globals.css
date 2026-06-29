@@ -7894,6 +7894,42 @@ aside {
   margin-top: 20px;
 }
 
+/* ── Carousel wrapper + arrows ──────────────────────────────────── */
+.cat-rail-wrap {
+  position: relative;
+}
+.cat-rail-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(172, 52, 56, 0.35);
+  background: rgba(255, 248, 246, 0.92);
+  color: var(--logo-red);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+  backdrop-filter: blur(4px);
+}
+.cat-rail-arrow:hover {
+  background: var(--logo-red);
+  border-color: var(--logo-red);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(172, 52, 56, 0.25);
+}
+.cat-rail-arrow--left  { left: 8px; }
+.cat-rail-arrow--right { right: 8px; }
+@media (max-width: 600px) {
+  .cat-rail-arrow { width: 32px; height: 32px; }
+  .cat-rail-arrow--left  { left: 4px; }
+  .cat-rail-arrow--right { right: 4px; }
+}
+
 /* ── Horizontal scroll rail ────────────────────────────────────── */
 .cat-rail {
   display: flex;

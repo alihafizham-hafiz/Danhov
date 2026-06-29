@@ -109,17 +109,8 @@ export default function Nav() {
             />
           </Link>
 
-          {/* Right-side action cluster — VM, search, phone, account, wishlist, cart */}
+          {/* Right-side action cluster — search, phone, account, wishlist, cart, VM */}
           <div className="nav-actions">
-            <button
-              type="button"
-              className="nav-vm-btn"
-              aria-label="Book a virtual meeting"
-              onClick={() => setBookingOpen(true)}
-            >
-              <VideoIcon />
-              <span>Virtual Meeting</span>
-            </button>
             <button
               type="button"
               className="nav-icon-btn nav-glow-frame"
@@ -154,6 +145,15 @@ export default function Nav() {
               {cartCount > 0 && (
                 <span className="nav-cart-badge" aria-hidden="true">{cartCount > 99 ? '99+' : cartCount}</span>
               )}
+            </button>
+            <button
+              type="button"
+              className="nav-vm-btn"
+              aria-label="Book a virtual meeting"
+              onClick={() => setBookingOpen(true)}
+            >
+              <VideoIcon />
+              <span>Virtual Meeting</span>
             </button>
           </div>
 
