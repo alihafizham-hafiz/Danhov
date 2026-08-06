@@ -36,8 +36,6 @@ const Body = z.object({
     dollar_value: z.object({ from: z.number().int().min(0), to: z.number().int().min(0) }).optional(),
     availability: z.enum(['AVAILABLE', 'NOT_AVAILABLE', 'ON_HOLD', 'ON_MEMO']).optional(),
     has_image: z.boolean().optional(),
-    fancy_colour: z.array(z.string()).max(20).optional(),
-    fancy_colour_intensity: z.array(z.string()).max(20).optional(),
   }).default({}),
   limit: z.number().int().min(1).max(50).optional(),
   offset: z.number().int().min(0).max(50000).optional(),

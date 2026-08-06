@@ -181,17 +181,6 @@ export type ShapeT =
 
 type Shape = 'ROUND' | 'OVAL' | 'PRINCESS' | 'CUSHION' | 'EMERALD' | 'PEAR' | 'HEART' | 'MARQUISE' | 'RADIANT' | 'ASSCHER';
 type Color = 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K';
-type FancyColor = 'YELLOW' | 'PINK' | 'BLUE' | 'GREEN' | 'ORANGE' | 'PURPLE' | 'BROWN' | 'GREY';
-const FANCY_COLORS: { value: FancyColor; label: string; dot: string }[] = [
-  { value: 'YELLOW',  label: 'Yellow',  dot: '#e9c463' },
-  { value: 'PINK',    label: 'Pink',    dot: '#f1b7a3' },
-  { value: 'BLUE',    label: 'Blue',    dot: '#7eb8e0' },
-  { value: 'GREEN',   label: 'Green',   dot: '#8bc98e' },
-  { value: 'ORANGE',  label: 'Orange',  dot: '#e8914a' },
-  { value: 'PURPLE',  label: 'Purple',  dot: '#b089c8' },
-  { value: 'BROWN',   label: 'Cognac',  dot: '#a07850' },
-  { value: 'GREY',    label: 'Grey',    dot: '#b0aea8' },
-];
 type Clarity = 'FL' | 'IF' | 'VVS1' | 'VVS2' | 'VS1' | 'VS2' | 'SI1' | 'SI2';
 type Cut = 'EX' | 'ID' | 'VG' | 'G';
 
@@ -428,8 +417,6 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
   })();
   const [shape, setShape] = useState<Shape>(initialShape);
   const [labgrown, setLabgrown] = useState<boolean>(false);
-  const [fancyMode, setFancyMode] = useState<boolean>(false);
-  const [fancyColors, setFancyColors] = useState<FancyColor[]>([]);
   const [caratMin, setCaratMin] = useState<number>(0.5);
   const [caratMax, setCaratMax] = useState<number>(2.5);
   const [colors, setColors] = useState<Color[]>(['D', 'E', 'F', 'G', 'H']);
@@ -462,8 +449,8 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
 
   // Reset offset when filters change
   const filterSignature = useMemo(
-    () => JSON.stringify({ shape, labgrown, fancyMode, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir }),
-    [shape, labgrown, fancyMode, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir]
+    () => JSON.stringify({ shape, labgrown, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir }),
+    [shape, labgrown, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir]
   );
   useEffect(() => {
     setOffset(0);
@@ -487,8 +474,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
         shapes: [shape],
         labgrown,
         sizes: { from: caratMin, to: caratMax },
-        color: fancyMode ? (['FANCY'] as string[]) : (colors as string[]),
-        ...(fancyMode && fancyColors.length > 0 ? { fancy_colour: fancyColors as string[] } : {}),
+        color: colors,
         clarity: clarities,
         cut: cuts,
         availability: 'AVAILABLE' as const,
@@ -696,49 +682,18 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
           <details className="be-facet" open>
             <summary className="be-facet-head">Color</summary>
             <div className="be-facet-body">
-              <div className="be-fancy-toggle">
-                <button
-                  type="button"
-                  className={`be-chip${!fancyMode ? ' is-active' : ''}`}
-                  onClick={() => setFancyMode(false)}
-                >White</button>
-                <button
-                  type="button"
-                  className={`be-chip${fancyMode ? ' is-active' : ''}`}
-                  onClick={() => setFancyMode(true)}
-                >
-                  <span className="be-fancy-dot" />
-                  Fancy Color
-                </button>
+              <div className="be-chip-row">
+                {COLORS.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`be-chip${colors.includes(c) ? ' is-active' : ''}`}
+                    onClick={() => setColors(toggle(colors, c))}
+                  >
+                    {c}
+                  </button>
+                ))}
               </div>
-              {!fancyMode ? (
-                <div className="be-chip-row">
-                  {COLORS.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      className={`be-chip${colors.includes(c) ? ' is-active' : ''}`}
-                      onClick={() => setColors(toggle(colors, c))}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="be-chip-row be-chip-row--fancy">
-                  {FANCY_COLORS.map((fc) => (
-                    <button
-                      key={fc.value}
-                      type="button"
-                      className={`be-chip be-chip--fancy${fancyColors.includes(fc.value) ? ' is-active' : ''}`}
-                      onClick={() => setFancyColors(toggle(fancyColors, fc.value))}
-                    >
-                      <span className="be-fancy-swatch" style={{ background: fc.dot }} />
-                      {fc.label}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
           </details>
 

@@ -69,14 +69,6 @@ export type NivodaQuality = 'EX' | 'ID' | 'VG' | 'G' | 'F';
 export type NivodaCertLab =
   | 'GIA' | 'IGI' | 'HRD' | 'GCAL' | 'AGS' | 'WISE';
 
-export type NivodaFancyColor =
-  | 'YELLOW' | 'PINK' | 'BLUE' | 'GREEN' | 'RED' | 'ORANGE'
-  | 'PURPLE' | 'BROWN' | 'GREY' | 'WHITE' | 'BLACK' | 'VIOLET' | 'CHAMELEON';
-
-export type NivodaFancyIntensity =
-  | 'FAINT' | 'VERY_LIGHT' | 'LIGHT' | 'FANCY_LIGHT' | 'FANCY'
-  | 'FANCY_INTENSE' | 'FANCY_VIVID' | 'FANCY_DEEP' | 'FANCY_DARK';
-
 export type NivodaSearchFilters = {
   labgrown?: boolean;
   shapes?: NivodaShape[];
@@ -89,8 +81,6 @@ export type NivodaSearchFilters = {
   availability?: 'AVAILABLE' | 'NOT_AVAILABLE' | 'ON_HOLD' | 'ON_MEMO';
   hide_memo?: boolean;
   has_image?: boolean;
-  fancy_colour?: NivodaFancyColor[];
-  fancy_colour_intensity?: NivodaFancyIntensity[];
 };
 
 export type NivodaSortField = 'price' | 'discount' | 'size' | 'createdAt' | 'none';
@@ -408,14 +398,6 @@ const CLARITY_ENUM = new Set([
   'FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'SI3', 'I1', 'I2', 'I3',
 ]);
 const QUALITY_ENUM = new Set(['EX', 'ID', 'EIGHTX', 'VG', 'G', 'F', 'P']);
-const FANCY_COLOR_ENUM = new Set([
-  'YELLOW', 'PINK', 'BLUE', 'GREEN', 'RED', 'ORANGE',
-  'PURPLE', 'BROWN', 'GREY', 'WHITE', 'BLACK', 'VIOLET', 'CHAMELEON',
-]);
-const FANCY_INTENSITY_ENUM = new Set([
-  'FAINT', 'VERY_LIGHT', 'LIGHT', 'FANCY_LIGHT', 'FANCY',
-  'FANCY_INTENSE', 'FANCY_VIVID', 'FANCY_DEEP', 'FANCY_DARK',
-]);
 const AVAILABILITY_ENUM = new Set([
   'AVAILABLE', 'NOT_AVAILABLE', 'ON_HOLD', 'ON_MEMO',
 ]);
@@ -494,14 +476,6 @@ function buildQueryLiteral(filters: NivodaSearchFilters): string {
 
   if (filters.has_image !== undefined) {
     parts.push(`has_image: ${filters.has_image}`);
-  }
-  if (filters.fancy_colour?.length) {
-    const cleaned = sanitizeEnumArray(filters.fancy_colour as string[], FANCY_COLOR_ENUM);
-    if (cleaned.length) parts.push(`fancy_colour: [${cleaned.join(', ')}]`);
-  }
-  if (filters.fancy_colour_intensity?.length) {
-    const cleaned = sanitizeEnumArray(filters.fancy_colour_intensity as string[], FANCY_INTENSITY_ENUM);
-    if (cleaned.length) parts.push(`fancy_colour_intensity: [${cleaned.join(', ')}]`);
   }
 
   return `{ ${parts.join(', ')} }`;
