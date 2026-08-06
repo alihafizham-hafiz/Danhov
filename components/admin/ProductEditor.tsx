@@ -9,6 +9,7 @@ import {
   pricePerCaratFromCt,
   DIAMOND_SHAPES,
   DENSITY_RATIO,
+  RHODIUM_UPLIFT_DISPLAY,
   METAL_LABEL_DISPLAY,
   type StoneGroup,
 } from '@/lib/stone-math';
@@ -257,10 +258,6 @@ export default function ProductEditor({
 
   const extrasTotal  = laborExtras.three_d_run + laborExtras.rhodium + laborExtras.laser_engraving;
   const totalLabour  = settingLabour + centreLabour + customLabour + extrasTotal;
-  // Labor actually persisted to base_labor_usd/diamond_labor_usd/custom_labor_usd and read
-  // by the storefront's computePrice() (lib/pricing.ts) — labor_extras is saved but never
-  // read there, so it must be excluded here too or the "Website Price" preview lies.
-  const realLabour   = settingLabour + centreLabour + customLabour;
 
   const [saving,   setSaving]   = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -1170,7 +1167,7 @@ export default function ProductEditor({
                     </div>
                     <div className="adm-pricing-row">
                       <span>Labor (setting + centre diamond)</span>
-                      <strong>${realLabour.toLocaleString('en-US')}</strong>
+                      <strong>${totalLabour.toLocaleString('en-US')}</strong>
                     </div>
                     <div className="adm-pricing-row" style={{ color: '#1a1410', fontSize: 12 }}>
                       <span>Casting labor (${perG.toFixed(0)}/g × alloy weight — varies per metal)</span>
@@ -1222,7 +1219,7 @@ export default function ProductEditor({
                       const castingLabor  = metalWeight * (form.casting_labor_per_gram ?? 10);
                       const rhodiumUplift = 0; // same for all color variants within a karat
                       const stoneCostVal  = form.stones_value_usd ?? productTotal.total_stone_price_usd;
-                      const subTotal      = materialCost + castingLabor + stoneCostVal + realLabour + rhodiumUplift;
+                      const subTotal      = materialCost + castingLabor + stoneCostVal + totalLabour + rhodiumUplift;
                       const costTotal     = Math.round(subTotal / 10) * 10;
                       const websitePrice  = Math.round((costTotal * markup) / 10) * 10;
                       const label         = METAL_LABEL_DISPLAY[metal] ?? metal.replace(/_/g, ' ');
@@ -1307,11 +1304,9 @@ export default function ProductEditor({
                 const costPerG      = livePrices.cost_per_gram[defaultMetal] ?? 0;
                 const materialCost  = metalWeight * costPerG;
                 const castingLabor  = metalWeight * (form.casting_labor_per_gram ?? 10);
-                // Zero to match computePrice() in lib/pricing.ts — color is not a cost factor,
-                // matches the per-metal table above (rhodiumUplift = 0 there too).
-                const rhodiumUplift = 0;
+                const rhodiumUplift = RHODIUM_UPLIFT_DISPLAY[defaultMetal] ?? 0;
                 const stoneCostVal  = form.stones_value_usd ?? productTotal.total_stone_price_usd;
-                const subTotal      = materialCost + castingLabor + stoneCostVal + realLabour + rhodiumUplift;
+                const subTotal      = materialCost + castingLabor + stoneCostVal + totalLabour + rhodiumUplift;
                 const markup        = form.markup_multiplier ?? 4;
                 const costTotal     = Math.round(subTotal / 10) * 10;
                 const websitePrice  = Math.round((costTotal * markup) / 10) * 10;
