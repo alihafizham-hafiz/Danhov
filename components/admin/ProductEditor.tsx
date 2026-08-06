@@ -1184,30 +1184,6 @@ export default function ProductEditor({
                 );
               })()}
 
-              {/* No live pricing configured — the storefront cannot compute a price for
-                  this product. Make that impossible to miss instead of silently hiding
-                  the pricing section, since the site will show price_display (if any)
-                  or no price at all with zero indication here otherwise. */}
-              {(form.gold_weight_g ?? 0) <= 0 && (
-                <div style={{
-                  marginTop: 16,
-                  padding: '14px 16px',
-                  background: '#fff4f2',
-                  border: '1px solid #AC3438',
-                  borderRadius: 6,
-                  fontFamily: "'Cormorant Garamond', serif",
-                }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#AC3438', marginBottom: 4 }}>
-                    No live price — gold weight isn&apos;t set
-                  </div>
-                  <div style={{ fontSize: 13, color: '#1a1410' }}>
-                    {form.price_display
-                      ? <>The live site is showing a static fallback price instead: <strong>{form.price_display}</strong>. Set a gold weight below to switch this product to real, live pricing.</>
-                      : <>The live site is showing <strong>no price at all</strong> for this product right now. Set a gold weight below to give it a price.</>}
-                  </div>
-                </div>
-              )}
-
               {/* Per-metal price table — fixed column widths ensure header/data alignment */}
               {(form.gold_weight_g ?? 0) > 0 && (() => {
                 const metalsToShow = (form.metals ?? []).length > 0 ? (form.metals ?? []) : METAL_OPTIONS;
