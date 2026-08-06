@@ -2551,6 +2551,33 @@
   color: #fff8f6;
 }
 
+/* Fancy color toggle + swatches */
+.be-fancy-toggle {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.be-fancy-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e9c463, #f1b7a3, #7eb8e0, #8bc98e);
+  vertical-align: middle;
+  margin-right: 3px;
+}
+.be-chip--fancy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.be-fancy-swatch {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.12);
+  flex-shrink: 0;
+}
+
 /* Results */
 .be-results { min-width: 0; }
 .be-grid {

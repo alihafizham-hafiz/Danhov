@@ -126,7 +126,7 @@ export default async function HomePage() {
       {/* ── A MESSAGE FROM JACK ──────────────────────────────────── */}
       <section style={{
         background: '#0a0806',
-        padding: 'clamp(48px, 7vw, 96px) clamp(24px, 8vw, 120px)',
+        padding: 'clamp(24px, 4vw, 52px) clamp(24px, 6vw, 80px)',
         textAlign: 'center',
       }}>
         <p style={{
@@ -134,20 +134,20 @@ export default async function HomePage() {
           fontSize: 'clamp(9px, 1vw, 11px)',
           letterSpacing: '0.38em',
           textTransform: 'uppercase',
-          color: 'rgba(172,52,56,0.7)',
-          marginBottom: '2em',
+          color: 'rgba(242,236,228,0.75)',
+          marginBottom: '1.2em',
         }}>
           A Message from Jack
         </p>
         <p style={{
           fontFamily: "'Cormorant Garamond', serif",
-          fontSize: 'clamp(18px, 2.6vw, 32px)',
+          fontSize: 'clamp(13px, 1.5vw, 19px)',
           fontStyle: 'italic',
           fontWeight: 300,
           color: '#f2ece4',
-          lineHeight: 1.85,
-          maxWidth: '820px',
-          margin: '0 auto 2.4em',
+          lineHeight: 1.75,
+          maxWidth: '720px',
+          margin: '0 auto 1.4em',
           letterSpacing: '0.02em',
         }}>
           &ldquo;In silence, I saw the oneness of the universe&nbsp;&mdash; and that we are not

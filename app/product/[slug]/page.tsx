@@ -108,6 +108,14 @@ export default async function ProductPage({ params }: { params: Params }) {
   }
   const displayName = stripMetalSuffix(product.name);
 
+  // Seed metal_images: if the product's default_metal key has no entry in metal_images,
+  // store the product's primary images under that key so swatch clicks show the right photo.
+  const defaultMetal = product.default_metal ?? 'platinum';
+  const seededMetalImages: Record<string, string[]> = { ...(product.metal_images ?? {}) };
+  if (defaultMetal && !(seededMetalImages[defaultMetal]?.length) && product.images?.length) {
+    seededMetalImages[defaultMetal] = product.images;
+  }
+
   // Approximate price for the Product JSON-LD (display string parses, else 0)
   const priceForLd = parsePrice(product.price_display);
 
@@ -141,13 +149,13 @@ export default async function ProductPage({ params }: { params: Params }) {
       {/* PRODUCT DETAIL — wrapped in MetalProvider so the gallery on
           the left and the swatches + CTA on the right share one
           selected-metal state. Clicking a swatch updates both columns. */}
-      <MetalProvider initialMetal="platinum">
+      <MetalProvider initialMetal={defaultMetal}>
       <div className="product-detail">
         {/* IMAGE GALLERY */}
         <div className="product-image-col">
           <ProductGalleryMetal
             defaultImages={product.images ?? []}
-            metalImages={product.metal_images}
+            metalImages={seededMetalImages}
             alt={product.name}
             collection={product.collection}
           />
@@ -174,7 +182,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             name={product.name}
             collection={product.collection}
             metals={[...ALL_METALS]}
-            defaultMetal="platinum"
+            defaultMetal={defaultMetal}
             images={product.images}
             price_display={product.price_display}
             pricemap={pricemap}

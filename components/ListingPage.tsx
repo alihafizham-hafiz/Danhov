@@ -236,7 +236,8 @@ export default function ListingPage({
     const deduped = Array.from(groups.values()).map((variants) => {
       variants.sort((a, b) => scoreVariant(b) - scoreVariant(a));
       const best: Product = { ...variants[0] };
-      if (variants.length > 1) {
+      // Always merge — even single-variant designs benefit from seeding
+      {
         const mergedMetalImages: Record<string, string[]> = { ...(best.metal_images ?? {}) };
         const mergedMetals = new Set(best.metals ?? []);
         for (const v of variants.slice(1)) {
@@ -245,8 +246,21 @@ export default function ListingPage({
           }
           for (const m of v.metals ?? []) mergedMetals.add(m);
         }
+        // Seed metal_images from each variant's primary images using its default_metal.
+        // This makes swatch clicks actually change the displayed photo even when
+        // per-metal images haven't been explicitly uploaded — the default photo of
+        // each variant IS the correct image for that metal.
+        for (const v of variants) {
+          const dm = v.default_metal;
+          if (dm && !mergedMetalImages[dm]) {
+            const primary = (v.images ?? []).filter(u => typeof u === 'string' && u.trim() !== '');
+            if (primary.length) mergedMetalImages[dm] = primary;
+          }
+        }
         best.metal_images = mergedMetalImages;
         best.metals = Array.from(mergedMetals);
+      }
+      if (variants.length > 1) {
         // Pick computed price from any variant that has one (representative may not be
         // the variant the admin configured pricing on)
         if (best.price_computed == null) {
