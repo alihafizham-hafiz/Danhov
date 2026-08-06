@@ -455,9 +455,10 @@ export async function computeListingPriceMap(
     const result: Record<string, number> = {};
     for (const p of priceable) {
       try {
-        // Use default_metal — must match the metal the product detail page prices by,
-        // or the listing price and the detail price disagree for the same product.
-        result[p.sku] = computePrice(p, spots, p.default_metal).total_usd;
+        // Prefer platinum for consistent pricing; fall back to default_metal
+        const platMetal = p.metals?.find(m => /plat/i.test(m)) ?? null;
+        const effectiveMetal = platMetal ?? p.default_metal;
+        result[p.sku] = computePrice(p, spots, effectiveMetal).total_usd;
       } catch {
         // skip products that fail individual computation
       }
