@@ -283,6 +283,11 @@ export type PricingInputs = {
   diamond_labor_usd?:      number | null;        // centre-diamond setting labour
   casting_labor_per_gram?: number | null;        // per-gram casting/finishing cost
   custom_labor_usd?:       number | null;        // jewellery labor (hand-set by admin)
+  labor_extras?:           {
+    three_d_run?: number | null;
+    rhodium?: number | null;
+    laser_engraving?: number | null;
+  } | null;                                      // additional labor configured in admin
   stones_value_usd:        number | null;        // override; null → auto from stone_groups
   stone_groups?:           StoneGroup[] | null;  // used when stones_value_usd is null
   commission_rate?:        number | null;        // kept for backward compat; no longer used
@@ -360,7 +365,14 @@ export function computePrice(
   const metalCost    = metalWeight * costPerG;
   const castingLabor = metalWeight * (p.casting_labor_per_gram ?? 0);
   const rhodium      = 0; // color is not a cost factor — matches admin pricing policy
-  const labor        = (p.base_labor_usd ?? 0) + (p.diamond_labor_usd ?? 0) + (p.custom_labor_usd ?? 0);
+  const laborExtras  = p.labor_extras;
+  const labor        =
+    (p.base_labor_usd ?? 0) +
+    (p.diamond_labor_usd ?? 0) +
+    (p.custom_labor_usd ?? 0) +
+    (laborExtras?.three_d_run ?? 0) +
+    (laborExtras?.rhodium ?? 0) +
+    (laborExtras?.laser_engraving ?? 0);
 
   // Stone cost: use override if set, else auto-compute from stone_groups
   let stones = p.stones_value_usd ?? null;
@@ -455,10 +467,7 @@ export async function computeListingPriceMap(
     const result: Record<string, number> = {};
     for (const p of priceable) {
       try {
-        // Prefer platinum for consistent pricing; fall back to default_metal
-        const platMetal = p.metals?.find(m => /plat/i.test(m)) ?? null;
-        const effectiveMetal = platMetal ?? p.default_metal;
-        result[p.sku] = computePrice(p, spots, effectiveMetal).total_usd;
+        result[p.sku] = computePrice(p, spots, p.default_metal).total_usd;
       } catch {
         // skip products that fail individual computation
       }

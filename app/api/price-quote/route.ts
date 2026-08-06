@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const { data: product, error } = await client
     .from('products')
     .select(
-      'sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups, commission_rate, metals, is_active'
+      'sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups, commission_rate, metals, is_active'
     )
     .eq('slug', parsed.data.slug)
     .eq('is_active', true)

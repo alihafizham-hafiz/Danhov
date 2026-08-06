@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await sb
     .from('products')
     .select(
-      'sku, slug, name, collection, category, images, price_display, default_metal, metals, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups'
+      'sku, slug, name, collection, category, images, price_display, default_metal, metals, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups'
     )
     .eq('is_active', true)
     .or(`name.ilike.${like},collection.ilike.${like},sku.ilike.${like},category.ilike.${like}`)
@@ -59,6 +59,7 @@ export async function GET(req: NextRequest) {
     diamond_labor_usd: number | null;
     casting_labor_per_gram: number | null;
     custom_labor_usd: number | null;
+    labor_extras: { three_d_run?: number; rhodium?: number; laser_engraving?: number } | null;
     stones_value_usd: number | null;
     stone_groups: unknown;
   };
@@ -85,6 +86,7 @@ export async function GET(req: NextRequest) {
       diamond_labor_usd: p.diamond_labor_usd,
       casting_labor_per_gram: p.casting_labor_per_gram,
       custom_labor_usd: p.custom_labor_usd,
+      labor_extras: p.labor_extras,
       stones_value_usd: p.stones_value_usd,
       stone_groups: p.stone_groups as never,
     }))

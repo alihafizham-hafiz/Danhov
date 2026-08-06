@@ -9,7 +9,6 @@ import {
   pricePerCaratFromCt,
   DIAMOND_SHAPES,
   DENSITY_RATIO,
-  RHODIUM_UPLIFT_DISPLAY,
   METAL_LABEL_DISPLAY,
   type StoneGroup,
 } from '@/lib/stone-math';
@@ -1304,7 +1303,7 @@ export default function ProductEditor({
                 const costPerG      = livePrices.cost_per_gram[defaultMetal] ?? 0;
                 const materialCost  = metalWeight * costPerG;
                 const castingLabor  = metalWeight * (form.casting_labor_per_gram ?? 10);
-                const rhodiumUplift = RHODIUM_UPLIFT_DISPLAY[defaultMetal] ?? 0;
+                const rhodiumUplift = 0;
                 const stoneCostVal  = form.stones_value_usd ?? productTotal.total_stone_price_usd;
                 const subTotal      = materialCost + castingLabor + stoneCostVal + totalLabour + rhodiumUplift;
                 const markup        = form.markup_multiplier ?? 4;

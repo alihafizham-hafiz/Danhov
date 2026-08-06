@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { fetchProductBySlug, fetchProductsByCategory, fetchProductWithPricingBySlug } from '@/lib/products';
+import { fetchProductBySlug, fetchActiveProductSlugsByCategory, fetchProductWithPricingBySlug } from '@/lib/products';
 import { priceAllOptions, computePrice, STATIC_SPOTS, ALL_METALS } from '@/lib/pricing';
 import { stripMetalSuffix } from '@/lib/product-display';
 import { METAL_LABEL_DISPLAY } from '@/lib/stone-math';
@@ -20,8 +20,8 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const products = await fetchProductsByCategory('engagement');
-  return products.map((p) => ({ slug: p.slug }));
+  const slugs = await fetchActiveProductSlugsByCategory('engagement');
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

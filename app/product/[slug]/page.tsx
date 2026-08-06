@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { fetchProductWithPricingBySlug, fetchAllActiveProducts } from '@/lib/products';
+import { fetchProductWithPricingBySlug, fetchAllActiveProductSlugs } from '@/lib/products';
 import { priceAllOptions, computePrice, STATIC_SPOTS, ALL_METALS } from '@/lib/pricing';
 import NarrativeBox from '@/components/NarrativeBox';
 import WishlistHeart from '@/components/WishlistHeart';
@@ -27,8 +27,8 @@ type Params = { slug: string };
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  const products = await fetchAllActiveProducts();
-  return products.map((p) => ({ slug: p.slug }));
+  const slugs = await fetchAllActiveProductSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 const CATEGORY_HREF: Record<string, { href: string; label: string }> = {

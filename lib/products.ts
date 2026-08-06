@@ -42,6 +42,37 @@ export async function fetchAllActiveProducts(): Promise<Product[]> {
   return (data ?? []) as Product[];
 }
 
+/** Lightweight slug query used only by static param generation. */
+export async function fetchAllActiveProductSlugs(): Promise<string[]> {
+  const { data, error } = await supabaseAnon
+    .from('products')
+    .select('slug')
+    .eq('is_active', true)
+    .order('slug', { ascending: true });
+
+  if (error) {
+    console.error('fetchAllActiveProductSlugs error:', error);
+    return [];
+  }
+  return (data ?? []).map((row) => row.slug as string);
+}
+
+/** Lightweight category slug query used only by static param generation. */
+export async function fetchActiveProductSlugsByCategory(category: string): Promise<string[]> {
+  const { data, error } = await supabaseAnon
+    .from('products')
+    .select('slug')
+    .filter('categories', 'cs', JSON.stringify([category]))
+    .eq('is_active', true)
+    .order('slug', { ascending: true });
+
+  if (error) {
+    console.error('fetchActiveProductSlugsByCategory error:', error);
+    return [];
+  }
+  return (data ?? []).map((row) => row.slug as string);
+}
+
 export async function fetchProductsByCategory(category: string, limit?: number): Promise<Product[]> {
   // JSONB array contains — use explicit `cs` filter with a JSON-stringified value
   let query = supabaseAnon
@@ -126,13 +157,18 @@ export type ProductWithPricing = Product & {
   diamond_labor_usd:       number | null;
   casting_labor_per_gram:  number | null;
   custom_labor_usd:        number | null;
+  labor_extras:            {
+    three_d_run?: number | null;
+    rhodium?: number | null;
+    laser_engraving?: number | null;
+  } | null;
   stones_value_usd:        number | null;
   stone_groups:            import('@/lib/stone-math').StoneGroup[] | null;
   commission_rate:         number | null;
 };
 
 const PRICING_COLS =
-  'sku, slug, name, collection, category, categories, metals, default_metal, images, metal_images, price_display, sub_categories, is_active, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups, commission_rate';
+  'sku, slug, name, collection, category, categories, metals, default_metal, images, metal_images, price_display, sub_categories, is_active, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups, commission_rate';
 
 /** Like fetchProductsByCategory but includes all pricing-engine fields. */
 export async function fetchProductsWithPricingByCategory(category: string): Promise<ProductWithPricing[]> {
@@ -165,7 +201,7 @@ export async function fetchProductWithPricingBySlug(
   const { data, error } = await supabaseAnon
     .from('products')
     .select(
-      'sku, slug, name, collection, category, categories, metals, images, metal_images, price_display, sub_categories, is_active, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups, commission_rate'
+      'sku, slug, name, collection, category, categories, metals, images, metal_images, price_display, sub_categories, is_active, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups, commission_rate'
     )
     .eq('slug', slug)
     .eq('is_active', true)
