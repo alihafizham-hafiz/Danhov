@@ -12,12 +12,13 @@ const nextConfig = {
   },
 
   images: {
-    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'www.danhov.com' },
       { protocol: 'https', hostname: 'danhov.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev' },
     ],
+    formats: ['image/avif', 'image/webp'],
   },
 
   experimental: {

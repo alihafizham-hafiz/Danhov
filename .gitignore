@@ -39,6 +39,9 @@ yarn-error.log*
 # catalog-crawl generated state (large, regenerable via scripts/crawl)
 /data/crawl/
 
+# local operational backups (DB row dumps before destructive changes)
+/_backups/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
