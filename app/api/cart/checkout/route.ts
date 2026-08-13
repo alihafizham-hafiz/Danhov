@@ -1,25 +1,21 @@
 /**
- * Cart checkout — Stripe Checkout for everything in the customer's cart.
- *
- * Flow:
- *   1. Client posts { items: [{ sku, qty, metal }], email }
- *   2. Server re-fetches each product by SKU and re-computes the live
- *      price (so a stale localStorage cart can't underpay)
- *   3. Builds line items at 50% deposit, creates a Stripe Checkout Session
- *   4. Inserts ONE pending `orders` row with the cart bundle in
- *      shipping_address._bundle.cart_items for the webhook to reconcile
- *   5. Returns the Checkout URL → client redirects
+ * Cart Checkout — Authorize.Net Accept Hosted for cart items.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { randomUUID } from 'crypto';
 import { createServiceClient } from '@/lib/supabase/server';
-import { getStripe, DEPOSIT_PERCENT } from '@/lib/stripe';
+import { authNetConfigured, createHostedPaymentSession } from '@/lib/authorizenet';
+import { bankTransferEnabled, BANK_METHOD } from '@/lib/bank';
 import { priceProduct } from '@/lib/pricing';
 import { fetchProductWithPricingBySlug } from '@/lib/products';
+import { SHIPPING_FEE_USD } from '@/lib/shipping';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+const DEPOSIT_PERCENT = 1;
 
 const Item = z.object({
   sku: z.string().min(1).max(80),
@@ -64,19 +60,12 @@ const Item = z.object({
 const Body = z.object({
   items: z.array(Item).min(1).max(20),
   email: z.string().email().max(254),
+  // 'bank' skips card processing entirely and settles by ACH outside the site. Pricing
+  // and validation below are shared, so the two methods can't drift.
+  method: z.enum(['card', 'bank']).default('card'),
 });
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      {
-        error:
-          'Online deposits are not yet enabled. Reply to your sign-in email or call 1 (888) DANHOV-7 and we will take payment by phone.',
-      },
-      { status: 503 }
-    );
-  }
-
   let body: z.infer<typeof Body>;
   try {
     body = Body.parse(await req.json());
@@ -85,165 +74,129 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  // Re-fetch and re-price every line item server-side. Never trust
-  // a price that came from the client's localStorage cart.
-  //
-  // Two pricing paths:
-  //  • plain setting → fetch the product, run priceProduct() with the
-  //    customer's chosen metal, total = setting price
-  //  • bundle (setting + diamond + size) → fetch the setting to confirm
-  //    it still exists, then sum the stored bundle prices. We don't
-  //    re-price the diamond from Nivoda here (we'd need a separate
-  //    fresh-fetch + hold) — the studio reconciles the Nivoda quote at
-  //    fulfilment using the offer_id stored on the order.
+  const payByBank = body.method === 'bank';
+
+  if (payByBank && !bankTransferEnabled()) {
+    return NextResponse.json(
+      { error: 'Bank transfer is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
+      { status: 503 }
+    );
+  }
+  if (!payByBank && !authNetConfigured()) {
+    return NextResponse.json(
+      { error: 'Online checkout is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
+      { status: 503 }
+    );
+  }
+
   type Priced = {
-    sku: string;
-    slug: string;
-    name: string;
-    metal: string | null;
-    qty: number;
-    unit_price_usd: number;
-    image: string | null;
-    ring_size: string | null;
-    bundle: z.infer<typeof Item>['bundle'];
+    sku: string; slug: string; name: string; metal: string | null;
+    qty: number; unit_price_usd: number; image: string | null;
+    ring_size: string | null; bundle: z.infer<typeof Item>['bundle'];
   };
+
   const priced: Priced[] = [];
   for (const it of body.items) {
     const product = await fetchProductWithPricingBySlug(it.slug);
     if (!product) {
-      return NextResponse.json(
-        { error: `One of your pieces (${it.sku}) is no longer available. Please remove it and try again.` },
-        { status: 410 }
-      );
+      return NextResponse.json({ error: `One of your pieces (${it.sku}) is no longer available. Please remove it and try again.` }, { status: 410 });
     }
     const metal = it.metal || product.default_metal || null;
     let unitPrice = 0;
 
     if (it.bundle) {
-      // Bundle row — use the stored prices for both halves. They were
-      // computed at the moment the customer selected the diamond, so
-      // they reflect the price the customer agreed to lock.
-      const allDiamonds = it.bundle.diamonds && it.bundle.diamonds.length > 0
-        ? it.bundle.diamonds
-        : [it.bundle.diamond];
+      const allDiamonds = it.bundle.diamonds?.length ? it.bundle.diamonds : [it.bundle.diamond];
       const diamondTotal = allDiamonds.reduce((sum, d) => sum + d.price_usd, 0);
       unitPrice = it.bundle.setting_price_usd + diamondTotal;
     } else {
       try {
         const breakdown = await priceProduct(product, metal);
         unitPrice = breakdown.total_usd;
-      } catch (e) {
-        console.error('[cart/checkout] pricing failed for', it.sku, e);
-        // fallback to the price_display number if live pricing failed
+      } catch {
         const m = product.price_display?.match(/[\d,]+/);
         unitPrice = m ? Number(m[0].replace(/,/g, '')) : 0;
       }
     }
 
     if (unitPrice <= 0) {
-      return NextResponse.json(
-        { error: `Could not price ${product.name}. Please contact us at care@danhov.com.` },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: `Could not price ${product.name}. Please contact us at care@danhov.com.` }, { status: 502 });
     }
-    priced.push({
-      sku: product.sku,
-      slug: product.slug,
-      name: product.name,
-      metal,
-      qty: it.qty,
-      unit_price_usd: unitPrice,
-      image: product.images?.[0] ?? null,
-      ring_size: it.ring_size ?? null,
-      bundle: it.bundle ?? null,
-    });
+    priced.push({ sku: product.sku, slug: product.slug, name: product.name, metal, qty: it.qty, unit_price_usd: unitPrice, image: product.images?.[0] ?? null, ring_size: it.ring_size ?? null, bundle: it.bundle ?? null });
   }
 
-  const totalUsd = priced.reduce((sum, p) => sum + p.unit_price_usd * p.qty, 0);
+  const merchandiseUsd = priced.reduce((sum, p) => sum + p.unit_price_usd * p.qty, 0);
+  const totalUsd = merchandiseUsd + SHIPPING_FEE_USD;
   const depositUsd = Math.round(totalUsd * DEPOSIT_PERCENT);
   const balanceUsd = totalUsd - depositUsd;
-
   const customerEmail = body.email.toLowerCase();
-  const stripe = getStripe();
-  const host    = req.headers.get('host') ?? '';
-  const proto   = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
+
+  const host = req.headers.get('host') ?? '';
+  const proto = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
   const siteUrl = `${proto}://${host}`;
 
-  // Build Stripe line items — one per cart piece
-  const lineItems = priced.map((p) => {
-    const unitAmount = Math.round(p.unit_price_usd * DEPOSIT_PERCENT);
-    const allBundleDiamonds = p.bundle
-      ? (p.bundle.diamonds && p.bundle.diamonds.length > 0 ? p.bundle.diamonds : [p.bundle.diamond])
-      : null;
-    const diamondSummary = allBundleDiamonds
-      ? allBundleDiamonds.map((d) => ` + ${d.carat.toFixed(2)}ct ${d.shape.toLowerCase()} ${d.color}/${d.clarity}`).join('')
-      : '';
-    const sizeSuffix = p.ring_size ? ` · Size ${p.ring_size}` : '';
-    return {
-      quantity: p.qty,
-      price_data: {
-        currency: 'usd' as const,
-        unit_amount: unitAmount * 100,
-        product_data: {
-          name: `${p.name}${diamondSummary}${p.metal ? ` · ${p.metal}` : ''}${sizeSuffix}`,
-          description: `Style ${p.sku}`,
-          images: p.image ? [p.image] : undefined,
-          metadata: { sku: p.sku, slug: p.slug, metal: p.metal ?? '' },
-        },
-      },
-    };
-  });
+  const orderId = randomUUID();
+  const descItems = priced.map(p => p.name).join(', ').slice(0, 255);
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    payment_method_types: ['card'],
-    customer_email: customerEmail,
-    success_url: `${siteUrl}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/cart`,
-    line_items: lineItems,
-    metadata: {
-      flow: 'cart',
-      total_usd: String(totalUsd),
-      deposit_usd: String(depositUsd),
-      item_count: String(priced.length),
-    },
-    payment_intent_data: {
-      metadata: {
-        flow: 'cart',
-        item_count: String(priced.length),
-      },
-    },
-  });
+  let session: { id: string; url: string } | null = null;
+  if (!payByBank) {
+    try {
+      session = await createHostedPaymentSession({
+        orderId,
+        amountUsd: depositUsd,
+        description: descItems,
+        email: customerEmail,
+        successUrl: `${siteUrl}/order/success?order_id=${orderId}`,
+        cancelUrl: `${siteUrl}/cart`,
+      });
+    } catch (e) {
+      console.error('[cart/checkout] AuthNet session error:', e);
+      return NextResponse.json({ error: 'Payment gateway error. Please try again or call (424) 421-4072.' }, { status: 502 });
+    }
+  }
 
-  // Persist a single pending order with the cart bundle so the webhook
-  // can mark it deposit_paid on success.
   const client = createServiceClient();
   await client.from('customers').upsert({ email: customerEmail }, { onConflict: 'email' });
-  await client.from('orders').insert({
+  const { error: orderErr } = await client.from('orders').insert({
+    id: orderId,
     customer_email: customerEmail,
-    stripe_checkout_session_id: session.id,
+    stripe_checkout_session_id: session?.id ?? null,
     deposit_usd: depositUsd,
     total_usd: totalUsd,
+    shipping_cost_usd: SHIPPING_FEE_USD,
     status: 'pending',
     currency: 'usd',
-    product_sku: priced.map((p) => p.sku).join(','),
-    product_name: priced.map((p) => p.name).join(' · '),
+    product_sku: priced.map(p => p.sku).join(','),
+    product_name: priced.map(p => p.name).join(' · '),
+    ...(payByBank
+      ? { notes: 'Awaiting bank transfer (ACH). Set status to deposit_paid once funds clear.' }
+      : {}),
     milestones: [
       {
         name: 'deposit',
         amount_usd: depositUsd,
         status: 'pending',
+        ...(payByBank ? { method: BANK_METHOD } : {}),
         created_at: new Date().toISOString(),
       },
       { name: 'balance', amount_usd: balanceUsd, status: 'not_due' },
     ],
     shipping_address: {
-      _bundle: {
-        flow: 'cart',
-        cart_items: priced,
-      },
+      _bundle: { flow: 'cart', cart_items: priced },
     },
   });
 
-  return NextResponse.json({ url: session.url, session_id: session.id });
+  // A bank order has no gateway record, so a failed insert would lose it
+  // entirely — the customer would be given wiring details for an order that
+  // does not exist. Fail loudly instead.
+  if (orderErr) {
+    console.error('[cart/checkout] order insert error:', orderErr);
+    if (payByBank) {
+      return NextResponse.json({ error: 'Could not start your order. Please call (424) 421-4072.' }, { status: 500 });
+    }
+  }
+
+  return NextResponse.json({
+    url: session?.url ?? `/order/bank?order_id=${orderId}`,
+    order_id: orderId,
+  });
 }

@@ -42,8 +42,8 @@ export const CONTENT_DEFS: ContentDef[] = [
   { key: 'mens.philosophy_quote', category: "Men's Jewelry", label: 'Philosophy stripe', default: 'Every piece is <span>handcrafted in Los Angeles</span> — designed for the man who understands that true strength is quiet, and true luxury endures.', multiline: true },
 
   // Contact / Footer
-  { key: 'site.phone_display', category: 'Site-wide', label: 'Phone (display)', default: '1 (888) DANHOV-7' },
-  { key: 'site.phone_tel', category: 'Site-wide', label: 'Phone (tel: link)', default: '+18883264687' },
+  { key: 'site.phone_display', category: 'Site-wide', label: 'Phone (display)', default: '(424) 421-4072' },
+  { key: 'site.phone_tel', category: 'Site-wide', label: 'Phone (tel: link)', default: '+14244214072' },
   { key: 'site.email', category: 'Site-wide', label: 'Contact email', default: 'care@danhov.com' },
   { key: 'site.tagline', category: 'Site-wide', label: 'Footer tagline (HTML allowed)', default: '"Waves are the ocean."<br/>Sacred geometry. Eternal love.<br/>Handcrafted in Los Angeles since 1984.', multiline: true },
 ];

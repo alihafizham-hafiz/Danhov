@@ -23,17 +23,14 @@ if (!apiKey && process.env.NODE_ENV !== 'production') {
 }
 
 // ── Models ────────────────────────────────────────────────────────────
-// Gemini 2.x family is the current stable generation.
-// 1.5 models are deprecated — keep as last-resort fallbacks only.
+export const CHAT_MODEL_PRIMARY = 'gemini-2.5-flash';
+export const CHAT_MODEL_FALLBACK = ['gemini-2.0-flash-001', 'gemini-2.0-flash-lite'];
 
-export const CHAT_MODEL_PRIMARY = 'gemini-2.0-flash';
-export const CHAT_MODEL_FALLBACK = ['gemini-2.0-flash-lite', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+export const VISION_MODEL_PRIMARY = 'gemini-2.5-flash';
+export const VISION_MODEL_FALLBACK = ['gemini-2.0-flash-001', 'gemini-2.0-flash-lite'];
 
-export const VISION_MODEL_PRIMARY = 'gemini-2.0-flash';
-export const VISION_MODEL_FALLBACK = ['gemini-2.0-flash-lite', 'gemini-1.5-flash'];
-
-export const IMAGE_MODEL_PRIMARY = 'gemini-2.0-flash-preview-image-generation';
-export const IMAGE_MODEL_FALLBACK = ['gemini-2.0-flash-exp'];
+export const IMAGE_MODEL_PRIMARY = 'gemini-3.1-flash-image';
+export const IMAGE_MODEL_FALLBACK = ['gemini-2.5-flash-image', 'gemini-3-pro-image'];
 
 // Casual jewelry advisor — don't let default safety filters block benign
 // content (e.g. "hello", "wedding", "couple").

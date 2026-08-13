@@ -21,7 +21,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'How long does production take?',
-    a: 'Every piece is made to order in our Los Angeles atelier — typically 4 to 6 weeks from confirmed order. Rush orders are considered case-by-case.',
+    a: 'Every piece is made to order in our Los Angeles atelier — typically 3 weeks from confirmed order. Rush orders are considered case-by-case.',
   },
   {
     q: 'Can I customize the ring?',
@@ -33,7 +33,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'How does shipping work?',
-    a: 'Domestic (US) shipping is complimentary, fully insured, via FedEx Priority Overnight with signature required. International shipments are hand-delivered where possible, fully insured. Production plus shipping is typically 4–6 weeks from confirmed order.',
+    a: 'Domestic (US) shipping is complimentary, fully insured, via FedEx Priority Overnight with signature required. International shipments are hand-delivered where possible, fully insured. Production plus shipping is typically 3 weeks from confirmed order.',
   },
   {
     q: 'What about returns?',

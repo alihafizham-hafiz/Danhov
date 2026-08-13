@@ -1,120 +1,219 @@
 import Link from 'next/link';
-import { finalizeCheckoutSession } from '@/lib/checkout-finalize';
+import { finalizeAuthNetOrder, finalizeCheckoutSession } from '@/lib/checkout-finalize';
 import CartClearOnSuccess from '@/components/CartClearOnSuccess';
-import StripeHistoryFix from '@/components/StripeHistoryFix';
 
 export const metadata = { title: 'Order received — DANHOV' };
 export const dynamic = 'force-dynamic';
 
-type Search = { session_id?: string };
+type Search = { order_id?: string; session_id?: string };
 
-export default async function OrderSuccessPage({
-  searchParams,
-}: {
-  searchParams: Search;
-}) {
+const INK = '#2b2422';
+const MUTED = '#8a7d78';
+const FAINT = '#b3a8a3';
+const RED = '#AC3438';
+const LINE = 'rgba(43, 36, 34, 0.10)';
+
+export default async function OrderSuccessPage({ searchParams }: { searchParams: Search }) {
+  const orderId   = searchParams.order_id;
   const sessionId = searchParams.session_id;
-  // Belt-and-suspenders reconciliation: even if the Stripe webhook
-  // hasn't fired yet (or is misconfigured), this re-confirms the
-  // session with Stripe and flips our order from pending → deposit_paid
-  // before we render. Idempotent — safe to call on every page load.
+
+  // Authorize.Net uses order_id. session_id remains for legacy Stripe links.
   const result = sessionId
     ? await finalizeCheckoutSession(sessionId)
+    : orderId
+    ? await finalizeAuthNetOrder(orderId)
     : { status: 'not_found' as const };
 
-  const reference = result.order_id?.slice(0, 8).toUpperCase() ?? '';
-  const depositUsd = result.deposit_usd ?? null;
+  const reference   = result.order_id?.slice(0, 8).toUpperCase() ?? '';
+  const depositUsd  = result.deposit_usd ?? null;
   const productName = result.product_name ?? null;
-  const paid = result.status === 'completed';
+  const paid    = result.status === 'completed';
+  const pending = result.status === 'pending';
 
   return (
-    <main style={{ padding: '160px 24px 120px', textAlign: 'center', minHeight: '70vh' }}>
-      {/* Clear the customer's localStorage cart now that the deposit
-          is recorded. Renders only when we've actually confirmed
-          payment so a stray /order/success visit without a paid
-          session can't wipe an in-progress cart. */}
+    <main
+      style={{
+        minHeight: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '140px 24px 96px',
+        textAlign: 'center',
+      }}
+    >
       {paid && <CartClearOnSuccess />}
-      {/* Prevent browser "back" from returning to the Stripe checkout page. */}
-      <StripeHistoryFix />
 
-      <span className="section-eyebrow">Order Confirmed</span>
-      <h1 className="section-title" style={{ marginTop: 24 }}>
-        Your <em>journey</em> has begun.
-      </h1>
-      <p className="section-body" style={{ marginTop: 28, maxWidth: 580 }}>
-        Thank you. Your order secures the craftsmanship of {productName ? <em>{productName}</em> : 'your piece'}.
-        A DANHOV specialist will be in touch within one business day to confirm every detail.
-      </p>
-
-      {reference && (
+      <div style={{ width: '100%', maxWidth: 460 }}>
+        {/* Status mark */}
         <div
           style={{
-            display: 'inline-block',
-            marginTop: 36,
-            padding: '20px 36px',
-            background: '#fdf0ed',
-            border: '1px solid rgba(172,52,56,0.18)',
-            textAlign: 'left',
+            width: 56,
+            height: 56,
+            margin: '0 auto 30px',
+            borderRadius: '50%',
+            border: `1px solid ${pending ? FAINT : 'rgba(172,52,56,0.35)'}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <div
-            style={{
-              fontSize: 10,
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 700,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'var(--logo-red)',
-            }}
-          >
-            Order Reference
-          </div>
-          <div
-            style={{
-              fontSize: 28,
-              fontFamily: "'Cormorant Garamond', serif",
-              color: 'var(--logo-red)',
-              marginTop: 6,
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-            }}
-          >
-            {reference}
-          </div>
-          {depositUsd && (
-            <div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>
-              Amount paid · ${depositUsd.toLocaleString('en-US')}
-            </div>
+          {pending ? (
+            <span style={{ fontSize: 22, color: FAINT }}>&middot;&middot;&middot;</span>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12.5L10 17.5L19 7" stroke={RED} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           )}
         </div>
-      )}
 
-      <p style={{ marginTop: 36, fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 17, color: '#7a5c58' }}>
-        &ldquo;Presence is a present.&rdquo;
-      </p>
+        <div
+          style={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: FAINT,
+            marginBottom: 18,
+          }}
+        >
+          {pending ? 'Processing Payment' : 'Order Confirmed'}
+        </div>
 
-      <div style={{ marginTop: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+        <h1
+          style={{
+            fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+            fontWeight: 500,
+            fontSize: 34,
+            lineHeight: 1.2,
+            letterSpacing: '0.01em',
+            color: INK,
+            margin: 0,
+          }}
+        >
+          Thank you{productName ? ',' : '.'}
+        </h1>
+
+        <p
+          style={{
+            fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+            fontSize: 17,
+            lineHeight: 1.7,
+            color: MUTED,
+            margin: '18px auto 0',
+            maxWidth: 400,
+          }}
+        >
+          {pending ? (
+            <>Your payment is being confirmed. This will update in a moment.</>
+          ) : (
+            <>
+              Your order for {productName ? <em style={{ color: INK }}>{productName}</em> : 'your piece'} is secured.
+              A DANHOV specialist will reach out within one business day.
+            </>
+          )}
+        </p>
+
+        {/* Order details */}
         {reference && (
-          <Link
-            href={`/track-order?ref=${reference}`}
+          <div
             style={{
-              display: 'inline-block',
-              padding: '14px 40px',
-              background: '#AC3438',
-              color: '#fff',
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 13,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              borderRadius: 999,
+              margin: '40px 0 0',
+              padding: '24px 28px',
+              border: `1px solid ${LINE}`,
+              borderRadius: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
             }}
           >
-            Track Your Order
-          </Link>
+            <Row label="Order reference" value={reference} accent />
+            {depositUsd != null && (
+              <Row label="Amount paid" value={`$${depositUsd.toLocaleString('en-US')}`} />
+            )}
+          </div>
         )}
-        <Link href="/" className="btn-primary">Return Home</Link>
+
+        {pending && (
+          <p style={{ marginTop: 22, fontSize: 13, color: MUTED, fontFamily: "'Montserrat', sans-serif" }}>
+            <a
+              href={sessionId ? `?session_id=${sessionId}` : `?order_id=${orderId}`}
+              style={{ color: RED, textDecoration: 'none', borderBottom: `1px solid ${RED}`, paddingBottom: 1 }}
+            >
+              Refresh status
+            </a>
+          </p>
+        )}
+
+        {/* Actions */}
+        <div style={{ marginTop: 44, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
+          {reference && (
+            <Link
+              href={`/track-order?ref=${reference}`}
+              style={{
+                display: 'inline-block',
+                padding: '14px 44px',
+                background: RED,
+                color: '#fff8f6',
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: 2,
+              }}
+            >
+              Track Your Order
+            </Link>
+          )}
+          <Link
+            href="/"
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: MUTED,
+              textDecoration: 'none',
+            }}
+          >
+            Return Home
+          </Link>
+        </div>
       </div>
     </main>
+  );
+}
+
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
+      <span
+        style={{
+          fontFamily: "'Montserrat', sans-serif",
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color: FAINT,
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+          fontSize: accent ? 22 : 18,
+          fontWeight: 600,
+          letterSpacing: accent ? '0.08em' : '0.02em',
+          color: accent ? RED : INK,
+        }}
+      >
+        {value}
+      </span>
+    </div>
   );
 }

@@ -5,6 +5,8 @@ import { priceAllOptions, formatUsd } from '@/lib/pricing';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+// Never serve a stale product read — markup/price edits must reflect immediately.
+export const fetchCache = 'force-no-store';
 
 const QuerySchema = z.object({
   slug: z.string().min(1).max(120),
@@ -21,7 +23,7 @@ export async function GET(req: NextRequest) {
   const { data: product, error } = await client
     .from('products')
     .select(
-      'sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups, commission_rate, metals, is_active'
+      'sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups, commission_rate, metals, is_active'
     )
     .eq('slug', parsed.data.slug)
     .eq('is_active', true)

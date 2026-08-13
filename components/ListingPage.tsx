@@ -25,7 +25,7 @@ type Collection = {
 
 type MetalFilter = {
   label: string;
-  value: 'all' | 'white' | 'yellow' | 'rose';
+  value: 'all' | 'platinum' | 'white' | 'yellow' | 'rose';
   swatch?: { background: string; border?: string };
 };
 
@@ -50,6 +50,7 @@ type Props = {
 
 const METAL_FILTERS: MetalFilter[] = [
   { label: 'All Metals', value: 'all' },
+  { label: 'Platinum', value: 'platinum', swatch: { background: '#d8d6d0', border: '1px solid #aaa' } },
   { label: 'White Gold', value: 'white', swatch: { background: '#e8e0d8', border: '1px solid #bbb' } },
   { label: 'Yellow Gold', value: 'yellow', swatch: { background: '#d4a853' } },
   { label: 'Rose Gold', value: 'rose', swatch: { background: '#e8a090' } },
@@ -90,36 +91,36 @@ const HERO_SPIRAL = (
   </svg>
 );
 
+function concreteMetalKeys(product: {
+  default_metal: string | null;
+  images?: string[];
+  metal_images?: Record<string, string[]> | null;
+}): Set<string> {
+  const keys = new Set<string>();
+  for (const [metal, imgs] of Object.entries(product.metal_images ?? {})) {
+    const key = metalKeyFromLabel(metal) ?? metal;
+    if ((imgs?.length ?? 0) > 0) keys.add(key);
+  }
+  if (product.default_metal && (product.images?.length ?? 0) > 0) {
+    keys.add(metalKeyFromLabel(product.default_metal) ?? product.default_metal);
+  }
+  return keys;
+}
+
 /**
- * Match a product to the active metal chip.
- *
- * IMPORTANT — we match against the product's `default_metal` (the metal
- * shown in the displayed photo) rather than its `metals` array (all
- * available options). Otherwise picking "Yellow Gold" returns rings
- * photographed in rose or white because *yellow is one of the available
- * options* — confusing to a customer who picked a colour expecting to
- * see only that colour.
- *
- * Falls back to the `metals` array if the product has no default_metal.
+ * Match a product to the active metal chip using concrete sellable/displayable
+ * metal variants only. The broad `metals` field is intentionally ignored here:
+ * in this catalog it can contain generic options that are not actually available
+ * as product-page swatches/photos for that specific piece.
  */
-function metalMatches(product: { default_metal: string | null; metals: string[] }, filter: MetalFilter['value']): boolean {
+function metalMatches(
+  product: { default_metal: string | null; images?: string[]; metal_images?: Record<string, string[]> | null },
+  filter: MetalFilter['value'],
+): boolean {
   if (filter === 'all') return true;
 
-  const def = (product.default_metal ?? '').toLowerCase();
-  if (def) {
-    if (filter === 'white') return def.includes('white');
-    if (filter === 'yellow') return def.includes('yellow');
-    if (filter === 'rose') return def.includes('rose');
-    return true;
-  }
-
-  // Backward-compat: products without a default_metal fall through to
-  // the legacy "any-of-metals-matches" behaviour.
-  const joined = (product.metals ?? []).join(' ').toLowerCase();
-  if (filter === 'white') return joined.includes('white gold') || joined.includes('platinum');
-  if (filter === 'yellow') return joined.includes('yellow gold');
-  if (filter === 'rose') return joined.includes('rose gold');
-  return true;
+  const keys = concreteMetalKeys(product);
+  return metalKeysForFilter(filter).some((key) => keys.has(key));
 }
 
 /**
@@ -155,14 +156,91 @@ function metalKeyFromLabel(label: string): string | null {
  * sharing that exact name collapse to one card, exactly as the admin intended.
  */
 function baseDesignKey(p: Product): string {
-  const namePart = stripMetalSuffix(p.name).toLowerCase().trim();
-  if (namePart) return `${namePart}||${p.category}`;
-  // Absolute fallback: strip any trailing -[letters/digits] metal code from SKU
+  // Collapse only true metal variants of the same SKU. Several legacy catalog
+  // rows share generic names like "Voltaggio Tension Set Ring" even though they
+  // are distinct designs, so names are not reliable grouping keys.
   const sku = String(p.sku ?? '');
-  return sku.replace(/-\d*[a-zA-Z]+$/i, '').toLowerCase() + `||${p.category}`;
+  const skuPart = sku.replace(/-\d*[a-zA-Z]+$/i, '').toLowerCase();
+  if (skuPart) return `${skuPart}||${p.category}`;
+
+  const namePart = stripMetalSuffix(p.name).toLowerCase().trim();
+  return `${namePart}||${p.category}`;
 }
 
-type SortKey = 'featured' | 'price_asc' | 'price_desc' | 'newest';
+type SortKey =
+  | 'featured'
+  | 'price_asc'
+  | 'price_desc'
+  | 'name_asc'
+  | 'name_desc'
+  | 'collection_asc'
+  | 'collection_desc'
+  | 'sku_asc'
+  | 'newest';
+
+const SORT_LABELS: Record<SortKey, string> = {
+  featured: 'Featured',
+  price_asc: 'Price: Low to High',
+  price_desc: 'Price: High to Low',
+  name_asc: 'Name: A to Z',
+  name_desc: 'Name: Z to A',
+  collection_asc: 'Collection: A to Z',
+  collection_desc: 'Collection: Z to A',
+  sku_asc: 'Model: Oldest First',
+  newest: 'Newest',
+};
+
+function filterSlug(value: string | null | undefined): string {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function slugHasWord(slug: string, word: string): boolean {
+  return slug.includes(`-${word}-`) || slug.startsWith(`${word}-`) || slug.endsWith(`-${word}`) || slug === word;
+}
+
+function slugHasAnyWord(slug: string, words: string[]): boolean {
+  return words.some((word) => slugHasWord(slug, word));
+}
+
+function productMatchesSubCategory(product: Product, filter: string, pageCategory: string): boolean {
+  const explicitFilters = (product.sub_categories ?? []).map(filterSlug);
+  if (explicitFilters.includes(filter)) return true;
+
+  const haystack = filterSlug([
+    product.name,
+    product.collection,
+    product.category,
+    ...(product.categories ?? []),
+    ...(product.sub_categories ?? []),
+  ].filter(Boolean).join(' '));
+
+  if (slugHasWord(haystack, filter)) return true;
+
+  if (pageCategory === 'fine') {
+    if (filter === 'earrings') return slugHasAnyWord(haystack, ['earring', 'earrings', 'stud', 'studs', 'hoop', 'hoops']);
+    if (filter === 'pendants') return slugHasAnyWord(haystack, ['pendant', 'pendants', 'necklace', 'necklaces', 'neckless']);
+    if (filter === 'rings') return slugHasAnyWord(haystack, ['ring', 'rings']);
+    if (filter === 'bands') return slugHasAnyWord(haystack, ['band', 'bands']);
+    if (filter === 'limited') return slugHasAnyWord(haystack, ['limited', 'trenta']);
+    return false;
+  }
+
+  if (pageCategory !== 'wedding') return false;
+
+  const isHisBand = slugHasAnyWord(haystack, ['men', 'mens', 'groom', 'his']);
+  const isHerBand = slugHasAnyWord(haystack, ['women', 'womens', 'woman', 'bride', 'bridal', 'her', 'hers']);
+
+  if (filter === 'his-bands') return isHisBand;
+  if (filter === 'her-bands') return isHerBand || !isHisBand;
+  if (filter === 'award-winners') return haystack.includes('award');
+
+  return false;
+}
 
 function parsePrice(p: Product): number {
   if (p.price_computed != null) return p.price_computed;
@@ -170,6 +248,18 @@ function parsePrice(p: Product): number {
   const m = p.price_display.match(/[\d,]+/);
   if (!m) return 0;
   return Number(m[0].replace(/,/g, ''));
+}
+
+function sortText(value: string | null | undefined): string {
+  return String(value ?? '').toLowerCase();
+}
+
+function metalKeysForFilter(filter: MetalFilter['value']): string[] {
+  if (filter === 'platinum') return ['platinum'];
+  if (filter === 'white') return ['14k_white', '18k_white'];
+  if (filter === 'yellow') return ['14k_yellow', '18k_yellow'];
+  if (filter === 'rose') return ['14k_rose', '18k_rose'];
+  return [];
 }
 
 export default function ListingPage({
@@ -202,7 +292,7 @@ export default function ListingPage({
           const slug = collectionToSlug(p.collection, collections);
           if (slug !== collectionFilter) return false;
         } else {
-          if (!p.sub_categories.includes(collectionFilter)) return false;
+          if (!productMatchesSubCategory(p, collectionFilter, category)) return false;
         }
       }
       // Metal filter
@@ -276,6 +366,16 @@ export default function ListingPage({
       deduped.sort((a, b) => parsePrice(a) - parsePrice(b));
     } else if (sortKey === 'price_desc') {
       deduped.sort((a, b) => parsePrice(b) - parsePrice(a));
+    } else if (sortKey === 'name_asc') {
+      deduped.sort((a, b) => sortText(stripMetalSuffix(a.name)).localeCompare(sortText(stripMetalSuffix(b.name))));
+    } else if (sortKey === 'name_desc') {
+      deduped.sort((a, b) => sortText(stripMetalSuffix(b.name)).localeCompare(sortText(stripMetalSuffix(a.name))));
+    } else if (sortKey === 'collection_asc') {
+      deduped.sort((a, b) => sortText(a.collection).localeCompare(sortText(b.collection)) || a.sku.localeCompare(b.sku));
+    } else if (sortKey === 'collection_desc') {
+      deduped.sort((a, b) => sortText(b.collection).localeCompare(sortText(a.collection)) || a.sku.localeCompare(b.sku));
+    } else if (sortKey === 'sku_asc') {
+      deduped.sort((a, b) => a.sku.localeCompare(b.sku));
     } else if (sortKey === 'newest') {
       deduped.sort((a, b) => b.sku.localeCompare(a.sku));
     } else {
@@ -407,15 +507,22 @@ export default function ListingPage({
 
           <div className="vc-toolbar-sort">
             <label htmlFor="vc-sort" className="vc-sort-label">Sort</label>
+            <span className="vc-sort-value">{SORT_LABELS[sortKey]}</span>
             <select
               id="vc-sort"
               className="vc-sort-select"
               value={sortKey}
+              aria-label="Sort products"
               onChange={(e) => setSortKey(e.target.value as SortKey)}
             >
               <option value="featured">Featured</option>
               <option value="price_asc">Price: Low → High</option>
               <option value="price_desc">Price: High → Low</option>
+              <option value="name_asc">Name: A → Z</option>
+              <option value="name_desc">Name: Z → A</option>
+              <option value="collection_asc">Collection: A → Z</option>
+              <option value="collection_desc">Collection: Z → A</option>
+              <option value="sku_asc">Model: Oldest First</option>
               <option value="newest">Newest</option>
             </select>
             <svg className="vc-sort-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
@@ -424,70 +531,6 @@ export default function ListingPage({
           </div>
         </div>
       </div>
-
-      {/* Per Lei = the U Collection per the client. When the Per Lei
-          chip is active we render the U narrative FIRST, then the
-          actual Per Lei product grid right below it. Editorial stays
-          a story; products stay shoppable. */}
-      {collectionFilter === 'per-lei' && (
-        <>
-          <section className="ucoll-hero">
-            <span className="ucoll-eyebrow">DANHOV — THE U COLLECTION</span>
-            <div className="ucoll-big-u" aria-hidden="true">U</div>
-            <p className="ucoll-hero-line">
-              For years we have made rings shaped like the letter <em>U.</em>
-            </p>
-            <p className="ucoll-hero-sub">We never told anyone why. Now we will.</p>
-          </section>
-
-          <section className="ucoll-meaning">
-            <span className="ucoll-eyebrow">THE MEANING, REVEALED</span>
-            <h2 className="ucoll-meaning-title">U is for you.</h2>
-            <p className="ucoll-meaning-body">
-              U is the held space. U is what receives. U is the shape of a vessel,
-              <br />open at the top, waiting to be filled with light.
-            </p>
-            <p className="ucoll-meaning-body ucoll-meaning-body--gap">
-              And when two people exchange these rings, the silent truth between them
-              <br />is the oldest one there is —
-            </p>
-            <div className="ucoll-meaning-reveal">I am you.</div>
-            <div className="ucoll-meaning-divider" />
-          </section>
-
-          <section className="ucoll-pillars">
-            <div className="ucoll-pillar">
-              <div className="ucoll-pillar-u" aria-hidden="true">U</div>
-              <div className="ucoll-pillar-label">Held Space</div>
-              <div className="ucoll-pillar-quote">&ldquo;The vessel is what receives.&rdquo;</div>
-              <p className="ucoll-pillar-body">
-                The U is not closed. It is open. Ready. Listening. A held space waiting
-                for what comes — love, light, the moment.
-              </p>
-            </div>
-            <div className="ucoll-pillar">
-              <div className="ucoll-pillar-u" aria-hidden="true">U</div>
-              <div className="ucoll-pillar-label">You</div>
-              <div className="ucoll-pillar-quote">
-                &ldquo;The ring is shaped like the one who wears it.&rdquo;
-              </div>
-              <p className="ucoll-pillar-body">
-                Every U ring is custom in this way — whoever wears it, it is shaped for
-                them. You are the meaning. Without you, the U is just a letter.
-              </p>
-            </div>
-            <div className="ucoll-pillar">
-              <div className="ucoll-pillar-u" aria-hidden="true">U</div>
-              <div className="ucoll-pillar-label">Union</div>
-              <div className="ucoll-pillar-quote">&ldquo;I am you.&rdquo;</div>
-              <p className="ucoll-pillar-body">
-                Two rings exchanged. Two Us, mirroring each other. The deepest vow
-                underneath every wedding ring ever given — now spoken aloud.
-              </p>
-            </div>
-          </section>
-        </>
-      )}
 
       {/* PRODUCT GRID — Van Cleef carbon-copy:
           centred white-background tile, image dots below the photo to
@@ -510,7 +553,14 @@ export default function ListingPage({
               let editorialSlot = 0;
               const items = paginated.flatMap((p, idx) => {
                 const nodes: React.ReactNode[] = [
-                  <VanCleefCard key={p.sku} product={p} placeholder={PLACEHOLDER_SVG} cardHref={cardHref} showWishlist={showWishlist} />,
+                  <VanCleefCard
+                    key={p.sku}
+                    product={p}
+                    placeholder={PLACEHOLDER_SVG}
+                    cardHref={cardHref}
+                    showWishlist={showWishlist}
+                    preferredMetalFilter={showMetalFilter ? metalFilter : 'all'}
+                  />,
                 ];
                 const isInsertSlot = idx === 5 || (idx > 5 && (idx - 5) % 10 === 0);
                 if (isInsertSlot && idx !== paginated.length - 1) {
@@ -640,30 +690,55 @@ function VanCleefCard({
   placeholder,
   cardHref,
   showWishlist = true,
+  preferredMetalFilter,
 }: {
   product: Product;
   placeholder: React.ReactNode;
   cardHref?: (slug: string) => string;
   showWishlist?: boolean;
+  preferredMetalFilter: MetalFilter['value'];
 }) {
   const productUrl = cardHref ? cardHref(product.slug) : `/product/${product.slug}`;
-  const metals = product.metals ?? [];
   const metalImages = product.metal_images ?? {};
 
-  // Only show swatches for metals this product actually has images for or is sold in
-  const keysFromMetals = new Set(metals.map(metalKeyFromLabel).filter((k): k is string => k !== null));
+  // Only show swatches for metals we have actual images for — clicking must change the photo.
+  // We deliberately exclude metals that are only listed in the `metals` array but have no
+  // images, because the fallback would just show the same platinum photo, misleading the user.
   const keysWithImages = new Set(ALL_METALS.filter(m => (metalImages[m]?.length ?? 0) > 0));
-  const unionKeys = new Set([...keysFromMetals, ...keysWithImages]);
-  const showMetals = ALL_METALS.filter(m => unionKeys.has(m));
+  const concreteKeys = concreteMetalKeys(product);
+  const showMetals = ALL_METALS.filter(m => concreteKeys.has(m));
 
-  const defaultMetal =
-    product.default_metal && (keysFromMetals.has(product.default_metal) || keysWithImages.has(product.default_metal))
-      ? product.default_metal
+  // Shuffle each card's default metal across TONES (silver / yellow / rose) so
+  // the listing shows a mix instead of every card defaulting to platinum.
+  // Deterministic by SKU (stable across SSR/client — no hydration mismatch).
+  const defaultMetal = (() => {
+    const preferred = metalKeysForFilter(preferredMetalFilter).find((k) => showMetals.includes(k));
+    if (preferred) return preferred;
+
+    const toneGroups = [
+      ['platinum', '14k_white', '18k_white'],
+      ['14k_yellow', '18k_yellow'],
+      ['14k_rose', '18k_rose'],
+    ];
+    const availTones = toneGroups
+      .map(g => g.find(k => keysWithImages.has(k)))
+      .filter((k): k is string => !!k);
+    if (availTones.length > 0) {
+      let h = 0;
+      for (let i = 0; i < product.sku.length; i++) h = (h * 31 + product.sku.charCodeAt(i)) | 0;
+      return availTones[Math.abs(h) % availTones.length];
+    }
+    const defaultKey = product.default_metal ? metalKeyFromLabel(product.default_metal) ?? product.default_metal : '';
+    return (defaultKey && concreteKeys.has(defaultKey))
+      ? defaultKey
       : showMetals[0] ?? '';
+  })();
 
   const [selectedMetal, setSelectedMetal] = useState(defaultMetal);
   // Default to index 1 (_2.jpg = laying-down flatlay)
-  const [cyclingIdx, setCyclingIdx] = useState(1);
+  // Rest on the first (eager-loaded) image so the thumbnail always shows;
+  // hovering cycles through the other angles.
+  const [cyclingIdx, setCyclingIdx] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Images for selected metal — try exact metal, then closest family, then product default
@@ -690,15 +765,20 @@ function VanCleefCard({
 
   function stopCycling() {
     if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
-    setCyclingIdx(displayImages.length > 1 ? 1 : 0);
+    setCyclingIdx(0);
   }
 
   function selectMetal(e: React.MouseEvent, m: string) {
     e.preventDefault();
     setSelectedMetal(m);
-    const imgs = getImagesForMetal(m).slice(0, 5);
-    setCyclingIdx(imgs.length > 1 ? 1 : 0);
+    setCyclingIdx(0);
   }
+
+  useEffect(() => {
+    if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+    setSelectedMetal(defaultMetal);
+    setCyclingIdx(0);
+  }, [defaultMetal]);
 
   useEffect(() => () => { if (intervalRef.current) clearInterval(intervalRef.current); }, []);
 

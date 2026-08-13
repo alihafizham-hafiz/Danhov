@@ -1,3 +1,4 @@
+import SectionCta from '@/components/SectionCta';
 const TRUST_ITEMS = [
   'Lifetime Craftsmanship Warranty',
   'Insured Delivery',
@@ -39,6 +40,7 @@ export default function HeritageSection() {
           ))}
         </div>
       </div>
+        <SectionCta label="Contact a Jewelry Specialist" chat="I&apos;d like to speak with a DANHOV jewelry specialist about a piece." />
     </section>
   );
 }

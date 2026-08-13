@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -200,7 +201,7 @@ function LifePathDesign({ num, zodiacIndex, day }: { num: number; zodiacIndex: n
       ))}
       <circle cx={cx} cy={cy} r={centerR} fill="#AC3438" opacity="0.18" />
       <circle cx={cx} cy={cy} r={centerR} stroke="#AC3438" strokeWidth="1.5" fill="none" />
-      <text x={cx} y={cy + 6} textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="18" fill="#faf6f1" opacity="0.85">{num}</text>
+      <text x={cx} y={cy + 6} textAnchor="middle" fontFamily="var(--font-cormorant), 'Cormorant Garamond', serif" fontSize="18" fill="#faf6f1" opacity="0.85">{num}</text>
     </svg>
   );
 }
@@ -227,7 +228,7 @@ function PieceRingSVG({ num }: { num: number }) {
           />
         );
       })}
-      <text x="60" y="60" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="20" fill="#AC3438" fontStyle="italic">{num}</text>
+      <text x="60" y="60" textAnchor="middle" fontFamily="var(--font-cormorant), 'Cormorant Garamond', serif" fontSize="20" fill="#AC3438" fontStyle="italic">{num}</text>
       <path d="M34 70 C32 96 32 118 36 132 Q42 144 60 144 Q78 144 84 132 C88 118 88 96 86 70" stroke="#AC3438" strokeWidth="1.2" />
       <path d="M43 72 C42 97 42 116 45 128 Q50 138 60 138 Q70 138 75 128 C78 116 78 97 77 72" stroke="#AC3438" strokeWidth="0.4" opacity="0.28" />
     </svg>
@@ -252,7 +253,7 @@ function PiecePendantSVG({ num }: { num: number }) {
           />
         );
       })}
-      <text x="60" y="106" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="44" fill="#AC3438" fontStyle="italic">{num}</text>
+      <text x="60" y="106" textAnchor="middle" fontFamily="var(--font-cormorant), 'Cormorant Garamond', serif" fontSize="44" fill="#AC3438" fontStyle="italic">{num}</text>
     </svg>
   );
 }
@@ -262,7 +263,7 @@ function PieceSignetSVG({ num }: { num: number }) {
     <svg viewBox="0 0 120 140" fill="none" aria-hidden="true">
       <ellipse cx="60" cy="48" rx="40" ry="28" stroke="#AC3438" strokeWidth="1.2" fill="rgba(172,52,56,0.04)" />
       <ellipse cx="60" cy="48" rx="32" ry="20" stroke="#AC3438" strokeWidth="0.5" fill="none" opacity="0.35" />
-      <text x="60" y="57" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="28" fill="#AC3438" fontStyle="italic">{num}</text>
+      <text x="60" y="57" textAnchor="middle" fontFamily="var(--font-cormorant), 'Cormorant Garamond', serif" fontSize="28" fill="#AC3438" fontStyle="italic">{num}</text>
       <path d="M20 64 C20 76 22 88 22 106" stroke="#AC3438" strokeWidth="1.2" fill="none" />
       <path d="M100 64 C100 76 98 88 98 106" stroke="#AC3438" strokeWidth="1.2" fill="none" />
       <ellipse cx="60" cy="106" rx="38" ry="9"  stroke="#AC3438" strokeWidth="1.2" fill="rgba(172,52,56,0.03)" />
@@ -277,7 +278,7 @@ function PieceBangleSVG({ num }: { num: number }) {
     <svg viewBox="0 0 120 150" fill="none" aria-hidden="true">
       <path d="M18 108 A44 44 0 1 1 102 108" stroke="#AC3438" strokeWidth="7" strokeLinecap="round" fill="none" />
       <path d="M28 103 A34 34 0 1 1 92 103" stroke="#AC3438" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.28" />
-      <text x="60" y="48" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#AC3438" fontStyle="italic">{num}</text>
+      <text x="60" y="48" textAnchor="middle" fontFamily="var(--font-cormorant), 'Cormorant Garamond', serif" fontSize="22" fill="#AC3438" fontStyle="italic">{num}</text>
       {dots.map(d => {
         const rad = (d - 90) * Math.PI / 180;
         return (
@@ -372,6 +373,7 @@ interface ResultData {
 }
 
 export default function LifePathClient() {
+  const router = useRouter();
   const [screen, setScreen]             = useState<Screen>('landing');
   const [day, setDay]                   = useState('');
   const [month, setMonth]               = useState('');
@@ -387,6 +389,30 @@ export default function LifePathClient() {
 
   const lpData = result ? (LIFE_PATH_DATA[result.lifePathNum] ?? LIFE_PATH_DATA[9]) : null;
 
+  // Push a history entry when moving forward through screens
+  function goTo(next: Screen) {
+    window.history.pushState({ screen: next }, '');
+    setScreen(next);
+  }
+
+  // Handle browser back button — pop to previous screen
+  const handlePop = useCallback((e: PopStateEvent) => {
+    const prev = (e.state as { screen?: Screen } | null)?.screen;
+    if (prev) {
+      setScreen(prev);
+    } else {
+      // No more app history — let the browser navigate away naturally
+      router.back();
+    }
+  }, [router]);
+
+  useEffect(() => {
+    // Seed the initial history state so the first back pop has state
+    window.history.replaceState({ screen: 'landing' }, '');
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, [handlePop]);
+
   function handleReveal() {
     const d = parseInt(day, 10);
     const m = parseInt(month, 10);
@@ -399,17 +425,17 @@ export default function LifePathClient() {
     const num = calcLifePath(d, m, y);
     const { zodiac, index: zodiacIndex } = getZodiac(d, m);
     setResult({ lifePathNum: num, zodiac, zodiacIndex, birthDate: `${d}/${m}/${y}`, day: d });
-    setScreen('results');
+    goTo('results');
   }
 
   function goToCommission() {
     setCommEmail(inputEmail);
-    setScreen('commission');
+    goTo('commission');
   }
 
   function handleReset() {
     setDay(''); setMonth(''); setYear(''); setResult(null); setInputError('');
-    setScreen('input');
+    goTo('input');
   }
 
   async function handleCommissionSubmit() {
@@ -431,7 +457,7 @@ export default function LifePathClient() {
         }),
       });
       if (!res.ok) throw new Error('Request failed');
-      setScreen('success');
+      goTo('success');
     } catch {
       setCommError('Something went wrong. Please try again.');
     } finally {
@@ -858,7 +884,7 @@ export default function LifePathClient() {
               Your number holds a meaning.<br/>
               Not your fate — a mirror.
             </p>
-            <button className="lp-landing-btn" onClick={() => setScreen('input')}>Begin</button>
+            <button className="lp-landing-btn" onClick={() => goTo('input')}>Begin</button>
           </div>
         </div>
       )}
@@ -866,7 +892,7 @@ export default function LifePathClient() {
       {/* ── DATE INPUT ── */}
       {screen === 'input' && (
         <div className="lp-input" style={{ position: 'relative' }}>
-          <button className="lp-input-back" onClick={() => setScreen('landing')}>← Back</button>
+          <button className="lp-input-back" onClick={() => window.history.back()}>← Back</button>
           <div className="lp-input-inner">
             <span className="lp-input-eyebrow">Your Birth Date</span>
             <h2 className="lp-input-title">When did you arrive?</h2>
@@ -911,7 +937,7 @@ export default function LifePathClient() {
       {/* ── RESULTS ── */}
       {screen === 'results' && result && lpData && (
         <div className="lp-results">
-          <button className="lp-results-back" onClick={() => setScreen('input')}>← Recalculate</button>
+          <button className="lp-results-back" onClick={() => window.history.back()}>← Back</button>
 
           <div className="lp-results-inner">
             {/* Left: geometric ring design */}
@@ -1010,7 +1036,7 @@ export default function LifePathClient() {
       {/* ── COMMISSION ── */}
       {screen === 'commission' && result && lpData && (
         <div className="lp-commission">
-          <button className="lp-commission-back" onClick={() => setScreen('results')}>← Back</button>
+          <button className="lp-commission-back" onClick={() => window.history.back()}>← Back</button>
           <div className="lp-commission-inner">
             <span className="lp-commission-eyebrow">Private Design Request</span>
             <h2 className="lp-commission-title">Request Your<br/>Life Path Piece</h2>

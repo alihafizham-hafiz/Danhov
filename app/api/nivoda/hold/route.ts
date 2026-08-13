@@ -3,11 +3,11 @@
  * DELETE /api/nivoda/hold?id=…   — cancel a hold (by our internal hold UUID)
  *
  * Holds reserve a stone on Nivoda's side. We persist a row in nivoda_holds
- * so we can release it (cancel) or convert it (after Stripe payment).
+ * so we can release it (cancel) or convert it after card payment.
  *
  * IMPORTANT: Holds are tied to a session_id (cookie-set or client-passed).
  * We don't authenticate the customer here — anyone can hold a stone, but
- * to convert a hold to an order they must complete Stripe checkout.
+ * to convert a hold to an order they must complete checkout.
  */
 
 import { NextRequest, NextResponse } from 'next/server';

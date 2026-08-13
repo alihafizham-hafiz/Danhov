@@ -5,7 +5,7 @@ export default function AIDesignSection() {
     <section className="builder-ai-section">
       <div className="builder-ai-inner">
         <div className="builder-ai-text">
-          <span className="builder-ai-eyebrow">Powered by AI</span>
+          <span className="builder-ai-eyebrow">Guided by AI. Crafted by Hand.</span>
           <h2 className="builder-ai-title">Design Your Own with AI</h2>
           <p className="builder-ai-body">
             Describe your dream ring in your own words — or upload a photo for inspiration.

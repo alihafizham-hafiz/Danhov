@@ -1,3 +1,4 @@
+import SectionCta from '@/components/SectionCta';
 const TESTIMONIALS = [
   {
     quote: "In silence, I found what I was looking for. The ring arrived and I cried. It was exactly what I had seen in my mind.",
@@ -47,6 +48,7 @@ export default function TrustProofSection() {
           <span className="proof-press-item">Who What Wear</span>
         </div>
       </div>
+        <SectionCta label="Build Your Ring" href="/ring-builder" />
     </section>
   );
 }

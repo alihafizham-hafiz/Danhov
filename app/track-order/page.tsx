@@ -320,7 +320,7 @@ export default function TrackOrderPage() {
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: '#AC3438', fontSize: 12, letterSpacing: '0.14em',
                   textTransform: 'uppercase', textDecoration: 'underline',
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                 }}
               >
                 Track another order
@@ -330,7 +330,7 @@ export default function TrackOrderPage() {
             <p style={{ textAlign: 'center', fontSize: 13, color: '#9c8f86', marginTop: 20, lineHeight: 1.65 }}>
               Questions? Reach us at{' '}
               <a href="mailto:care@danhov.com" style={{ color: '#AC3438', textDecoration: 'none' }}>care@danhov.com</a>{' '}
-              or <a href="tel:+18883264687" style={{ color: '#AC3438', textDecoration: 'none' }}>(888) 326-4687</a>.
+              or <a href="tel:+14244214072" style={{ color: '#AC3438', textDecoration: 'none' }}>(424) 421-4072</a>.
             </p>
           </div>
         </section>

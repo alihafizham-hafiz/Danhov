@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdmin } from '@/lib/admin-auth';
 import { createServiceClient } from '@/lib/supabase/server';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const ALLOWED_FIELDS = [
-  'slug', 'name', 'collection', 'category', 'categories',
+  'sku', 'slug', 'name', 'collection', 'category', 'categories',
   'metals', 'images', 'metal_images', 'price_display', 'description', 'default_metal',
   'gold_weight_g', 'markup_multiplier', 'base_labor_usd', 'diamond_labor_usd',
   'casting_labor_per_gram',
@@ -31,10 +32,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { sku: strin
 
   const sb = createServiceClient();
   const update = pickAllowed(body);
-  // Always touch updated_at via the trigger; nothing to add manually.
   const { error } = await sb.from('products').update(update).eq('sku', sku);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  return NextResponse.json({ ok: true });
+  revalidateStorefront();
+  const newSku = typeof body.sku === 'string' && body.sku !== sku ? body.sku : null;
+  return NextResponse.json({ ok: true, ...(newSku ? { sku: newSku } : {}) });
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { sku: string } }) {
@@ -45,5 +47,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: { sku: str
   const sb = createServiceClient();
   const { error } = await sb.from('products').delete().eq('sku', sku);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  revalidateStorefront();
   return NextResponse.json({ ok: true });
 }

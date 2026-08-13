@@ -6,23 +6,24 @@ import { useEffect } from 'react';
 // now lands in ~2.6s (was ~10.2s): lines ~450ms apart, founder + scroll
 // cues right after.
 const HERO_SEQUENCE: { id: string; delay: number }[] = [
-  { id: 'chLine1', delay: 200 },
-  { id: 'chLine2', delay: 650 },
-  { id: 'chLine3', delay: 1100 },
-  { id: 'chDiv', delay: 1550 },
-  { id: 'chLine4', delay: 1800 },
-  { id: 'chLine5', delay: 2150 },
-  { id: 'heroFounder', delay: 2500 },
-  { id: 'heroRingWrap', delay: 2900 },
-  { id: 'heroTrustLine', delay: 3300 },
-  { id: 'heroScroll', delay: 3600 },
+  { id: 'chLine1', delay: 200 },   // "The ring was not designed."
+  { id: 'chLine2', delay: 700 },   // "It was received."
+  { id: 'chDiv', delay: 1150 },
+  { id: 'chLine3', delay: 1400 },  // philosophy line
+  { id: 'heroFounder', delay: 1850 },
 ];
 
+// Rotates one per day. The four brand-brief statements (§9) live here so the
+// philosophy surfaces across the site without crowding the shopping path.
 const DAILY_MESSAGES = [
   'We are already whole.',
+  'You already are one.',
   'Waves are the ocean.',
+  'Love is remembering.',
   'The way out is to go in.',
+  'Marriage is the practice of love.',
   'The longest journey of a human is only 12 inches — from the mind to the heart.',
+  'The ring is the reminder.',
   'Self love.',
   'You are the universe.',
 ];

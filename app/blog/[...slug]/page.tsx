@@ -3,10 +3,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BLOG_POSTS, getPostBySlug } from '@/lib/blog-posts';
+import type { BlogPost } from '@/lib/blog-posts';
 import { getCachedBlogContent, setCachedBlogContent, isCacheStale } from '@/lib/blog-cache';
 
 interface Props {
   params: { slug: string[] };
+}
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  'Engagement Rings': '/abbraccio-one-wire-story.jpeg',
+  'Wedding Bands': '/ring-viz.png',
+  Diamonds: '/diamond-shapes/round.jpg',
+  'Fine Jewelry': '/phil-5.jpg',
+  Proposal: '/triad-ring.jpg',
+  "Mother's Day": '/phil-4.jpg',
+};
+
+function blogImage(post: BlogPost): string {
+  return CATEGORY_IMAGES[post.category] ?? '/triad-ring.jpg';
 }
 
 export async function generateStaticParams() {
@@ -23,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      images: post.image ? [{ url: post.image }] : [],
+      images: [{ url: blogImage(post) }],
       type: 'article',
     },
   };
@@ -195,15 +209,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Featured image */}
       <div className="post-featured-img">
         <div className="post-featured-img-inner">
-          {post.image ? (
-            <Image src={post.image} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
-          ) : (
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-              <circle cx="40" cy="40" r="28" stroke="rgba(172,52,56,0.5)" strokeWidth="0.8"/>
-              <path d="M40 14 Q55 27 55 40 Q55 53 40 66 Q25 53 25 40 Q25 27 40 14Z" stroke="rgba(172,52,56,0.5)" strokeWidth="0.5"/>
-              <circle cx="40" cy="14" r="3" fill="rgba(172,52,56,0.5)"/>
-            </svg>
-          )}
+          <Image src={blogImage(post)} alt={post.title} fill style={{ objectFit: 'cover' }} priority />
         </div>
       </div>
 
@@ -245,14 +251,7 @@ export default async function BlogPostPage({ params }: Props) {
               {related.map((r) => (
                 <Link key={r.slug} href={`/blog/${r.slug}`} className="post-related-card">
                   <div className="post-related-img">
-                    {r.image ? (
-                      <Image src={r.image} alt={r.title} fill style={{ objectFit: 'cover' }} unoptimized />
-                    ) : (
-                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                        <circle cx="20" cy="20" r="14" stroke="rgba(172,52,56,0.5)" strokeWidth="0.7"/>
-                        <circle cx="20" cy="8" r="2" fill="rgba(172,52,56,0.5)"/>
-                      </svg>
-                    )}
+                    <Image src={blogImage(r)} alt={r.title} fill style={{ objectFit: 'cover' }} />
                   </div>
                   <div className="post-related-body">
                     <span className="post-related-cat">{r.category}</span>

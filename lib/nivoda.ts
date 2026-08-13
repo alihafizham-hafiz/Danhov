@@ -52,6 +52,15 @@ export const NIVODA_API_URL =
 export const NIVODA_PRO_ENABLED =
   process.env.NIVODA_PRO_ENABLED === 'true' || process.env.NIVODA_PRO_ENABLED === '1';
 
+// Fallback multiplier — actual per-category multipliers are stored in the diamond_markups table.
+// Use /api/diamond-markups to get live values; this constant is only used as a safe default.
+export const DANHOV_DIAMOND_MULTIPLIER = 2.3;
+
+/** Fallback retail price for a Nivoda stone using the default multiplier. */
+export function danhov_price(wholesaleUsd: number | null | undefined): number {
+  return Math.round((wholesaleUsd ?? 0) * DANHOV_DIAMOND_MULTIPLIER);
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────
 
 export type NivodaShape =
@@ -69,13 +78,14 @@ export type NivodaQuality = 'EX' | 'ID' | 'VG' | 'G' | 'F';
 export type NivodaCertLab =
   | 'GIA' | 'IGI' | 'HRD' | 'GCAL' | 'AGS' | 'WISE';
 
+// Nivoda expects title-case strings (not enums) for fancy color fields.
 export type NivodaFancyColor =
-  | 'YELLOW' | 'PINK' | 'BLUE' | 'GREEN' | 'RED' | 'ORANGE'
-  | 'PURPLE' | 'BROWN' | 'GREY' | 'WHITE' | 'BLACK' | 'VIOLET' | 'CHAMELEON';
+  | 'Yellow' | 'Pink' | 'Blue' | 'Green' | 'Red' | 'Orange'
+  | 'Purple' | 'Brown' | 'Grey' | 'White' | 'Black' | 'Violet' | 'Chameleon';
 
 export type NivodaFancyIntensity =
-  | 'FAINT' | 'VERY_LIGHT' | 'LIGHT' | 'FANCY_LIGHT' | 'FANCY'
-  | 'FANCY_INTENSE' | 'FANCY_VIVID' | 'FANCY_DEEP' | 'FANCY_DARK';
+  | 'Faint' | 'Very_Light' | 'Light' | 'Fancy_Light' | 'Fancy'
+  | 'Fancy_Intense' | 'Fancy_Vivid' | 'Fancy_Deep' | 'Fancy_Dark';
 
 export type NivodaSearchFilters = {
   labgrown?: boolean;
@@ -89,8 +99,8 @@ export type NivodaSearchFilters = {
   availability?: 'AVAILABLE' | 'NOT_AVAILABLE' | 'ON_HOLD' | 'ON_MEMO';
   hide_memo?: boolean;
   has_image?: boolean;
-  fancy_colour?: NivodaFancyColor[];
-  fancy_colour_intensity?: NivodaFancyIntensity[];
+  fancyColor?: NivodaFancyColor[];
+  fancyIntensity?: NivodaFancyIntensity[];
 };
 
 export type NivodaSortField = 'price' | 'discount' | 'size' | 'createdAt' | 'none';
@@ -408,13 +418,14 @@ const CLARITY_ENUM = new Set([
   'FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'SI3', 'I1', 'I2', 'I3',
 ]);
 const QUALITY_ENUM = new Set(['EX', 'ID', 'EIGHTX', 'VG', 'G', 'F', 'P']);
-const FANCY_COLOR_ENUM = new Set([
-  'YELLOW', 'PINK', 'BLUE', 'GREEN', 'RED', 'ORANGE',
-  'PURPLE', 'BROWN', 'GREY', 'WHITE', 'BLACK', 'VIOLET', 'CHAMELEON',
+// Nivoda fancyColor / fancyIntensity are string fields (not enums) — values are title-case.
+const FANCY_COLOR_ALLOWED = new Set([
+  'Yellow', 'Pink', 'Blue', 'Green', 'Red', 'Orange',
+  'Purple', 'Brown', 'Grey', 'White', 'Black', 'Violet', 'Chameleon',
 ]);
-const FANCY_INTENSITY_ENUM = new Set([
-  'FAINT', 'VERY_LIGHT', 'LIGHT', 'FANCY_LIGHT', 'FANCY',
-  'FANCY_INTENSE', 'FANCY_VIVID', 'FANCY_DEEP', 'FANCY_DARK',
+const FANCY_INTENSITY_ALLOWED = new Set([
+  'Faint', 'Very_Light', 'Light', 'Fancy_Light', 'Fancy',
+  'Fancy_Intense', 'Fancy_Vivid', 'Fancy_Deep', 'Fancy_Dark',
 ]);
 const AVAILABILITY_ENUM = new Set([
   'AVAILABLE', 'NOT_AVAILABLE', 'ON_HOLD', 'ON_MEMO',
@@ -495,13 +506,13 @@ function buildQueryLiteral(filters: NivodaSearchFilters): string {
   if (filters.has_image !== undefined) {
     parts.push(`has_image: ${filters.has_image}`);
   }
-  if (filters.fancy_colour?.length) {
-    const cleaned = sanitizeEnumArray(filters.fancy_colour as string[], FANCY_COLOR_ENUM);
-    if (cleaned.length) parts.push(`fancy_colour: [${cleaned.join(', ')}]`);
+  if (filters.fancyColor?.length) {
+    const cleaned = filters.fancyColor.filter(v => FANCY_COLOR_ALLOWED.has(v));
+    if (cleaned.length) parts.push(`fancyColor: [${cleaned.map(v => `"${v}"`).join(', ')}]`);
   }
-  if (filters.fancy_colour_intensity?.length) {
-    const cleaned = sanitizeEnumArray(filters.fancy_colour_intensity as string[], FANCY_INTENSITY_ENUM);
-    if (cleaned.length) parts.push(`fancy_colour_intensity: [${cleaned.join(', ')}]`);
+  if (filters.fancyIntensity?.length) {
+    const cleaned = filters.fancyIntensity.filter(v => FANCY_INTENSITY_ALLOWED.has(v));
+    if (cleaned.length) parts.push(`fancyIntensity: [${cleaned.map(v => `"${v}"`).join(', ')}]`);
   }
 
   return `{ ${parts.join(', ')} }`;

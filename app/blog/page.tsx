@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BLOG_POSTS } from '@/lib/blog-posts';
+import type { BlogPost } from '@/lib/blog-posts';
 
 export const metadata: Metadata = {
   title: 'Blog · DANHOV Jewelry',
@@ -10,11 +11,53 @@ export const metadata: Metadata = {
   alternates: { canonical: '/blog' },
 };
 
-const CATEGORIES = ['All', 'Engagement Rings', 'Wedding Bands', 'Diamonds', 'Fine Jewelry', 'Proposal', "Mother's Day"];
+const CATEGORIES = [
+  { label: 'All', value: 'all' },
+  { label: 'Engagement Rings', value: 'engagement-rings' },
+  { label: 'Wedding Bands', value: 'wedding-bands' },
+  { label: 'Diamonds', value: 'diamonds' },
+  { label: 'Fine Jewelry', value: 'fine-jewelry' },
+  { label: 'Proposal', value: 'proposal' },
+  { label: "Mother's Day", value: 'mothers-day' },
+] as const;
 
-export default function BlogPage() {
-  const featured = BLOG_POSTS[0];
-  const rest = BLOG_POSTS.slice(1);
+const CATEGORY_IMAGES: Record<string, string> = {
+  'Engagement Rings': '/abbraccio-one-wire-story.jpeg',
+  'Wedding Bands': '/ring-viz.png',
+  Diamonds: '/diamond-shapes/round.jpg',
+  'Fine Jewelry': '/phil-5.jpg',
+  Proposal: '/triad-ring.jpg',
+  "Mother's Day": '/phil-4.jpg',
+};
+
+function categorySlug(category: string): string {
+  return category
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function blogImage(post: BlogPost): string {
+  return CATEGORY_IMAGES[post.category] ?? '/triad-ring.jpg';
+}
+
+type BlogPageProps = {
+  searchParams?: { category?: string };
+};
+
+export default function BlogPage({ searchParams }: BlogPageProps) {
+  const requestedCategory = searchParams?.category ?? 'all';
+  const activeCategory = CATEGORIES.some((c) => c.value === requestedCategory)
+    ? requestedCategory
+    : 'all';
+  const activeLabel = CATEGORIES.find((c) => c.value === activeCategory)?.label ?? 'All';
+  const posts = activeCategory === 'all'
+    ? BLOG_POSTS
+    : BLOG_POSTS.filter((post) => categorySlug(post.category) === activeCategory);
+  const featured = posts[0] ?? BLOG_POSTS[0];
+  const rest = posts.slice(1);
 
   return (
     <main className="blog-page">
@@ -37,8 +80,8 @@ export default function BlogPage() {
         .blog-filter { background: #fff; border-bottom: 1px solid #ede8e2; padding: 0 24px; }
         .blog-filter-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
         .blog-filter-inner::-webkit-scrollbar { display: none; }
-        .blog-cat-item { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f76; padding: 18px 20px; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
-        .blog-cat-item:first-child { border-color: #AC3438; color: #1a1410; }
+        .blog-cat-item { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f76; padding: 18px 20px; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s; text-decoration: none; }
+        .blog-cat-item:hover, .blog-cat-item.is-active { border-color: #AC3438; color: #1a1410; }
 
         .blog-featured { max-width: 1100px; margin: 0 auto; padding: 64px 24px 0; }
         .blog-featured-card { background: #fff; border: 1px solid #ede8e2; border-radius: 10px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; }
@@ -93,7 +136,13 @@ export default function BlogPage() {
       <nav className="blog-filter" aria-label="Blog categories">
         <div className="blog-filter-inner">
           {CATEGORIES.map((c) => (
-            <span key={c} className="blog-cat-item">{c}</span>
+            <Link
+              key={c.value}
+              href={c.value === 'all' ? '/blog' : `/blog?category=${c.value}`}
+              className={`blog-cat-item${activeCategory === c.value ? ' is-active' : ''}`}
+            >
+              {c.label}
+            </Link>
           ))}
         </div>
       </nav>
@@ -102,15 +151,7 @@ export default function BlogPage() {
       <div className="blog-featured">
         <div className="blog-featured-card">
           <div className="blog-featured-img">
-            {featured.image ? (
-              <Image src={featured.image} alt={featured.title} fill style={{ objectFit: 'cover' }} unoptimized />
-            ) : (
-              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <circle cx="40" cy="40" r="28" stroke="rgba(172,52,56,0.5)" strokeWidth="0.8"/>
-                <path d="M40 14 Q55 27 55 40 Q55 53 40 66 Q25 53 25 40 Q25 27 40 14Z" stroke="rgba(172,52,56,0.5)" strokeWidth="0.5"/>
-                <circle cx="40" cy="14" r="3" fill="rgba(172,52,56,0.5)"/>
-              </svg>
-            )}
+            <Image src={blogImage(featured)} alt={featured.title} fill style={{ objectFit: 'cover' }} priority />
           </div>
           <div className="blog-featured-body">
             <span className="blog-post-cat">{featured.category} · Featured</span>
@@ -126,19 +167,14 @@ export default function BlogPage() {
 
       {/* Post grid */}
       <section className="blog-grid-section">
-        <span className="blog-grid-label">All Posts ({BLOG_POSTS.length})</span>
+        <span className="blog-grid-label">
+          {activeCategory === 'all' ? 'All Posts' : activeLabel} ({posts.length})
+        </span>
         <div className="blog-grid">
           {rest.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-card">
               <div className="blog-card-img">
-                {post.image ? (
-                  <Image src={post.image} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
-                ) : (
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                    <circle cx="24" cy="24" r="16" stroke="rgba(172,52,56,0.5)" strokeWidth="0.7"/>
-                    <circle cx="24" cy="10" r="2" fill="rgba(172,52,56,0.5)"/>
-                  </svg>
-                )}
+                <Image src={blogImage(post)} alt={post.title} fill style={{ objectFit: 'cover' }} />
               </div>
               <div className="blog-card-body">
                 <span className="blog-post-cat">{post.category}</span>

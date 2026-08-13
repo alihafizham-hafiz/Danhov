@@ -17,17 +17,36 @@ interface MetalOption {
 }
 
 function normaliseMetalKey(raw: string): string {
-  return raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const value = raw
+    .toLowerCase()
+    .replace(/[_-]+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const karat = value.match(/\b(14|18)\s*k\b/)?.[1];
+  const isRose = value.includes('rose') || value.includes('pink');
+  const isWhite = value.includes('white');
+  const isYellow = value.includes('yellow') || (!isRose && !isWhite && value.includes('gold'));
+  const isPlatinum = value.includes('plat');
+
+  if (isPlatinum) return 'platinum';
+  if (karat && isRose) return `${karat}k_rose`;
+  if (karat && isWhite) return `${karat}k_white`;
+  if (karat && isYellow) return `${karat}k_yellow`;
+  if (isRose) return 'rose';
+  if (isWhite) return 'white';
+  if (isYellow) return 'yellow';
+  return value.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 }
 
 function parseMetalOption(raw: string): MetalOption {
-  const up = raw.toUpperCase();
-  const karatMatch = up.match(/(\d+)\s*K/);
+  const key = normaliseMetalKey(raw);
+  const karatMatch = key.match(/^(14|18)k_/);
   const karat = karatMatch ? `${karatMatch[1]}K` : '';
-  const isRose = /ROSE/i.test(raw) || /PINK/i.test(raw);
-  const isYellow = /YELLOW/i.test(raw) || (!isRose && /GOLD/i.test(raw) && !/WHITE/i.test(raw));
-  const isWhite = /WHITE/i.test(raw);
-  const isPlatinum = /PLAT/i.test(raw);
+  const isRose = key.includes('rose');
+  const isYellow = key.includes('yellow') || key === 'gold';
+  const isWhite = key.includes('white');
+  const isPlatinum = key === 'platinum';
 
   let name = 'Gold';
   let color = 'linear-gradient(135deg, #e9c463 0%, #c69a3a 100%)';
@@ -37,12 +56,23 @@ function parseMetalOption(raw: string): MetalOption {
   else if (isPlatinum) { name = 'Platinum'; color = 'linear-gradient(135deg, #ecebe7 0%, #babab5 100%)'; }
 
   return {
-    key: normaliseMetalKey(raw),
+    key,
     display: karat ? `${karat} ${name}` : name,
     karat,
     name,
     color,
   };
+}
+
+function concreteMetalKeys(product: Product): string[] {
+  const keys = new Set<string>();
+  for (const [metal, imgs] of Object.entries(product.metal_images ?? {})) {
+    if ((imgs?.length ?? 0) > 0) keys.add(normaliseMetalKey(metal));
+  }
+  if (product.default_metal && (product.images?.length ?? 0) > 0) {
+    keys.add(normaliseMetalKey(product.default_metal));
+  }
+  return Array.from(keys);
 }
 
 // ─── Grouping helpers ──────────────────────────────────────────────────────
@@ -59,7 +89,8 @@ function displayBaseSku(sku: string): string {
 
 // Determine the primary metal for this product variant (for swatch colour)
 function variantPrimaryMetal(p: Product): string | null {
-  if (p.default_metal) return p.default_metal;
+  const concrete = concreteMetalKeys(p);
+  if (concrete.length > 0) return concrete[0];
   const sku = p.sku ?? '';
   const m = sku.match(/-(\d{2})?([a-z]+)$/i);
   if (m) {
@@ -73,7 +104,7 @@ function variantPrimaryMetal(p: Product): string | null {
     };
     if (codeMap[code]) return codeMap[code];
   }
-  return p.metals?.[0] ?? null;
+  return null;
 }
 
 type ProductGroup = {
@@ -102,25 +133,14 @@ function buildGroups(products: Product[], priceMap?: Record<string, number>): Pr
     const seenColors = new Set<string>();
     const swatches: Array<{ metal: MetalOption; slug: string; metalRaw: string }> = [];
     for (const v of variants) {
-      const primaryMetal = variantPrimaryMetal(v);
-      if (!primaryMetal) continue;
-      const opt = parseMetalOption(primaryMetal);
-      if (!seenColors.has(opt.color)) {
-        seenColors.add(opt.color);
-        swatches.push({ metal: opt, slug: v.slug, metalRaw: primaryMetal });
-      }
-    }
-    // Fallback: derive swatches from first variant's metals array
-    if (swatches.length === 0 && variants[0]) {
-      for (const m of (variants[0].metals ?? []).slice(0, 4)) {
-        const opt = parseMetalOption(m);
+      for (const metal of concreteMetalKeys(v)) {
+        const opt = parseMetalOption(metal);
         if (!seenColors.has(opt.color)) {
           seenColors.add(opt.color);
-          swatches.push({ metal: opt, slug: variants[0].slug, metalRaw: m });
+          swatches.push({ metal: opt, slug: v.slug, metalRaw: metal });
         }
       }
     }
-
     let minPrice: number | null = null;
     for (const v of variants) {
       const computed = priceMap?.[v.sku] ?? null;
@@ -368,7 +388,7 @@ export default function SettingBrowser({ products, priceMap, diamondId, diamonds
   const allMetals = useMemo(() => {
     const seen = new Map<string, MetalOption>();
     for (const p of products) {
-      for (const m of (p.metals ?? [])) {
+      for (const m of concreteMetalKeys(p)) {
         const opt = parseMetalOption(m);
         if (!seen.has(opt.key)) seen.set(opt.key, opt);
       }
@@ -378,7 +398,7 @@ export default function SettingBrowser({ products, priceMap, diamondId, diamonds
       const ia = order.indexOf(a.name);
       const ib = order.indexOf(b.name);
       if (ia !== ib) return ia - ib;
-      return Number(b.karat) - Number(a.karat);
+      return (Number(b.karat.replace('K', '')) || 0) - (Number(a.karat.replace('K', '')) || 0);
     });
   }, [products]);
 
@@ -441,7 +461,7 @@ export default function SettingBrowser({ products, priceMap, diamondId, diamonds
     if (activeMetals.size > 0) {
       result = result.filter((g) =>
         g.variants.some((v) =>
-          (v.metals ?? []).some((m) => activeMetals.has(normaliseMetalKey(m)))
+          concreteMetalKeys(v).some((m) => activeMetals.has(m))
         )
       );
     }

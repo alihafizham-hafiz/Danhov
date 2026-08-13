@@ -1,7 +1,7 @@
 /**
  * POST /api/nivoda/order
  *
- * Place a Nivoda order. Called by the Stripe webhook after a DANHOV
+ * Place a Nivoda order. Called after a DANHOV
  * ring-builder deposit is paid — NOT by customer-facing UI.
  *
  * Auth: requires either

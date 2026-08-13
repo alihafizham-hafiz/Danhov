@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
 import BuilderStepper from '@/components/BuilderStepper';
 import DiamondPicker, { type Diamond } from '@/components/DiamondPicker';
 import { cachedSearchDiamonds } from '@/lib/nivoda-cache';
+import { getDiamondMarkups } from '@/lib/diamond-markups';
 import type { NivodaShape } from '@/lib/nivoda';
+import { fetchProductWithPricingBySlug } from '@/lib/products';
+import { requiresCenterStone } from '@/lib/product-purchase-mode';
 import '../builder.css';
 
 export const metadata: Metadata = {
@@ -40,29 +44,31 @@ async function PrefetchedPicker({ searchParams }: { searchParams: Search }) {
 
   let initialItems: Diamond[] = [];
   let initialTotalCount = 0;
-  try {
-    const result = await Promise.race([
+  let diamondMarkups: Record<string, number> = {};
+
+  await Promise.allSettled([
+    Promise.race([
       cachedSearchDiamonds(
         {
           shapes: [initialShape],
           labgrown: false,
-          sizes: { from: 0.5, to: 2.5 },
+          sizes: { from: 0.5, to: 50 },
           color: ['D', 'E', 'F', 'G', 'H'],
           clarity: ['VS1', 'VS2', 'SI1'],
           cut: ['EX', 'ID'],
           availability: 'AVAILABLE',
         },
-        { limit: 24, offset: 0, order: { type: 'price', direction: 'ASC' } }
+        { limit: 50, offset: 0, order: { type: 'price', direction: 'ASC' } }
       ),
       new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error('prefetch timeout')), 2500)
       ),
-    ]);
-    initialItems = (result.result.items ?? []) as Diamond[];
-    initialTotalCount = result.result.total_count ?? 0;
-  } catch {
-    // Timeout or Nivoda unavailable — DiamondPicker fires client fetch
-  }
+    ]).then(result => {
+      initialItems = (result.result.items ?? []) as Diamond[];
+      initialTotalCount = result.result.total_count ?? 0;
+    }),
+    getDiamondMarkups().then(m => { diamondMarkups = m; }),
+  ]);
 
   return (
     <DiamondPicker
@@ -74,6 +80,7 @@ async function PrefetchedPicker({ searchParams }: { searchParams: Search }) {
       orderDiamondIds={searchParams.orderdiamond?.split('|').filter(Boolean)}
       initialItems={initialItems}
       initialTotalCount={initialTotalCount}
+      markups={diamondMarkups}
     />
   );
 }
@@ -122,11 +129,20 @@ function DiamondPickerSkeleton() {
 // The shell (nav, stepper, heading) streams to the browser immediately.
 // The Suspense boundary shows DiamondPickerSkeleton while PrefetchedPicker
 // resolves, then swaps in real diamonds — zero blank screen.
-export default function SelectDiamondPage({
+export default async function SelectDiamondPage({
   searchParams,
 }: {
   searchParams: Search;
 }) {
+  if (searchParams.setting) {
+    const setting = await fetchProductWithPricingBySlug(searchParams.setting);
+    if (setting && !requiresCenterStone(setting.centre_diamond_group)) {
+      const params = new URLSearchParams({ setting: setting.slug, finished: '1' });
+      if (searchParams.metal) params.set('metal', searchParams.metal);
+      redirect(`/ring-builder/review?${params.toString()}`);
+    }
+  }
+
   return (
     <main className="builder-page builder-page--diamond">
       <BuilderStepper
@@ -141,6 +157,14 @@ export default function SelectDiamondPage({
         <span className="section-eyebrow">Step 2 of 3</span>
         <h1 className="section-title">Select your <em>diamond</em></h1>
       </section>
+
+      <div className="diamond-manifesto">
+        <p className="diamond-manifesto-text">
+          No diamond sparkles without being worked.<br />
+          Neither do you.<br />
+          <em>Freedom is on the other side of the work.</em>
+        </p>
+      </div>
 
       <Suspense fallback={<DiamondPickerSkeleton />}>
         <PrefetchedPicker searchParams={searchParams} />

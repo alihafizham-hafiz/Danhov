@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { fetchProductBySlug, fetchActiveProductSlugsByCategory, fetchProductWithPricingBySlug } from '@/lib/products';
+import { fetchProductBySlug, fetchProductSlugsByCategory, fetchProductWithPricingBySlug } from '@/lib/products';
 import { priceAllOptions, computePrice, STATIC_SPOTS, ALL_METALS } from '@/lib/pricing';
 import { stripMetalSuffix } from '@/lib/product-display';
 import { METAL_LABEL_DISPLAY } from '@/lib/stone-math';
@@ -19,9 +19,36 @@ interface Props {
   searchParams: { metal?: string; diamond?: string; diamonds?: string };
 }
 
+type MetalKey = (typeof ALL_METALS)[number];
+
+function isMetalKey(value: string | null | undefined): value is MetalKey {
+  return !!value && (ALL_METALS as readonly string[]).includes(value);
+}
+
+function normaliseMetalKey(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const value = raw
+    .toLowerCase()
+    .replace(/[_-]+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const karat = value.match(/\b(14|18)\s*k\b/)?.[1];
+  const isRose = value.includes('rose') || value.includes('pink');
+  const isWhite = value.includes('white');
+  const isYellow = value.includes('yellow') || (!isRose && !isWhite && value.includes('gold'));
+  const isPlatinum = value.includes('plat');
+
+  if (isPlatinum) return 'platinum';
+  if (karat && isRose) return `${karat}k_rose`;
+  if (karat && isWhite) return `${karat}k_white`;
+  if (karat && isYellow) return `${karat}k_yellow`;
+  return null;
+}
+
 export async function generateStaticParams() {
-  const slugs = await fetchActiveProductSlugsByCategory('engagement');
-  return slugs.map((slug) => ({ slug }));
+  const products = await fetchProductSlugsByCategory('engagement');
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -50,10 +77,23 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
     ? `/ring-builder/setting?diamond=${encodeURIComponent(diamondId)}`
     : '/ring-builder/setting';
 
-  const metals = product.metals ?? [];
-  const preferPlatinum = (ms: string[]): string =>
-    ms.find((m) => /plat/i.test(m)) ?? ms[0] ?? 'platinum';
-  const defaultMetal = searchParams.metal ?? preferPlatinum(metals);
+  const defaultMetalKey = normaliseMetalKey(product.default_metal);
+  const seededMetalImages: Record<string, string[]> = {};
+  for (const [metal, imgs] of Object.entries(product.metal_images ?? {})) {
+    const key = normaliseMetalKey(metal);
+    if (key && (imgs?.length ?? 0) > 0) seededMetalImages[key] = imgs;
+  }
+  if (defaultMetalKey && !(seededMetalImages[defaultMetalKey]?.length) && product.images?.length) {
+    seededMetalImages[defaultMetalKey] = product.images;
+  }
+  const metalsWithImages = ALL_METALS.filter((m) => (seededMetalImages[m]?.length ?? 0) > 0);
+  const requestedMetal = normaliseMetalKey(searchParams.metal);
+  const defaultMetal = isMetalKey(requestedMetal) && metalsWithImages.includes(requestedMetal)
+    ? requestedMetal
+    : isMetalKey(defaultMetalKey) && metalsWithImages.includes(defaultMetalKey)
+    ? defaultMetalKey
+    : metalsWithImages[0] ?? null;
+  const availableMetalCopy = metalsWithImages.map((m) => METAL_LABEL_DISPLAY[m] ?? m).join(' · ');
 
   // Compute live per-metal prices
   let pricemap: Record<string, number> = {};
@@ -76,13 +116,6 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
   const narrative = narrativeResult ?? { narrative: '' };
   const displayName = stripMetalSuffix(product.name);
 
-  // CTA href — if diamond already chosen, go to review; otherwise go to diamond step
-  const selectHref = diamondsParam
-    ? `/ring-builder/review?setting=${encodeURIComponent(params.slug)}&diamonds=${encodeURIComponent(diamondsParam)}`
-    : diamondId
-    ? `/ring-builder/review?setting=${encodeURIComponent(params.slug)}&diamond=${encodeURIComponent(diamondId)}`
-    : `/ring-builder/diamond?setting=${encodeURIComponent(params.slug)}`;
-
   return (
     <main className="builder-page">
       <BuilderStepper current={1} hasSetting={false} hasDiamond={hasDiamond} />
@@ -102,7 +135,7 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
           <div className="product-image-col">
             <ProductGalleryMetal
               defaultImages={product.images ?? []}
-              metalImages={product.metal_images}
+              metalImages={seededMetalImages}
               alt={product.name}
               collection={product.collection}
             />
@@ -127,23 +160,19 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
               slug={product.slug}
               name={product.name}
               collection={product.collection}
-              metals={[...ALL_METALS]}
+              centreDiamondGroup={product.centre_diamond_group}
+              metals={metalsWithImages}
               defaultMetal={defaultMetal}
               images={product.images}
               price_display={product.price_display}
               pricemap={pricemap}
             />
 
-            {product.metals.length > 1 && (
+            {metalsWithImages.length > 1 && (
               <p className="product-metals-line">
-                Also crafted in {product.metals.map((m) => METAL_LABEL_DISPLAY[m] ?? m).join(' · ')}
+                Also crafted in {availableMetalCopy}
               </p>
             )}
-
-            {/* Builder CTA */}
-            <Link href={selectHref} className="btn-solid" style={{ marginTop: 20, display: 'inline-block' }}>
-              {hasDiamond ? 'Select This Setting →' : 'Choose Diamond Next →'}
-            </Link>
 
             <NarrativeBox
               slug={product.slug}

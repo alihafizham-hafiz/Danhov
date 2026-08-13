@@ -22,6 +22,7 @@ interface Props {
   onMetalChange: (m: string) => void;
   diamondId?: string;
   diamondsParam?: string | null;
+  requiresCenterStone: boolean;
 }
 
 function metalColour(raw: string): string {
@@ -60,6 +61,7 @@ export default function SettingDetailClient({
   onMetalChange,
   diamondId,
   diamondsParam,
+  requiresCenterStone,
 }: Props) {
   const router = useRouter();
   // Platinum first, then 18k, then 14k, preserve sub-order within groups
@@ -79,6 +81,12 @@ export default function SettingDetailClient({
   const visibleMetals = showMoreMetals ? productMetals : productMetals.slice(0, 5);
 
   function handleSelect() {
+    if (!requiresCenterStone) {
+      const params = new URLSearchParams({ setting: product.slug, finished: '1' });
+      if (metal) params.set('metal', metal);
+      router.push(`/ring-builder/review?${params.toString()}`);
+      return;
+    }
     if (diamondsParam || diamondId) {
       // One or more diamonds already chosen — go straight to review with all
       const params = new URLSearchParams({ setting: product.slug });
@@ -97,7 +105,9 @@ export default function SettingDetailClient({
   }
 
   function handleBuySettingOnly() {
-    router.push(`/ring-builder/review?setting=${encodeURIComponent(product.slug)}`);
+    const params = new URLSearchParams({ setting: product.slug });
+    if (metal) params.set('metal', metal);
+    router.push(`/ring-builder/review?${params.toString()}`);
   }
 
   function handleSave() {
@@ -197,17 +207,23 @@ export default function SettingDetailClient({
           ) : (
             <span className="sd-price-na">Contact us for pricing</span>
           )}
-          <span className="sd-price-sub">Price only for Setting</span>
+          <span className="sd-price-sub">
+            {requiresCenterStone ? 'Setting price only' : 'Listed stones included'}
+          </span>
         </div>
       </div>
 
       {/* CTAs */}
       <button className="sd-cta-primary" onClick={handleSelect}>
-        {diamondId ? 'Complete This Ring →' : 'Select Setting → Add Diamond'}
+        {requiresCenterStone
+          ? (diamondId ? 'Complete This Ring →' : 'Select Setting → Add Diamond')
+          : 'Buy This Piece →'}
       </button>
-      <button className="sd-cta-secondary sd-cta-setting-only" onClick={handleBuySettingOnly}>
-        Buy Setting Only (No Diamond)
-      </button>
+      {requiresCenterStone && (
+        <button className="sd-cta-secondary sd-cta-setting-only" onClick={handleBuySettingOnly}>
+          Buy Setting Only (No Diamond)
+        </button>
+      )}
       <button className="sd-cta-secondary" onClick={handleSave}>
         {saved ? 'Saved ✓' : 'Save for later'}
       </button>
@@ -236,7 +252,7 @@ export default function SettingDetailClient({
         {descOpen && (
           <div className="sd-accordion-body">
             <p className="sd-desc-text">
-              This {product.collection ?? ''} setting is handcrafted to order in Los Angeles using
+              This {product.collection ?? ''} {requiresCenterStone ? 'setting' : 'piece'} is handcrafted to order in Los Angeles using
               the finest materials. Each piece reflects DANHOV&apos;s commitment to sacred
               geometry and enduring craftsmanship.
             </p>
@@ -263,9 +279,9 @@ export default function SettingDetailClient({
               </tbody>
             </table>
             <p className="sd-desc-note">
-              Note: Setting price does not include the center diamond. Compatible with the
-              shape selected above. Lead time is typically 4–6 weeks after your commission is
-              confirmed.
+              {requiresCenterStone
+                ? 'Note: Setting price does not include the center diamond. Lead time is typically 3 weeks after your commission is confirmed.'
+                : 'Note: The listed price includes the stones described for this finished piece. Lead time is typically 3 weeks after your commission is confirmed.'}
             </p>
           </div>
         )}
@@ -283,4 +299,3 @@ function metalLabel(raw: string): string {
   if (/GOLD/.test(up)) return 'Gold';
   return raw;
 }
-

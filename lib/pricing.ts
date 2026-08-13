@@ -283,11 +283,7 @@ export type PricingInputs = {
   diamond_labor_usd?:      number | null;        // centre-diamond setting labour
   casting_labor_per_gram?: number | null;        // per-gram casting/finishing cost
   custom_labor_usd?:       number | null;        // jewellery labor (hand-set by admin)
-  labor_extras?:           {
-    three_d_run?: number | null;
-    rhodium?: number | null;
-    laser_engraving?: number | null;
-  } | null;                                      // additional labor configured in admin
+  labor_extras?:           { three_d_run?: number | null; rhodium?: number | null; laser_engraving?: number | null } | null;
   stones_value_usd:        number | null;        // override; null → auto from stone_groups
   stone_groups?:           StoneGroup[] | null;  // used when stones_value_usd is null
   commission_rate?:        number | null;        // kept for backward compat; no longer used
@@ -363,16 +359,12 @@ export function computePrice(
     iridiumPerGram,
   );
   const metalCost    = metalWeight * costPerG;
-  const castingLabor = metalWeight * (p.casting_labor_per_gram ?? 0);
-  const rhodium      = 0; // color is not a cost factor — matches admin pricing policy
-  const laborExtras  = p.labor_extras;
-  const labor        =
-    (p.base_labor_usd ?? 0) +
-    (p.diamond_labor_usd ?? 0) +
-    (p.custom_labor_usd ?? 0) +
-    (laborExtras?.three_d_run ?? 0) +
-    (laborExtras?.rhodium ?? 0) +
-    (laborExtras?.laser_engraving ?? 0);
+  const castingLabor  = metalWeight * (p.casting_labor_per_gram ?? 0);
+  const rhodium       = 0; // color is not a cost factor — matches admin pricing policy
+  const extrasTotal   = (p.labor_extras?.three_d_run ?? 30)
+                      + (p.labor_extras?.rhodium ?? 30)
+                      + (p.labor_extras?.laser_engraving ?? 20);
+  const labor         = (p.base_labor_usd ?? 0) + (p.diamond_labor_usd ?? 0) + (p.custom_labor_usd ?? 0) + extrasTotal;
 
   // Stone cost: use override if set, else auto-compute from stone_groups
   let stones = p.stones_value_usd ?? null;
@@ -385,13 +377,10 @@ export function computePrice(
   }
 
   const subTotal    = metalCost + castingLabor + labor + stones + rhodium;
-  // Snap to the nearest standard preset (2 / 3 / 4 / 5). Old DB records may
-  // store non-standard values like 2.2 or 3.5 — treat those as 4, matching
-  // the behaviour of the admin editor.
-  const VALID_MULTIPLIERS = new Set([2, 3, 4, 5]);
-  const markup = p.markup_multiplier != null && VALID_MULTIPLIERS.has(p.markup_multiplier)
-    ? p.markup_multiplier
-    : 4;
+  // Honor any positive multiplier the admin sets — presets (2/3/4/5) as well as
+  // custom values like 2.2 or 3.5. Fall back to 4 only when unset or invalid.
+  const rawMarkup = p.markup_multiplier != null ? Number(p.markup_multiplier) : NaN;
+  const markup = Number.isFinite(rawMarkup) && rawMarkup > 0 ? rawMarkup : 4;
   // Round cost to nearest $10 first, then apply markup — so displayed cost × markup = displayed website price.
   const costRounded = roundTo10(subTotal);
   const total       = costRounded * markup;
@@ -451,23 +440,28 @@ export function formatUsd(n: number): string {
 
 /**
  * Batch-compute default-metal prices for a list of products.
- * Fetches spot prices once (2-hour cache), then runs computePrice for every
- * product that has gold_weight_g or stones_value_usd configured.
+ * Uses static spot prices by default so listing pages can stay cacheable.
+ * Pass `{ live: true }` only from dynamic API/detail flows that need current
+ * metal prices during the request.
  * Returns a map of { sku → total_usd }. Products without pricing data are absent.
  */
 export async function computeListingPriceMap(
   products: Array<PricingInputs & { sku: string; metals?: string[] | null }>,
+  options: { live?: boolean } = {},
 ): Promise<Record<string, number>> {
   const priceable = products.filter(
     p => (p.gold_weight_g ?? 0) > 0 || (p.stones_value_usd ?? 0) > 0,
   );
   if (priceable.length === 0) return {};
   try {
-    const spots = await getAllSpots();
+    const spots = options.live ? await getAllSpots() : STATIC_SPOTS;
     const result: Record<string, number> = {};
     for (const p of priceable) {
       try {
-        result[p.sku] = computePrice(p, spots, p.default_metal).total_usd;
+        // Prefer platinum for consistent pricing; fall back to default_metal
+        const platMetal = p.metals?.find(m => /plat/i.test(m)) ?? null;
+        const effectiveMetal = platMetal ?? p.default_metal;
+        result[p.sku] = computePrice(p, spots, effectiveMetal).total_usd;
       } catch {
         // skip products that fail individual computation
       }

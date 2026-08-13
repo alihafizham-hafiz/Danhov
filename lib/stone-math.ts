@@ -169,22 +169,27 @@ export function caratFromShape(
  * can override this number on the editor if a particular lot was priced
  * differently. Numbers are USD per carat.
  */
+// Calibrated to Nivoda's real NATURAL wholesale prices (sampled July 2026,
+// F–H / VS–SI / EX–VG, median of 50 stones per size). These are the studio's
+// COST per carat; the product markup multiplier is applied on top at retail.
+// Previously these numbers were ~2–8× too high (a rough estimate); now they
+// track Nivoda natural pricing so accent-stone values match the marketplace.
 const PRICE_PER_CT_TIERS: { ct_min: number; price_per_ct_usd: number }[] = [
-  { ct_min: 0.000, price_per_ct_usd: 320 },   // < 0.005 ct (under 1 mm)
-  { ct_min: 0.005, price_per_ct_usd: 480 },   // ~1 mm
-  { ct_min: 0.010, price_per_ct_usd: 620 },   // ~1.4 mm
-  { ct_min: 0.030, price_per_ct_usd: 850 },   // ~2 mm
-  { ct_min: 0.060, price_per_ct_usd: 1100 },  // ~2.5 mm
-  { ct_min: 0.100, price_per_ct_usd: 1500 },  // ~3 mm
-  { ct_min: 0.150, price_per_ct_usd: 2100 },  // ~3.5 mm
-  { ct_min: 0.250, price_per_ct_usd: 2800 },  // ~4 mm
-  { ct_min: 0.400, price_per_ct_usd: 3600 },  // ~4.5 mm
-  { ct_min: 0.500, price_per_ct_usd: 4500 },  // ~5 mm
-  { ct_min: 0.750, price_per_ct_usd: 6500 },  // ~6 mm
-  { ct_min: 1.000, price_per_ct_usd: 9500 },  // ~6.5 mm
-  { ct_min: 1.500, price_per_ct_usd: 13000 },
-  { ct_min: 2.000, price_per_ct_usd: 18000 },
-  { ct_min: 3.000, price_per_ct_usd: 25000 },
+  { ct_min: 0.000, price_per_ct_usd: 300 },   // < 0.005 ct (under 1 mm) — below Nivoda melee inventory
+  { ct_min: 0.005, price_per_ct_usd: 420 },   // ~1 mm
+  { ct_min: 0.010, price_per_ct_usd: 500 },   // ~1.4 mm
+  { ct_min: 0.030, price_per_ct_usd: 560 },   // ~2 mm
+  { ct_min: 0.060, price_per_ct_usd: 580 },   // ~2.5 mm
+  { ct_min: 0.100, price_per_ct_usd: 600 },   // ~3 mm  (Nivoda natural ~$572–793/ct)
+  { ct_min: 0.150, price_per_ct_usd: 620 },   // ~3.5 mm
+  { ct_min: 0.250, price_per_ct_usd: 650 },   // ~4 mm
+  { ct_min: 0.400, price_per_ct_usd: 640 },   // ~4.5 mm
+  { ct_min: 0.500, price_per_ct_usd: 660 },   // ~5 mm  (Nivoda ~$633/ct)
+  { ct_min: 0.750, price_per_ct_usd: 820 },   // ~6 mm  (Nivoda ~$799/ct)
+  { ct_min: 1.000, price_per_ct_usd: 1150 },  // ~6.5 mm (Nivoda ~$1113/ct)
+  { ct_min: 1.500, price_per_ct_usd: 2350 },  // (Nivoda ~$2354/ct)
+  { ct_min: 2.000, price_per_ct_usd: 3950 },  // (Nivoda ~$3928/ct)
+  { ct_min: 3.000, price_per_ct_usd: 7500 },
 ];
 
 export function pricePerCaratFromCt(ct: number): number {
@@ -213,6 +218,7 @@ export const DIAMOND_SHAPES: { slug: string; label: string }[] = [
   { slug: 'heart', label: 'Heart' },
   { slug: 'trillion', label: 'Trillion' },
   { slug: 'baguette', label: 'Baguette' },
+  { slug: 'pearl', label: 'Pearl' },
 ];
 
 /** One spec'd set of stones on a piece.

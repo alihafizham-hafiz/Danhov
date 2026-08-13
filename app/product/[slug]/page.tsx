@@ -27,8 +27,8 @@ type Params = { slug: string };
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  const slugs = await fetchAllActiveProductSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const products = await fetchAllActiveProductSlugs();
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 const CATEGORY_HREF: Record<string, { href: string; label: string }> = {
@@ -37,6 +37,33 @@ const CATEGORY_HREF: Record<string, { href: string; label: string }> = {
   fine: { href: '/fine-jewelry', label: 'Fine Jewelry' },
   mens: { href: '/mens', label: "Men's Jewelry" },
 };
+
+type MetalKey = (typeof ALL_METALS)[number];
+
+function isMetalKey(value: string | null | undefined): value is MetalKey {
+  return !!value && (ALL_METALS as readonly string[]).includes(value);
+}
+
+function normaliseMetalKey(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const value = raw
+    .toLowerCase()
+    .replace(/[_-]+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const karat = value.match(/\b(14|18)\s*k\b/)?.[1];
+  const isRose = value.includes('rose') || value.includes('pink');
+  const isWhite = value.includes('white');
+  const isYellow = value.includes('yellow') || (!isRose && !isWhite && value.includes('gold'));
+  const isPlatinum = value.includes('plat');
+
+  if (isPlatinum) return 'platinum';
+  if (karat && isRose) return `${karat}k_rose`;
+  if (karat && isWhite) return `${karat}k_white`;
+  if (karat && isYellow) return `${karat}k_yellow`;
+  return null;
+}
 
 export async function generateMetadata({
   params,
@@ -110,11 +137,24 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   // Seed metal_images: if the product's default_metal key has no entry in metal_images,
   // store the product's primary images under that key so swatch clicks show the right photo.
-  const defaultMetal = product.default_metal ?? 'platinum';
-  const seededMetalImages: Record<string, string[]> = { ...(product.metal_images ?? {}) };
-  if (defaultMetal && !(seededMetalImages[defaultMetal]?.length) && product.images?.length) {
-    seededMetalImages[defaultMetal] = product.images;
+  const defaultMetalKey = normaliseMetalKey(product.default_metal);
+  const seededMetalImages: Record<string, string[]> = {};
+  for (const [metal, imgs] of Object.entries(product.metal_images ?? {})) {
+    const key = normaliseMetalKey(metal);
+    if (key && (imgs?.length ?? 0) > 0) seededMetalImages[key] = imgs;
   }
+  if (defaultMetalKey && !(seededMetalImages[defaultMetalKey]?.length) && product.images?.length) {
+    seededMetalImages[defaultMetalKey] = product.images;
+  }
+
+  // Only offer metal swatches for metals we actually have photos of — otherwise
+  // clicking a swatch would show the same fallback photo (misleading). Products
+  // without color photos simply show fewer swatches (or none).
+  const metalsWithImages = ALL_METALS.filter(m => (seededMetalImages[m]?.length ?? 0) > 0);
+  const defaultMetal = isMetalKey(defaultMetalKey) && metalsWithImages.includes(defaultMetalKey)
+    ? defaultMetalKey
+    : metalsWithImages[0] ?? null;
+  const availableMetalCopy = metalsWithImages.map((m) => METAL_LABEL_DISPLAY[m] ?? m).join(' · ');
 
   // Approximate price for the Product JSON-LD (display string parses, else 0)
   const priceForLd = parsePrice(product.price_display);
@@ -181,16 +221,17 @@ export default async function ProductPage({ params }: { params: Params }) {
             slug={product.slug}
             name={product.name}
             collection={product.collection}
-            metals={[...ALL_METALS]}
+            centreDiamondGroup={product.centre_diamond_group}
+            metals={metalsWithImages}
             defaultMetal={defaultMetal}
             images={product.images}
             price_display={product.price_display}
             pricemap={pricemap}
           />
 
-          {product.metals.length > 1 && (
+          {metalsWithImages.length > 1 && (
             <p className="product-metals-line">
-              Also crafted in {product.metals.map((m) => METAL_LABEL_DISPLAY[m] ?? m).join(' · ')}
+              Also crafted in {availableMetalCopy}
             </p>
           )}
 
@@ -200,7 +241,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             defaultNarrative={narrative.narrative}
           />
           <p className="product-desc product-desc-sub">
-            Each {displayName} is individually cast, set, and finished by master jewelers in Los Angeles — made to order in your preferred metal and size. Available in {product.metals.length > 0 ? product.metals.join(', ') : '14k or 18k gold (yellow, white, or rose)'}.
+            Each {displayName} is individually cast, set, and finished by master jewelers in Los Angeles — made to order in your preferred metal and size. Available in {availableMetalCopy || 'the metal shown'}.
           </p>
 
           <button

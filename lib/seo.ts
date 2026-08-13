@@ -8,9 +8,23 @@
 
 import type { Product as DanhovProduct } from '@/lib/products';
 
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-  'https://danhov-web.vercel.app';
+function normalizeSiteUrl(value: string | undefined): string {
+  const cleaned = value
+    ?.replace(/\\r|\\n/g, '')
+    .replace(/[\r\n\t ]+/g, '')
+    .replace(/\/+$/, '');
+
+  if (!cleaned) return 'https://danhov.com';
+
+  try {
+    const url = new URL(cleaned);
+    return url.origin;
+  } catch {
+    return 'https://danhov.com';
+  }
+}
+
+export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 export const BRAND = {
   name: 'DANHOV',
@@ -21,7 +35,7 @@ export const BRAND = {
   city: 'Los Angeles',
   region: 'CA',
   country: 'US',
-  phone: process.env.NEXT_PUBLIC_PHONE_TEL || '+18883264687',
+  phone: process.env.NEXT_PUBLIC_PHONE_TEL || '+14244214072',
   email: 'care@danhov.com',
   logo: `${SITE_URL}/danhov-logo-transparent.png`,
 };

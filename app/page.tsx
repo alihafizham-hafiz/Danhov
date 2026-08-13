@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import HomepageScripts from '@/components/HomepageScripts';
 import ScrollToHash from '@/components/ScrollToHash';
 import AIDesignSection from '@/components/AIDesignSection';
 import FindFormSection from '@/components/FindFormSection';
 import CategoryCardsSection from '@/components/CategoryCardsSection';
+import AbbraccioStorySection from '@/components/AbbraccioStorySection';
+import WhyDanhovSection from '@/components/WhyDanhovSection';
 import CoCreateSection from '@/components/CoCreateSection';
 import DailySignpostSection from '@/components/DailySignpostSection';
 import InvitationsMoreSection from '@/components/InvitationsMoreSection';
@@ -25,6 +28,8 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function HomePage() {
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/jack-70/30min';
+
   return (
     <>
       <script
@@ -39,126 +44,78 @@ export default async function HomePage() {
       <HomepageScripts />
       <ScrollToHash />
 
-      {/* ── HERO — light centered design ─────────────────────────── */}
-      <section className="hero">
-        <div className="hero-content">
-          <div className="cinematic-hero">
-            <div className="ch-line ch-silence" id="chLine1">In Silence</div>
-            <div className="ch-line ch-realized" id="chLine2">I realized</div>
-            <div className="ch-line ch-oneness" id="chLine3">the oneness of the universe.</div>
-            <div className="hero-rule" id="chDiv" />
-            <div className="ch-line ch-ring" id="chLine4">The Swirl Self Love Ring</div>
-            <div className="ch-line ch-messaged" id="chLine5">was messaged.</div>
-          </div>
+      {/* ── HERO — cinematic: galaxy → water vortex → Abbraccio reveal.
+             The brand film already carries that arc, so it *is* the hero
+             rather than a section below it (brief §1). ─────────────────── */}
+      <section className="hero hero-cine">
+        <video
+          className="hero-cine-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/danhov-video-poster.jpg"
+          src="/danhov-brand-video.mp4"
+          aria-hidden="true"
+        />
+        {/* Veil — keeps the headline legible over the brightest frames of the
+            vortex without flattening the imagery behind it. */}
+        <div className="hero-cine-veil" aria-hidden="true" />
 
-          <div className="origin-founder" id="heroFounder" style={{ opacity: 0 }}>
-            <div className="origin-founder-line" />
-            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(11px,1.4vw,14px)', letterSpacing: '0.4em', textTransform: 'uppercase', color: '#111111' }}>
-              Jack Hovsepian — Founder, DANHOV — Est. 1984
+        <div className="hero-content hero-cine-inner">
+          <h1 className="hero-headline">
+            <span className="ch-line ch-headline ch-headline-accent" id="chLine1">
+              You Already Are One.
             </span>
-            <div className="origin-founder-line" />
-          </div>
+          </h1>
+          <div className="hero-rule" id="chDiv" />
+          <p className="ch-line ch-philosophy" id="chLine3">
+            Love is remembering.
+          </p>
 
-        </div>
-
-      </section>
-
-      {/* ── BRAND VIDEO ──────────────────────────────────────────── */}
-      <section style={{
-        background: '#0a0806',
-        padding: '0',
-        position: 'relative',
-      }}>
-        {/* video wrapper — natural 16:9, no cropping */}
-        <div style={{ position: 'relative', lineHeight: 0 }}>
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-            poster="/danhov-video-poster.jpg"
-            style={{ width: '100%', height: 'auto', display: 'block' }}
-            src="/danhov-brand-video.mp4"
-          />
-
-          {/* bottom gradient + logo overlay — compact at very bottom */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0, left: 0, right: 0,
-            height: '20%',
-            background: 'linear-gradient(to top, rgba(10,8,6,0.88) 0%, rgba(10,8,6,0.4) 65%, transparent 100%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            padding: '0 0 20px',
-            pointerEvents: 'none',
-            gap: 0,
-          }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/danhov-logo-transparent.png"
-              alt="DANHOV"
-              style={{
-                height: 'clamp(28px, 3.5vw, 52px)',
-                width: 'auto',
-                display: 'block',
-                filter: 'brightness(0) invert(1)',
-              }}
-            />
-            <span style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '0.58rem',
-              letterSpacing: '0.5em',
-              textTransform: 'uppercase',
-              color: '#f2ece4',
-              fontWeight: 600,
-              marginTop: 18,
-            }}>
-              The Art of Seeing
-            </span>
+          <div className="ch-line hero-cine-ctas" id="heroFounder" style={{ opacity: 0 }}>
+            <Link href="/ring-builder" className="hero-cine-cta hero-cine-cta--primary">
+              Build Your Ring
+            </Link>
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-cine-cta hero-cine-cta--ghost"
+            >
+              Book Appointment
+            </a>
           </div>
         </div>
-
       </section>
+
+      {/* ══ PHILOSOPHY ═══════════════════════════════════════════════ */}
+
+      {/* ── THE DANHOV STORY — Abbraccio: one wire → two → one ───── */}
+      <AbbraccioStorySection />
 
       {/* ── A MESSAGE FROM JACK ──────────────────────────────────── */}
       <section style={{
         background: '#0a0806',
-        padding: 'clamp(24px, 4vw, 52px) clamp(24px, 6vw, 80px)',
+        padding: 'clamp(10px, 1.4vw, 18px) clamp(16px, 2vw, 28px)',
         textAlign: 'center',
       }}>
         <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
           fontSize: 'clamp(9px, 1vw, 11px)',
           letterSpacing: '0.38em',
           textTransform: 'uppercase',
           color: 'rgba(242,236,228,0.75)',
-          marginBottom: '1.2em',
+          marginBottom: '0.6em',
         }}>
           A Message from Jack
         </p>
-        <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: 'clamp(13px, 1.5vw, 19px)',
-          fontStyle: 'italic',
-          fontWeight: 300,
-          color: '#f2ece4',
-          lineHeight: 1.75,
-          maxWidth: '720px',
-          margin: '0 auto 1.4em',
-          letterSpacing: '0.02em',
-        }}>
-          &ldquo;In silence, I saw the oneness of the universe&nbsp;&mdash; and that we are not
-          part of it. We <em>are</em> it. There, in that stillness, I caught the design
-          of the ring, which is the universe itself. And self&nbsp;love was messaged to me:
-          that the kingdom of heaven is not out there, somewhere to be searched for.
-          It is inside us. I was only the one it came through&nbsp;&mdash; messaged to gift
-          it to humanity, as the Self&nbsp;Love Ring.&rdquo;
+        <p className="jack-quote">
+          &ldquo;In silence, I saw the oneness of the universe&nbsp;&mdash; and that we are not part of it. We <em>are</em> it. There, in that stillness, I caught the design of the ring, which is the universe itself. The kingdom of heaven is not out there to be searched for&nbsp;&mdash; it is inside us. I was only the one it came through, to gift it to humanity as the Self&nbsp;Love Ring.&rdquo;
         </p>
         <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
           fontSize: 'clamp(9px, 0.95vw, 11px)',
           letterSpacing: '0.35em',
           textTransform: 'uppercase',
@@ -171,14 +128,10 @@ export default async function HomePage() {
       {/* ── DAILY SIGNPOST ───────────────────────────────────────── */}
       <DailySignpostSection />
 
-      {/* ── DESIGN IN SILENCE — 4-step process ───────────────────── */}
-      <CoCreateSection />
-
-      {/* ── AI DESIGN SECTION ────────────────────────────────────── */}
-      <AIDesignSection />
-
-      {/* ── FIND YOUR FORM (DIAMOND SHAPES) ──────────────────────── */}
-      <FindFormSection />
+      {/* ── CRAFT & TRUST ────────────────────────────────────────── */}
+      <HeritageSection />
+      {/* ── WHY DANHOV — value proposition ───────────────────────── */}
+      <WhyDanhovSection />
 
       {/* ── FEATURED IN ──────────────────────────────────────────── */}
       <div className="featured-eyebrow">AS SEEN IN</div>
@@ -227,14 +180,25 @@ export default async function HomePage() {
       {/* ── ENGAGEMENT RINGS — collection cards with Life Path ───── */}
       <CategoryCardsSection />
 
+      {/* ── DESIGN IN SILENCE — 4-step process ───────────────────── */}
+      <CoCreateSection />
+
+      {/* ── AI DESIGN SECTION ────────────────────────────────────── */}
+      <AIDesignSection />
+
+      {/* ── FIND YOUR FORM (DIAMOND SHAPES) ──────────────────────── */}
+      <FindFormSection />
+
       {/* ── COUPLE PROOF — real testimonials ─────────────────────── */}
       <TrustProofSection />
+
+      {/* ══ APPOINTMENT BOOKING — closes the flow (brief §3). The id also
+             gives Nav's existing /#appointment link a real target. ═════ */}
+      <div id="appointment" />
 
       {/* ── WHAT WE OFFER ────────────────────────────────────────── */}
       <InvitationsMoreSection />
 
-      {/* ── CRAFT & TRUST ────────────────────────────────────────── */}
-      <HeritageSection />
     </>
   );
 }

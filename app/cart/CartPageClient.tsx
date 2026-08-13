@@ -7,15 +7,18 @@ import { useRouter } from 'next/navigation';
 import { useCart, formatUsd } from '@/components/CartProvider';
 import { createClient } from '@/lib/supabase/client';
 import { stripMetalSuffix } from '@/lib/product-display';
+import { SHIPPING_FEE_USD } from '@/lib/shipping';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function CartPageClient() {
+type Method = 'card' | 'bank';
+
+export default function CartPageClient({ bankEnabled }: { bankEnabled?: boolean }) {
   const router = useRouter();
   void router;
   const { items, count, subtotal, removeItem, setQty, clear } = useCart();
   const [email, setEmail] = useState<string>('');
-  const [checkoutPending, setCheckoutPending] = useState(false);
+  const [checkoutPending, setCheckoutPending] = useState<Method | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,14 +38,15 @@ export default function CartPageClient() {
   }, []);
 
   const emailValid = EMAIL_RE.test(email.trim());
+  const orderTotal = subtotal > 0 ? subtotal + SHIPPING_FEE_USD : 0;
 
-  async function startCheckout() {
+  async function startCheckout(method: Method = 'card') {
     if (!emailValid) {
       setCheckoutError('Please enter your email so we can send your order confirmation.');
       return;
     }
     if (items.length === 0) return;
-    setCheckoutPending(true);
+    setCheckoutPending(method);
     setCheckoutError(null);
     try {
       const res = await fetch('/api/cart/checkout', {
@@ -50,6 +54,7 @@ export default function CartPageClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim().toLowerCase(),
+          method,
           items: items.map((it) => ({
             sku: it.sku,
             slug: it.slug,
@@ -68,13 +73,13 @@ export default function CartPageClient() {
         setCheckoutError(
           payload.error || 'We couldn’t open the secure checkout. Please try again.'
         );
-        setCheckoutPending(false);
+        setCheckoutPending(null);
         return;
       }
       window.location.href = payload.url;
     } catch {
       setCheckoutError('We couldn’t reach the checkout server. Please try again.');
-      setCheckoutPending(false);
+      setCheckoutPending(null);
     }
   }
 
@@ -312,9 +317,9 @@ export default function CartPageClient() {
               <span>Subtotal ({count} {count === 1 ? 'item' : 'items'})</span>
               <span>{subtotal > 0 ? formatUsd(subtotal) : 'Inquire'}</span>
             </div>
-            <div className="cart-summary-row cart-summary-row--muted">
+            <div className="cart-summary-row">
               <span>Shipping</span>
-              <span>Calculated at checkout</span>
+              <span>{formatUsd(SHIPPING_FEE_USD)}</span>
             </div>
             <div className="cart-summary-row cart-summary-row--muted">
               <span>Tax</span>
@@ -323,7 +328,7 @@ export default function CartPageClient() {
             <div className="cart-summary-rule" />
             <div className="cart-summary-row cart-summary-row--total">
               <span>Estimated total</span>
-              <span>{subtotal > 0 ? formatUsd(subtotal) : 'Inquire'}</span>
+              <span>{orderTotal > 0 ? formatUsd(orderTotal) : 'Inquire'}</span>
             </div>
 
             <label className="cart-summary-email">
@@ -341,13 +346,26 @@ export default function CartPageClient() {
             <button
               type="button"
               className="btn-primary cart-summary-cta"
-              onClick={startCheckout}
-              disabled={checkoutPending || items.length === 0 || !emailValid}
+              onClick={() => startCheckout('card')}
+              disabled={checkoutPending !== null || items.length === 0 || !emailValid}
             >
-              {checkoutPending
+              {checkoutPending === 'card'
                 ? 'Opening secure checkout…'
-                : `Place Order ${subtotal > 0 ? `· ${formatUsd(subtotal)}` : ''}`}
+                : `Place Order ${orderTotal > 0 ? `· ${formatUsd(orderTotal)}` : ''}`}
             </button>
+
+            {bankEnabled && (
+              <button
+                type="button"
+                className="btn-solid cart-summary-cta"
+                onClick={() => startCheckout('bank')}
+                disabled={checkoutPending !== null || items.length === 0 || !emailValid}
+              >
+                {checkoutPending === 'bank'
+                  ? 'Preparing instructions…'
+                  : 'Pay by Bank Transfer (ACH)'}
+              </button>
+            )}
 
             {checkoutError && (
               <p className="cart-summary-err" role="alert">{checkoutError}</p>
@@ -363,7 +381,7 @@ export default function CartPageClient() {
             <p className="cart-summary-note">
               Each DANHOV piece is handcrafted to order in Los Angeles — your
               specialist confirms timeline within one business day of payment.
-              Payments processed securely via Stripe.
+              Payments processed securely via Authorize.Net.
             </p>
           </div>
         </aside>

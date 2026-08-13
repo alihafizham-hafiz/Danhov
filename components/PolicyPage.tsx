@@ -61,7 +61,7 @@ export default function PolicyPage({
           <p>Questions? We&apos;re here to help.</p>
           <div className="prose-cta-actions">
             <a href="mailto:care@danhov.com" className="btn-primary">Email care@danhov.com</a>
-            <a href="tel:+18883264687" className="btn-solid">(888) 326-4687</a>
+            <a href="tel:+14244214072" className="btn-solid">(424) 421-4072</a>
           </div>
         </section>
       </main>

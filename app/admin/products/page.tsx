@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { requireAdmin } from '@/lib/admin-auth';
 import { createServiceClient } from '@/lib/supabase/server';
 import PaginationControls from '@/components/admin/PaginationControls';
+import AdminSearchBar from '@/components/admin/AdminSearchBar';
+import { resolveProductImage } from '@/lib/local-product-images';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +35,10 @@ function timeAgo(iso: string | null): string {
   return `${days}d ago`;
 }
 
+function productThumb(row: ProductRow): string | null {
+  return resolveProductImage(row.sku, row.images);
+}
+
 export default async function AdminProductsPage({ searchParams }: { searchParams: Search }) {
   await requireAdmin();
   const sb = createServiceClient();
@@ -49,7 +55,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
   if (searchParams.category) query = query.eq('category', searchParams.category);
   if (searchParams.q) {
     const q = searchParams.q.trim();
-    query = query.or(`sku.ilike.%${q}%,name.ilike.%${q}%,collection.ilike.%${q}%`);
+    query = query.ilike('sku', `${q}%`);
   }
 
   const { data: products, count } = await query.range(offset, offset + perPage - 1);
@@ -114,20 +120,16 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
       </div>
 
       {/* Search toolbar */}
-      <form className="adm-toolbar" method="get" action="/admin/products">
-        {searchParams.category && <input type="hidden" name="category" value={searchParams.category} />}
-        <input type="hidden" name="per_page" value={String(perPage)} />
-        <input
-          name="q"
-          defaultValue={searchParams.q ?? ''}
-          placeholder="Search SKU, name, collection…"
-          className="adm-input adm-toolbar-search"
+      <div className="adm-toolbar">
+        <AdminSearchBar
+          defaultValue={searchParams.q}
+          category={searchParams.category}
+          perPage={perPage}
         />
-        <button type="submit" className="adm-btn adm-btn-primary">Search</button>
         {(searchParams.q || searchParams.category) && (
           <Link href="/admin/products" className="adm-link">Reset</Link>
         )}
-      </form>
+      </div>
 
       {/* Products table */}
       <div className="adm-card adm-card--flush">
@@ -147,7 +149,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
           </thead>
           <tbody>
             {list.map((p) => {
-              const hero = p.images?.[0] ?? null;
+              const hero = productThumb(p);
               return (
                 <tr key={p.sku}>
                   <td className="adm-cell-thumb">

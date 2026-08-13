@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Suspense } from 'react';
-import { headers } from 'next/headers';
+import { Analytics } from '@vercel/analytics/next';
 import { Cormorant_Garamond } from 'next/font/google';
 
 const cormorant = Cormorant_Garamond({
@@ -8,17 +7,9 @@ const cormorant = Cormorant_Garamond({
   weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   display: 'swap',
+  variable: '--font-cormorant',
 });
-import dynamic from 'next/dynamic';
-import Nav from '@/components/Nav';
-import Footer from '@/components/Footer';
-import Cursor from '@/components/Cursor';
-import { CartProvider } from '@/components/CartProvider';
-import WishlistProvider from '@/components/WishlistProvider';
-import CartDrawer from '@/components/CartDrawer';
-import ScrollTopOnRoute from '@/components/ScrollTopOnRoute';
-
-const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false });
+import PublicChrome from '@/components/PublicChrome';
 import { buildOrganization, jsonLdScript, SITE_URL } from '@/lib/seo';
 import './globals.css';
 
@@ -106,42 +97,20 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // The middleware sets `x-pathname` on every request. /admin/* routes are
-  // a self-contained app — they shouldn't be wrapped in the public site
-  // chrome (nav, footer, custom cursor, floating chat widget).
-  const path = headers().get('x-pathname') ?? '';
-  const isAdmin = path.startsWith('/admin');
-
   return (
-    <html lang="en" className={cormorant.className}>
+    <html lang="en" className={`${cormorant.className} ${cormorant.variable}`}>
       <head>
-        {!isAdmin && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={jsonLdScript(buildOrganization())}
-          />
-        )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdScript(buildOrganization())}
+        />
       </head>
       <body>
-        {isAdmin ? (
-          children
-        ) : (
-          <CartProvider>
-            <WishlistProvider>
-            <Suspense fallback={null}>
-              <ScrollTopOnRoute />
-            </Suspense>
-            <Cursor />
-            <Nav />
-            <div className="route-content">{children}</div>
-            <Footer />
-            <CartDrawer />
-            <Suspense fallback={null}>
-              <ChatWidget />
-            </Suspense>
-            </WishlistProvider>
-          </CartProvider>
-        )}
+        <PublicChrome>{children}</PublicChrome>
+        {/* Baseline instrumentation. Without this none of the success metrics
+            in the brief (conversion, engagement time, bookings) are measurable.
+            Loaded for storefront and admin alike; it is cookieless. */}
+        <Analytics />
       </body>
     </html>
   );

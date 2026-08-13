@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ const NAV: { href: string; label: string; icon: React.ReactNode }[] = [
   { href: '/admin', label: 'Dashboard', icon: <DashIcon /> },
   { href: '/admin/accounting', label: 'Accounting', icon: <ChartIcon /> },
   { href: '/admin/products', label: 'Products', icon: <RingIcon /> },
+  { href: '/admin/diamonds', label: 'Diamonds', icon: <DiamondIcon /> },
   { href: '/admin/orders', label: 'Orders', icon: <CartIcon /> },
   { href: '/admin/customers', label: 'Customers', icon: <UserIcon /> },
   { href: '/admin/consultations', label: 'Consultations', icon: <CalendarIcon /> },
@@ -29,7 +30,17 @@ export default function AdminShell({
 }) {
   const path = usePathname();
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function openNav() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setNavOpen(true);
+  }
+
+  function scheduleClose() {
+    closeTimer.current = setTimeout(() => setNavOpen(false), 120);
+  }
 
   async function signOut() {
     const supabase = createBrowserClient();
@@ -39,10 +50,15 @@ export default function AdminShell({
   }
 
   return (
-    <div className={`adm-shell${mobileOpen ? ' is-open' : ''}`}>
-      {/* Sidebar */}
-      <aside className="adm-sidebar">
-        <Link href="/admin" className="adm-brand">
+    <div className="adm-shell">
+
+      {/* Fly-in sidebar */}
+      <aside
+        className={`adm-sidebar${navOpen ? ' is-open' : ''}`}
+        onMouseEnter={openNav}
+        onMouseLeave={scheduleClose}
+      >
+        <Link href="/admin" className="adm-brand" onClick={() => setNavOpen(false)}>
           <Image
             src="/danhov-logo-transparent.png"
             alt="Danhov"
@@ -64,7 +80,7 @@ export default function AdminShell({
                 key={n.href}
                 href={n.href}
                 className={`adm-navlink${active ? ' is-active' : ''}`}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => setNavOpen(false)}
               >
                 <span className="adm-navlink-icon">{n.icon}</span>
                 <span>{n.label}</span>
@@ -79,16 +95,36 @@ export default function AdminShell({
         </div>
       </aside>
 
-      {/* Header bar (mobile burger + user) */}
+      {/* Scrim */}
+      {navOpen && (
+        <div
+          className="adm-scrim is-open"
+          onClick={() => setNavOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Header */}
       <header className="adm-header">
         <button
           type="button"
-          className="adm-burger"
-          aria-label="Toggle navigation"
-          onClick={() => setMobileOpen((v) => !v)}
+          className={`adm-burger${navOpen ? ' is-open' : ''}`}
+          aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
+          onMouseEnter={openNav}
+          onMouseLeave={scheduleClose}
         >
           <span /><span /><span />
         </button>
+        <Link href="/admin" className="adm-header-brand">
+          <Image
+            src="/danhov-logo-transparent.png"
+            alt="Danhov"
+            width={110}
+            height={20}
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Link>
         <div className="adm-header-spacer" />
         <div className="adm-user">
           <span className="adm-user-email">{admin.email}</span>
@@ -97,13 +133,6 @@ export default function AdminShell({
           </button>
         </div>
       </header>
-
-      {/* Scrim for mobile */}
-      <div
-        className="adm-scrim"
-        onClick={() => setMobileOpen(false)}
-        aria-hidden="true"
-      />
 
       <main className="adm-main">{children}</main>
     </div>
@@ -185,6 +214,14 @@ function AffIcon() {
       <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.8"/>
       <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
       <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+    </svg>
+  );
+}
+function DiamondIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M2 7.5L5.5 3H14.5L18 7.5L10 17.5L2 7.5Z" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round" />
+      <path d="M2 7.5H18M5.5 3L10 7.5L14.5 3" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round" />
     </svg>
   );
 }

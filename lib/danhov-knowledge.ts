@@ -73,7 +73,7 @@ Every piece is made to order. Customisable:
 - Metal — 14k or 18k, in yellow / white / rose.
 - Stones — diamond cut, colour, clarity, carat; gemstone alternatives available.
 - Engraving — inside the band, complimentary, up to 25 characters.
-Lead time: typically 4–6 weeks. Rush orders considered case by case.
+Lead time: typically 3 weeks. Rush orders considered case by case.
 
 ────────────────────────────────────────────────────────────────────────
 DIAMOND & GEMSTONE GUIDANCE
@@ -133,7 +133,7 @@ SHIPPING & RETURNS
 
 - Domestic (US): complimentary, fully insured, FedEx Priority Overnight. Signature required.
 - International: white-glove, fully insured, hand-delivered where possible.
-- Production + delivery: 4–6 weeks from confirmed order.
+- Production + delivery: 3 weeks from confirmed order.
 - 30-day return policy on non-customised pieces (full refund to original payment).
 - Custom or personalised pieces: returns evaluated case-by-case.
 
@@ -159,7 +159,7 @@ BRAND PHILOSOPHY (the spiritual heart — weave naturally, never force)
 ────────────────────────────────────────────────────────────────────────
 CONTACT
 
-- Phone:  1 (888) DANHOV-7
+- Phone:  (424) 421-4072
 - Email:  care@danhov.com
 - Atelier: Los Angeles, California (private appointment only)
 

@@ -180,7 +180,7 @@ export default function PrintInvoice({ order, product, spec, centerDiamond }: Pr
           onClick={() => window.print()}
           style={{
             background: '#AC3438', color: '#fff', border: 'none',
-            padding: '10px 24px', fontFamily: "'Cormorant Garamond', serif",
+            padding: '10px 24px', fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
             fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase',
             cursor: 'pointer', borderRadius: 4,
           }}
@@ -209,7 +209,7 @@ export default function PrintInvoice({ order, product, spec, centerDiamond }: Pr
               <b>DANHOV Atelier</b><br />
               3439 Cahuenga Blvd W<br />
               Los Angeles, CA 90068<br />
-              cs@danhov.com · (888) 326-4687
+              care@danhov.com · (424) 421-4072
             </div>
           </div>
           <div className="invoice-party">
@@ -229,10 +229,10 @@ export default function PrintInvoice({ order, product, spec, centerDiamond }: Pr
 
         <div className="invoice-section">
           <div className="invoice-section-title">Order Details</div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontStyle: 'italic', color: '#1a1410', marginBottom: 4 }}>
+          <div style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", fontSize: 22, fontStyle: 'italic', color: '#1a1410', marginBottom: 4 }}>
             {stripMetalSuffix(product.name)}
           </div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: '0.1em', color: '#1a1410', textTransform: 'uppercase', marginBottom: 16 }}>
+          <div style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", fontSize: 11, letterSpacing: '0.1em', color: '#1a1410', textTransform: 'uppercase', marginBottom: 16 }}>
             {[product.collection, `Model ${product.sku}`].filter(Boolean).join(' · ')}
           </div>
 

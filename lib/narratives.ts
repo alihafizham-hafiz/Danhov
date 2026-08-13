@@ -71,6 +71,11 @@ Reply as STRICT JSON:
   "meta": "..."
 }`;
 
+function narrativeGenerationEnabled(): boolean {
+  const flag = process.env.NARRATIVE_GENERATION_ENABLED;
+  return flag === '1' || flag?.toLowerCase() === 'true';
+}
+
 export async function getOrGenerateNarrative(
   product: Product,
   occasion: Occasion
@@ -102,7 +107,7 @@ export async function getOrGenerateNarrative(
   // Next request will hit the cache and get the richer version.
   const occMeta = OCCASIONS.find((o) => o.value === occasion) || OCCASIONS[0];
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (apiKey) {
+  if (apiKey && narrativeGenerationEnabled()) {
     (async () => {
       try {
         const anthropic = new Anthropic({ apiKey });
@@ -136,7 +141,8 @@ Write the narrative + meta now.`;
           );
         }
       } catch (e) {
-        console.error('narrative background generation failed', e);
+        const message = e instanceof Error ? e.message : String(e);
+        console.warn('narrative background generation skipped:', message);
       }
     })();
   }

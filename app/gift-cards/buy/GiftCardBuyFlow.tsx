@@ -139,7 +139,7 @@ export default function GiftCardBuyFlow() {
   const recipientEmail = form.forSelf ? form.senderEmail : form.recipientEmail;
 
   return (
-    <div style={{ fontFamily: "'Cormorant Garamond', serif", minHeight: '100vh', background: '#faf6f1' }}>
+    <div style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", minHeight: '100vh', background: '#faf6f1' }}>
       <style>{`
         .gcb-wrap { max-width: 700px; margin: 0 auto; padding: 88px 24px 80px; }
         .gcb-breadcrumb {
@@ -624,7 +624,7 @@ export default function GiftCardBuyFlow() {
             </div>
 
             <p style={{ fontSize: 11, color: '#9c8f86', textAlign: 'center', marginTop: 16 }}>
-              Secure checkout powered by Stripe. Gift cards are non-refundable.
+              Secure checkout powered by Authorize.Net. Gift cards are non-refundable.
             </p>
           </div>
         )}

@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<string, string> = {
 const STATUS_DESCRIPTIONS: Record<string, string> = {
   pending:       'Your order has been received and is being confirmed.',
   deposit_paid:  'Your order is confirmed. Your piece is being scheduled for production.',
-  in_production: 'Our master jewelers in Los Angeles are handcrafting your piece. Estimated 4–6 weeks from this stage.',
+  in_production: 'Our master jewelers in Los Angeles are handcrafting your piece. Estimated 3 weeks from this stage.',
   shipped:       'Your piece has left our Los Angeles atelier via FedEx Priority Overnight, fully insured.',
   delivered:     'Your DANHOV piece has been delivered. We hope it brings you joy for a lifetime.',
   cancelled:     'This order has been cancelled. Please contact care@danhov.com if you have questions.',

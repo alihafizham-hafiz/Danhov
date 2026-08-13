@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { diamondCategoryKey } from '@/lib/diamond-categories';
 
 // ── Diamond media: still image + loupe360 360° viewer on hover ───────────
 // Brilliant Earth carbon-copy. Nivoda's `video` field is a loupe360 viewer
@@ -181,16 +182,16 @@ export type ShapeT =
 
 type Shape = 'ROUND' | 'OVAL' | 'PRINCESS' | 'CUSHION' | 'EMERALD' | 'PEAR' | 'HEART' | 'MARQUISE' | 'RADIANT' | 'ASSCHER';
 type Color = 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K';
-type FancyColor = 'YELLOW' | 'PINK' | 'BLUE' | 'GREEN' | 'ORANGE' | 'PURPLE' | 'BROWN' | 'GREY';
+type FancyColor = 'Yellow' | 'Pink' | 'Blue' | 'Green' | 'Orange' | 'Purple' | 'Brown' | 'Grey';
 const FANCY_COLORS: { value: FancyColor; label: string; dot: string }[] = [
-  { value: 'YELLOW',  label: 'Yellow',  dot: '#e9c463' },
-  { value: 'PINK',    label: 'Pink',    dot: '#f1b7a3' },
-  { value: 'BLUE',    label: 'Blue',    dot: '#7eb8e0' },
-  { value: 'GREEN',   label: 'Green',   dot: '#8bc98e' },
-  { value: 'ORANGE',  label: 'Orange',  dot: '#e8914a' },
-  { value: 'PURPLE',  label: 'Purple',  dot: '#b089c8' },
-  { value: 'BROWN',   label: 'Cognac',  dot: '#a07850' },
-  { value: 'GREY',    label: 'Grey',    dot: '#b0aea8' },
+  { value: 'Yellow',  label: 'Yellow',  dot: '#e9c463' },
+  { value: 'Pink',    label: 'Pink',    dot: '#f1b7a3' },
+  { value: 'Blue',    label: 'Blue',    dot: '#7eb8e0' },
+  { value: 'Green',   label: 'Green',   dot: '#8bc98e' },
+  { value: 'Orange',  label: 'Orange',  dot: '#e8914a' },
+  { value: 'Purple',  label: 'Purple',  dot: '#b089c8' },
+  { value: 'Brown',   label: 'Cognac',  dot: '#a07850' },
+  { value: 'Grey',    label: 'Grey',    dot: '#b0aea8' },
 ];
 type Clarity = 'FL' | 'IF' | 'VVS1' | 'VVS2' | 'VS1' | 'VS2' | 'SI1' | 'SI2';
 type Cut = 'EX' | 'ID' | 'VG' | 'G';
@@ -412,11 +413,20 @@ type Props = {
   inOrderOfferId?: string;
   /** Offer IDs already in the current order (ADD mode) — shows "In Your Order" badge, cannot be un-reserved. Selecting a new stone appends to this list. */
   orderDiamondIds?: string[];
+  /** Per-category markup multipliers from the diamond_markups table. Falls back to 2.3× if not provided. */
+  markups?: Record<string, number>;
 };
+
+function getMarkup(isLabgrown: boolean, fancyColors: string[], markups?: Record<string, number>): number {
+  const m = markups ?? {};
+  const key = diamondCategoryKey(isLabgrown, fancyColors[0]);
+  // Fall back sensibly if a specific fancy key is unset: lab_fancy_* → lab_grown, fancy_* → natural
+  return m[key] ?? (isLabgrown ? m.lab_grown : m.natural) ?? 2.3;
+}
 
 const VALID_SHAPES: Shape[] = ['ROUND', 'OVAL', 'PRINCESS', 'CUSHION', 'EMERALD', 'PEAR', 'HEART', 'MARQUISE', 'RADIANT', 'ASSCHER'];
 
-export default function DiamondPicker({ settingSlug, metal, onSelected, initialOfferId, initialItems, initialTotalCount, existingOfferId, inOrderOfferId, orderDiamondIds }: Props) {
+export default function DiamondPicker({ settingSlug, metal, onSelected, initialOfferId, initialItems, initialTotalCount, existingOfferId, inOrderOfferId, orderDiamondIds, markups }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   // Honour a ?shape= deep link from the homepage shape tiles so the
@@ -428,10 +438,9 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
   })();
   const [shape, setShape] = useState<Shape>(initialShape);
   const [labgrown, setLabgrown] = useState<boolean>(false);
-  const [fancyMode, setFancyMode] = useState<boolean>(false);
   const [fancyColors, setFancyColors] = useState<FancyColor[]>([]);
   const [caratMin, setCaratMin] = useState<number>(0.5);
-  const [caratMax, setCaratMax] = useState<number>(2.5);
+  const [caratMax, setCaratMax] = useState<number>(50);
   const [colors, setColors] = useState<Color[]>(['D', 'E', 'F', 'G', 'H']);
   const [clarities, setClarities] = useState<Clarity[]>(['VS1', 'VS2', 'SI1']);
   const [cuts, setCuts] = useState<Cut[]>(['EX', 'ID']);
@@ -454,16 +463,17 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
   const [unreservedIds, setUnreservedIds] = useState<Set<string>>(new Set());
 
   const sessionId = useMemo(() => ensureSessionId(), []);
-  const PAGE_SIZE = 24;
+  const PAGE_SIZE = 50; // Nivoda's hard per-request maximum
 
   function toggle<T>(arr: T[], v: T): T[] {
     return arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
   }
 
   // Reset offset when filters change
+  const fancyMode = fancyColors.length > 0;
   const filterSignature = useMemo(
-    () => JSON.stringify({ shape, labgrown, fancyMode, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir }),
-    [shape, labgrown, fancyMode, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir]
+    () => JSON.stringify({ shape, labgrown, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir }),
+    [shape, labgrown, fancyColors, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir]
   );
   useEffect(() => {
     setOffset(0);
@@ -482,13 +492,25 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
     setLoading(true);
     setErr(null);
 
-    const body = {
+    // Fancy colored diamonds use different fields — clarity/cut grades don't
+    // apply the same way, and the inventory is smaller so we cast a wide net.
+    const body = fancyMode ? {
+      filters: {
+        shapes: [shape],
+        labgrown,
+        color: ['FANCY'] as string[],
+        ...(fancyColors.length > 0 ? { fancyColor: fancyColors as string[] } : {}),
+        availability: 'AVAILABLE' as const,
+      },
+      limit: 50,
+      offset,
+      order: { type: sortField, direction: sortDir },
+    } : {
       filters: {
         shapes: [shape],
         labgrown,
         sizes: { from: caratMin, to: caratMax },
-        color: fancyMode ? (['FANCY'] as string[]) : (colors as string[]),
-        ...(fancyMode && fancyColors.length > 0 ? { fancy_colour: fancyColors as string[] } : {}),
+        color: colors as string[],
         clarity: clarities,
         cut: cuts,
         availability: 'AVAILABLE' as const,
@@ -512,7 +534,8 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
           throw new Error(msg);
         }
         const data = await r.json();
-        setItems((data.items as Diamond[]) ?? []);
+        const incoming = (data.items as Diamond[]) ?? [];
+        setItems(prev => offset === 0 ? incoming : [...prev, ...incoming]);
         setTotalCount(Number(data.total_count) || 0);
       })
       .catch((e) => {
@@ -580,11 +603,11 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
     if (settingSlug) qs.set('setting', settingSlug);
     if (holdId) qs.set('hold', holdId);
     if (metal) qs.set('metal', metal);
+    // Carry the markup category so the review page prices the stone identically
+    qs.set('dcat', diamondCategoryKey(labgrown, fancyColors[0]));
     router.push(`/ring-builder/review?${qs.toString()}`);
   }
 
-  const page = Math.floor(offset / PAGE_SIZE);
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
   return (
     <div className="be-picker">
@@ -676,7 +699,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
                 <label>
                   <span>From</span>
                   <input
-                    type="number" step="0.1" min="0.1" max="30"
+                    type="number" step="0.1" min="0.1" max="50"
                     value={caratMin}
                     onChange={(e) => setCaratMin(Math.max(0.1, Number(e.target.value)))}
                   />
@@ -684,7 +707,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
                 <label>
                   <span>To</span>
                   <input
-                    type="number" step="0.1" min="0.1" max="30"
+                    type="number" step="0.1" min="0.1" max="50"
                     value={caratMax}
                     onChange={(e) => setCaratMax(Math.max(caratMin, Number(e.target.value)))}
                   />
@@ -696,49 +719,36 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
           <details className="be-facet" open>
             <summary className="be-facet-head">Color</summary>
             <div className="be-facet-body">
-              <div className="be-fancy-toggle">
-                <button
-                  type="button"
-                  className={`be-chip${!fancyMode ? ' is-active' : ''}`}
-                  onClick={() => setFancyMode(false)}
-                >White</button>
-                <button
-                  type="button"
-                  className={`be-chip${fancyMode ? ' is-active' : ''}`}
-                  onClick={() => setFancyMode(true)}
-                >
-                  <span className="be-fancy-dot" />
-                  Fancy Color
-                </button>
+              <p className="be-color-label">White</p>
+              <div className={`be-chip-row${fancyMode ? ' be-chip-row--muted' : ''}`}>
+                {COLORS.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`be-chip${!fancyMode && colors.includes(c) ? ' is-active' : ''}`}
+                    onClick={() => { setFancyColors([]); setColors(toggle(colors, c)); }}
+                  >
+                    {c}
+                  </button>
+                ))}
               </div>
-              {!fancyMode ? (
-                <div className="be-chip-row">
-                  {COLORS.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      className={`be-chip${colors.includes(c) ? ' is-active' : ''}`}
-                      onClick={() => setColors(toggle(colors, c))}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="be-chip-row be-chip-row--fancy">
-                  {FANCY_COLORS.map((fc) => (
-                    <button
-                      key={fc.value}
-                      type="button"
-                      className={`be-chip be-chip--fancy${fancyColors.includes(fc.value) ? ' is-active' : ''}`}
-                      onClick={() => setFancyColors(toggle(fancyColors, fc.value))}
-                    >
-                      <span className="be-fancy-swatch" style={{ background: fc.dot }} />
-                      {fc.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <p className="be-color-label be-color-label--fancy">
+                <span className="be-fancy-dot" />
+                Fancy Color
+              </p>
+              <div className="be-chip-row be-chip-row--fancy">
+                {FANCY_COLORS.map((fc) => (
+                  <button
+                    key={fc.value}
+                    type="button"
+                    className={`be-chip be-chip--fancy${fancyColors.includes(fc.value) ? ' is-active' : ''}`}
+                    onClick={() => setFancyColors(toggle(fancyColors, fc.value))}
+                  >
+                    <span className="be-fancy-swatch" style={{ background: fc.dot }} />
+                    {fc.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </details>
 
@@ -801,7 +811,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
 
             {items.map((d) => {
               const cert = d.diamond.certificate;
-              const price = d.markup_price ?? d.price ?? 0;
+              const price = Math.round((d.price ?? 0) * getMarkup(labgrown, fancyColors, markups));
               const isSelected = selected === d.id;
               const isHolding = holding === d.id;
               const isUnreserved = unreservedIds.has(d.id);
@@ -843,6 +853,9 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
                   </div>
 
                   <div className="be-card-body">
+                    <div className={`be-card-type${labgrown ? ' is-lab' : ''}`}>
+                      {labgrown ? 'Lab-Grown' : (fancyColors.length > 0 ? 'Natural · Fancy Color' : 'Natural')}
+                    </div>
                     <div className="be-card-headline">
                       {cert?.carats ? cert.carats.toFixed(2) : '—'} ct {(cert?.shape || shape).toString().toLowerCase()} Diamond
                     </div>
@@ -910,26 +923,18 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
             )}
           </div>
 
-          {totalCount > PAGE_SIZE && (
+          {items.length < totalCount && (
             <div className="be-pager">
-              <button
-                type="button"
-                className="be-pager-btn"
-                disabled={offset === 0 || loading}
-                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
-              >
-                ← Previous
-              </button>
               <span className="be-pager-status">
-                Page {page + 1} of {totalPages}
+                Showing {items.length.toLocaleString()} of {totalCount.toLocaleString()} diamonds
               </span>
               <button
                 type="button"
-                className="be-pager-btn"
-                disabled={offset + PAGE_SIZE >= totalCount || loading}
-                onClick={() => setOffset(offset + PAGE_SIZE)}
+                className="be-pager-btn be-pager-btn--load-more"
+                disabled={loading}
+                onClick={() => setOffset(prev => prev + PAGE_SIZE)}
               >
-                Next →
+                {loading ? 'Loading…' : `Load ${Math.min(PAGE_SIZE, totalCount - items.length)} more`}
               </button>
             </div>
           )}

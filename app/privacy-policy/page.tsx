@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         {
           heading: 'Information we collect',
           body: [
-            'When you place an order or make an inquiry, we collect the details you provide — your name, email address, shipping address, and order preferences. Payment details are handled securely by our payment processor (Stripe) and are never stored on our servers.',
+            'When you place an order or make an inquiry, we collect the details you provide — your name, email address, shipping address, and order preferences. Payment details are handled securely by our payment processor (Authorize.Net) and are never stored on our servers.',
             'We also collect basic, non-identifying analytics about how the site is used so we can improve the experience.',
           ],
         },

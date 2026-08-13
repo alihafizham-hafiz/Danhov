@@ -7,6 +7,7 @@ import type { Product } from '@/lib/products';
 import { DiamondCardMedia, type ShapeT } from '@/components/DiamondPicker';
 import { useCart } from '@/components/CartProvider';
 import { stripMetalSuffix } from '@/lib/product-display';
+import { SHIPPING_FEE_USD } from '@/lib/shipping';
 
 export type ReviewDiamond = {
   offer_id: string;
@@ -29,6 +30,8 @@ type Props = {
   diamonds: ReviewDiamond[];
   settingPrice: number;
   metal?: string | null;
+  dcat?: string;
+  finishedPiece?: boolean;
 };
 
 const US_RING_SIZES = [
@@ -36,11 +39,19 @@ const US_RING_SIZES = [
   '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5', '13',
 ];
 
-export default function BuilderReview({ mode, setting, diamonds, settingPrice, metal }: Props) {
+export default function BuilderReview({ mode, setting, diamonds, settingPrice, metal, dcat, finishedPiece = false }: Props) {
   const { addItem } = useCart();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [city, setCity] = useState('');
+  const [region, setRegion] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('United States');
   const [customerNote, setCustomerNote] = useState('');
   const [settingQty, setSettingQty] = useState(1);
   // Per-unit ring sizes — one slot per setting unit
@@ -51,6 +62,9 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
   const [cartAdded, setCartAdded] = useState(false);
   const [addingAnother, setAddingAnother] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  // Diamond preference — only captured in setting-only mode
+  const [prefShape, setPrefShape] = useState('');
+  const [prefCarat, setPrefCarat] = useState('');
 
   // Sync diamondQtys when diamonds array changes (e.g. second diamond added via URL change)
   useEffect(() => {
@@ -66,9 +80,10 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
 
   const settingSubtotal = settingPrice * settingQty;
   const diamondSubtotals = diamonds.map((d, i) => d.price_usd * (diamondQtys[i] ?? 1));
-  const total =
+  const merchandiseTotal =
     (mode !== 'diamond' ? settingSubtotal : 0) +
     (mode !== 'setting' ? diamondSubtotals.reduce((a, b) => a + b, 0) : 0);
+  const total = merchandiseTotal + SHIPPING_FEE_USD;
 
   function setDiamondQty(i: number, v: number) {
     setDiamondQtys(prev => {
@@ -137,8 +152,20 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
 
   function validate(): boolean {
     setErr(null);
+    if (!customerName.trim()) {
+      setErr('Please enter the recipient name.');
+      return false;
+    }
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setErr('Please enter a valid email address.');
+      return false;
+    }
+    if (phone.replace(/\D/g, '').length < 7) {
+      setErr('Please enter a valid phone number.');
+      return false;
+    }
+    if (!addressLine1.trim() || !city.trim() || !region.trim() || !postalCode.trim() || !country.trim()) {
+      setErr('Please complete the shipping address.');
       return false;
     }
     if (needsRingSize) {
@@ -152,6 +179,8 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
         return false;
       }
     }
+    // Setting-only ("Buy Ring Only"): diamond preferences are optional —
+    // the customer can buy the ring without choosing any diamond.
     return true;
   }
 
@@ -159,10 +188,28 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
     if (!validate()) return;
     setLoading(true);
     try {
+      // Build note — prepend diamond preference when buying setting only
+      let fullNote = customerNote.trim();
+      if (mode === 'setting' && !finishedPiece && prefShape && prefCarat) {
+        const prefLine = `Preferred centre diamond: ${prefShape}, approx. ${prefCarat}`;
+        fullNote = fullNote ? `${prefLine}\n\n${fullNote}` : prefLine;
+      }
       const body: Record<string, unknown> = {
         mode,
         email,
-        note: customerNote.trim() || undefined,
+        customer_name: customerName.trim(),
+        phone: phone.trim(),
+        shipping_address: {
+          name: customerName.trim(),
+          line1: addressLine1.trim(),
+          line2: addressLine2.trim() || undefined,
+          city: city.trim(),
+          region: region.trim(),
+          postal_code: postalCode.trim(),
+          country: country.trim(),
+          phone: phone.trim(),
+        },
+        note: fullNote || undefined,
       };
       if (mode === 'ring' || mode === 'setting') {
         body.setting_slug = setting?.slug;
@@ -172,7 +219,11 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
           body.ring_size = ringSizes[0] || undefined;
         } else {
           body.ring_sizes = ringSizes.slice(0, settingQty);
-          body.ring_size = ringSizes[0] || undefined; // legacy compat
+          body.ring_size = ringSizes[0] || undefined;
+        }
+        if (mode === 'setting' && !finishedPiece) {
+          body.preferred_diamond_shape = prefShape || undefined;
+          body.preferred_diamond_carat = prefCarat || undefined;
         }
       }
       if (mode !== 'setting' && diamonds.length > 0) {
@@ -181,6 +232,7 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
           quantity: diamondQtys[i] ?? 1,
           hold_id: d.hold_id ?? null,
         }));
+        if (dcat) body.diamond_category = dcat;
         body.diamond_offer_id = diamonds[0].offer_id;
         body.hold_id = diamonds[0].hold_id ?? undefined;
         body.quantity = diamondQtys[0] ?? 1;
@@ -258,7 +310,7 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
       for (let i = 0; i < settingQty; i++) {
         const size = ringSizes[i] || null;
         addItem({
-          id: `setting-${setting.slug}-${size ?? 'nosize'}-${i}`,
+          id: `setting-${setting.slug}-${metal ?? setting.default_metal ?? 'default'}-${size ?? 'nosize'}-${i}`,
           sku: setting.sku,
           slug: setting.slug,
           name: stripMetalSuffix(setting.name),
@@ -358,9 +410,9 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
           })}
           <p className="builder-review-tagline">
             {mode === 'ring'
-              ? 'Your one-of-one — handcrafted in Los Angeles, made in 4–6 weeks.'
+              ? 'Your one-of-one — handcrafted in Los Angeles, made in 3 weeks.'
               : mode === 'setting'
-              ? 'Handcrafted to order in Los Angeles · 4–6 week lead time.'
+              ? 'Handcrafted to order in Los Angeles · 3 week lead time.'
               : 'GIA-graded · conflict-free · ethically traced.'}
           </p>
         </div>
@@ -378,7 +430,9 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
                   <span className="builder-review-collection"> · {setting.collection}</span>
                 )}
                 {mode === 'setting' && (
-                  <div className="builder-review-grade">Setting only · diamond not included</div>
+                  <div className="builder-review-grade">
+                    {finishedPiece ? 'Finished piece · listed diamonds included' : 'Setting only · centre diamond not included'}
+                  </div>
                 )}
               </div>
               <div className="builder-review-line-right">
@@ -527,13 +581,17 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
               </>
             )}
             <div className="builder-review-total-row">
+              <span>Shipping</span>
+              <span>${SHIPPING_FEE_USD.toLocaleString('en-US')}</span>
+            </div>
+            <div className="builder-review-total-row">
               <span>
-                {mode === 'ring' ? 'Order total' : mode === 'setting' ? 'Setting total' : 'Diamond total'}
+                Order total
               </span>
               <strong>${total.toLocaleString('en-US')}</strong>
             </div>
             <p className="builder-review-balance">
-              {mode !== 'diamond' && 'Production: 4–6 weeks. '}Lifetime craftsmanship warranty.
+              {mode !== 'diamond' && 'Production: 3 weeks. '}Lifetime craftsmanship warranty.
             </p>
           </div>
 
@@ -597,6 +655,74 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
             </div>
           )}
 
+          {/* Diamond Preferences — setting-only mode */}
+          {mode === 'setting' && !finishedPiece && (
+            <div className="builder-review-diamond-pref">
+              <div className="builder-review-diamond-pref-head">
+                <span className="builder-review-diamond-pref-icon">◆</span>
+                <div>
+                  <p className="builder-review-diamond-pref-title">Centre Diamond Preference</p>
+                  <p className="builder-review-diamond-pref-sub">
+                    Tell us what you have in mind — our team will source or confirm your stone before production begins.
+                  </p>
+                </div>
+              </div>
+
+              <div className="builder-review-diamond-pref-fields">
+                <div className="builder-review-diamond-pref-field">
+                  <label className="builder-review-ring-size-label" htmlFor="rb-pref-shape">
+                    Diamond Shape <span style={{ color: '#9a8f88', fontWeight: 400 }}>(Optional)</span>
+                  </label>
+                  <select
+                    id="rb-pref-shape"
+                    className="builder-review-ring-size-select"
+                    value={prefShape}
+                    onChange={(e) => { setPrefShape(e.target.value); setErr(null); }}
+                  >
+                    <option value="">— Select shape —</option>
+                    <option value="Round Brilliant">Round Brilliant</option>
+                    <option value="Oval">Oval</option>
+                    <option value="Cushion">Cushion</option>
+                    <option value="Princess">Princess</option>
+                    <option value="Emerald">Emerald</option>
+                    <option value="Pear">Pear</option>
+                    <option value="Radiant">Radiant</option>
+                    <option value="Marquise">Marquise</option>
+                    <option value="Asscher">Asscher</option>
+                    <option value="Heart">Heart</option>
+                    <option value="Not sure yet">Not sure yet — I&apos;d like help</option>
+                  </select>
+                </div>
+
+                <div className="builder-review-diamond-pref-field">
+                  <label className="builder-review-ring-size-label" htmlFor="rb-pref-carat">
+                    Approximate Size <span style={{ color: '#9a8f88', fontWeight: 400 }}>(Optional)</span>
+                  </label>
+                  <select
+                    id="rb-pref-carat"
+                    className="builder-review-ring-size-select"
+                    value={prefCarat}
+                    onChange={(e) => { setPrefCarat(e.target.value); setErr(null); }}
+                  >
+                    <option value="">— Select size —</option>
+                    <option value="Under 0.50 ct">Under 0.50 ct</option>
+                    <option value="0.50 ct (~5.0 mm)">0.50 ct (~5.0 mm)</option>
+                    <option value="0.75 ct (~5.8 mm)">0.75 ct (~5.8 mm)</option>
+                    <option value="1.00 ct (~6.4 mm)">1.00 ct (~6.4 mm)</option>
+                    <option value="1.25 ct (~6.9 mm)">1.25 ct (~6.9 mm)</option>
+                    <option value="1.50 ct (~7.3 mm)">1.50 ct (~7.3 mm)</option>
+                    <option value="1.75 ct (~7.7 mm)">1.75 ct (~7.7 mm)</option>
+                    <option value="2.00 ct (~8.1 mm)">2.00 ct (~8.1 mm)</option>
+                    <option value="2.50 ct (~8.8 mm)">2.50 ct (~8.8 mm)</option>
+                    <option value="3.00 ct (~9.1 mm)">3.00 ct (~9.1 mm)</option>
+                    <option value="Over 3.00 ct">Over 3.00 ct</option>
+                    <option value="Not sure yet">Not sure yet — I&apos;d like guidance</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Optional customer message */}
           <div className="builder-review-note">
             <label className="builder-review-note-label" htmlFor="rb-note">
@@ -646,16 +772,46 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
             </div>
           )}
 
-          {/* Email + action buttons */}
+          {/* Customer and shipping details */}
           <div className="builder-review-form">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="quote-lock-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-            />
+            <div className="builder-review-customer-grid">
+              <label className="builder-review-customer-field">
+                <span>Recipient name</span>
+                <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} autoComplete="name" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>Email</span>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>Phone number</span>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>Country</span>
+                <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} autoComplete="country-name" />
+              </label>
+              <label className="builder-review-customer-field builder-review-customer-field--full">
+                <span>Address line 1</span>
+                <input type="text" value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} autoComplete="address-line1" />
+              </label>
+              <label className="builder-review-customer-field builder-review-customer-field--full">
+                <span>Address line 2 <em>(Optional)</em></span>
+                <input type="text" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} autoComplete="address-line2" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>City</span>
+                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="address-level2" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>State / region</span>
+                <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} autoComplete="address-level1" />
+              </label>
+              <label className="builder-review-customer-field">
+                <span>Postal code</span>
+                <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} autoComplete="postal-code" />
+              </label>
+            </div>
             <div className="builder-review-actions">
               <button
                 type="button"
@@ -678,8 +834,8 @@ export default function BuilderReview({ mode, setting, diamonds, settingPrice, m
           {err && <p className="quote-lock-err" style={{ marginTop: 8 }}>{err}</p>}
 
           <p className="builder-review-secured">
-            Secured by Stripe · We will email you the order reference and a specialist
-            will reach out within one business day to confirm {needsRingSize ? 'size, engraving, and stone' : 'shipping and order'} details.
+            Secured by Authorize.Net · We will email you the order reference and a specialist
+            will reach out within one business day to confirm {needsRingSize ? (finishedPiece ? 'size and order' : 'size, engraving, and stone') : 'shipping and order'} details.
           </p>
         </div>
       </div>

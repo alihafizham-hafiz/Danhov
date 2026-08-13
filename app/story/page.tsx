@@ -79,7 +79,14 @@ export default function StoryPage() {
           <p>Begin your own DANHOV piece.</p>
           <div className="prose-cta-actions">
             <Link href="/engagement-rings" className="btn-primary">Explore Engagement Rings</Link>
-            <Link href="/#appointment" className="btn-solid">Book a Consultation</Link>
+            <Link
+              href="https://calendly.com/jack-70/30min"
+              className="btn-solid"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a Consultation
+            </Link>
           </div>
         </section>
       </main>

@@ -6,19 +6,24 @@
  *   setting — setting only (made-to-order, 50% deposit)
  *   diamond — one or more loose diamonds (50% deposit)
  *
- * Multi-diamond: pass `diamonds` array. Each item gets its own Stripe line
- * item so the receipt clearly shows per-stone pricing and quantities.
+ * Multi-diamond: pass `diamonds` array. Each item is stored in the order
+ * bundle so the receipt clearly shows per-stone pricing and quantities.
  * Legacy single-diamond: `diamond_offer_id` + `quantity` still work.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { randomUUID } from 'crypto';
 import { createServiceClient } from '@/lib/supabase/server';
-import { getStripe, DEPOSIT_PERCENT } from '@/lib/stripe';
+import { authNetConfigured, createHostedPaymentSession } from '@/lib/authorizenet';
+import { getDiamondMarkups } from '@/lib/diamond-markups';
 import { priceProduct } from '@/lib/pricing';
 import { fetchProductWithPricingBySlug } from '@/lib/products';
 import { refreshDiamond } from '@/lib/nivoda-cache';
+
+const DEPOSIT_PERCENT = 1;
 import { stripMetalSuffix } from '@/lib/product-display';
+import { SHIPPING_FEE_USD } from '@/lib/shipping';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -33,6 +38,8 @@ const Body = z.object({
   mode: z.enum(['ring', 'setting', 'diamond']).default('ring'),
   setting_slug: z.string().min(1).max(120).optional(),
   setting_quantity: z.number().int().min(1).max(10).default(1),
+  // Diamond markup category (natural / lab_grown / fancy_*) — picks the DB markup
+  diamond_category: z.string().max(40).optional(),
   // Multi-diamond: preferred
   diamonds: z.array(DiamondOrderItem).optional(),
   // Legacy single-diamond
@@ -40,10 +47,24 @@ const Body = z.object({
   hold_id: z.string().uuid().optional(),
   quantity: z.number().int().min(1).max(10).default(1),
   email: z.string().email().max(254),
+  customer_name: z.string().trim().min(1).max(120),
+  phone: z.string().trim().min(7).max(40),
+  shipping_address: z.object({
+    name: z.string().trim().min(1).max(120),
+    line1: z.string().trim().min(1).max(160),
+    line2: z.string().trim().max(160).optional(),
+    city: z.string().trim().min(1).max(100),
+    region: z.string().trim().min(1).max(100),
+    postal_code: z.string().trim().min(1).max(30),
+    country: z.string().trim().min(1).max(100),
+    phone: z.string().trim().min(7).max(40),
+  }),
   ring_size: z.string().max(20).optional(),
   ring_sizes: z.array(z.string().max(20)).max(10).optional(),
   metal: z.string().max(60).optional(),
   note: z.string().max(500).optional(),
+  preferred_diamond_shape: z.string().max(60).optional(),
+  preferred_diamond_carat: z.string().max(60).optional(),
 });
 
 function formatMetal(raw: string | null | undefined): string {
@@ -74,12 +95,9 @@ function skuForMetal(rawSku: string, metal: string | null | undefined): string {
 }
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY) {
+  if (!authNetConfigured()) {
     return NextResponse.json(
-      {
-        error:
-          'Online deposits are not yet enabled. Please reply to your email confirmation or call 1 (888) DANHOV-7 and we will take payment by phone.',
-      },
+      { error: 'Online deposits are not yet enabled. Please call (424) 421-4072 and we will take payment by phone.' },
       { status: 503 }
     );
   }
@@ -110,6 +128,11 @@ export async function POST(req: NextRequest) {
   if (mode !== 'setting' && normalizedDiamonds.length === 0) {
     return NextResponse.json({ error: 'At least one diamond is required for this purchase type.' }, { status: 400 });
   }
+
+  // Per-category diamond markup from the DB — same source the picker uses,
+  // so the charged price matches what the customer saw.
+  const diamondMarkups = await getDiamondMarkups();
+  const dMarkup = diamondMarkups[body.diamond_category ?? 'natural'] ?? diamondMarkups.natural ?? 2.3;
 
   // ── Load setting ──────────────────────────────────────────────────────
   let setting: Awaited<ReturnType<typeof fetchProductWithPricingBySlug>> | null = null;
@@ -171,7 +194,7 @@ export async function POST(req: NextRequest) {
       }
 
       const cert = stone.diamond.certificate;
-      const diamondPrice = Math.round(Number(stone.markup_price ?? stone.price ?? 0));
+      const diamondPrice = Math.round((Number(stone.price) || 0) * dMarkup);
       if (diamondPrice <= 0) {
         return NextResponse.json(
           { error: 'Diamond price unavailable. Please re-select or contact us at care@danhov.com.' },
@@ -198,73 +221,25 @@ export async function POST(req: NextRequest) {
   // ── Totals ────────────────────────────────────────────────────────────
   const settingLineTotal = mode !== 'diamond' ? settingPrice * settingQty : 0;
   const diamondLineTotal = loadedDiamonds.reduce((sum, d) => sum + d.price * d.quantity, 0);
-  const total = settingLineTotal + diamondLineTotal;
+  const merchandiseTotal = settingLineTotal + diamondLineTotal;
+  const total = merchandiseTotal + SHIPPING_FEE_USD;
   const deposit = Math.round(total * DEPOSIT_PERCENT);
   const balance = total - deposit;
   const customerEmail = body.email.toLowerCase();
   const ringSize = body.ring_size ?? body.ring_sizes?.[0] ?? null;
   const customerNote = body.note?.trim() || null;
 
-  // ── Build Stripe line items ───────────────────────────────────────────
-  const lineItems: Array<{
-    quantity: number;
-    price_data: {
-      currency: string;
-      unit_amount: number;
-      product_data: { name: string; description?: string; images?: string[]; metadata?: Record<string, string> };
-    };
-  }> = [];
-  const heroImage = setting?.images?.[0];
+  // ── Build order description for AuthNet ──────────────────────────────
+  const firstDiamond = loadedDiamonds[0] ?? null;
+  const chosenMetal = body.metal ?? setting?.default_metal;
+  const metalLabel = formatMetal(chosenMetal);
+  const descParts: string[] = [];
+  if (setting) descParts.push(`${setting.name}${metalLabel ? ` (${metalLabel})` : ''}`);
+  if (loadedDiamonds.length > 0) descParts.push(`${loadedDiamonds.length} diamond(s)`);
+  const description = descParts.join(' + ').slice(0, 255);
 
-  if (mode !== 'diamond' && setting) {
-    const settingDepositPerUnit = Math.round(settingPrice * DEPOSIT_PERCENT);
-    const metalLabel = formatMetal(body.metal ?? setting.default_metal);
-    lineItems.push({
-      quantity: settingQty,
-      price_data: {
-        currency: 'usd',
-        unit_amount: settingDepositPerUnit * 100,
-        product_data: {
-          name: `${setting.name}${metalLabel ? ` (${metalLabel})` : ''}`,
-          description: [
-            `SKU: ${setting.sku}`,
-            ringSize ? `Ring size: ${ringSize}` : '',
-            `Unit price: $${settingPrice.toLocaleString('en-US')}`,
-          ].filter(Boolean).join(' · '),
-          images: heroImage ? [heroImage] : undefined,
-          metadata: { sku: setting.sku, type: 'setting' },
-        },
-      },
-    });
-  }
-
-  for (const [i, d] of loadedDiamonds.entries()) {
-    const diamondDepositPerUnit = Math.round(d.price * DEPOSIT_PERCENT);
-    const label = loadedDiamonds.length > 1 ? ` (stone ${i + 1})` : '';
-    lineItems.push({
-      quantity: d.quantity,
-      price_data: {
-        currency: 'usd',
-        unit_amount: diamondDepositPerUnit * 100,
-        product_data: {
-          name: `${d.carat.toFixed(2)} ct ${d.shape} Diamond${label}`,
-          description: [
-            `${d.lab}${d.certNumber ? ` ${d.certNumber}` : ''}`,
-            `${d.color} / ${d.clarity} / ${d.cut}`,
-            `Unit price: $${d.price.toLocaleString('en-US')}`,
-          ].join(' · '),
-          metadata: {
-            nivoda_offer_id: d.offer_id,
-            type: 'diamond',
-          },
-        },
-      },
-    });
-  }
-
-  const stripe = getStripe();
-  const host    = req.headers.get('host') ?? '';
-  const proto   = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
+  const host = req.headers.get('host') ?? '';
+  const proto = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
   const siteUrl = `${proto}://${host}`;
 
   const cancelParams = new URLSearchParams();
@@ -276,77 +251,47 @@ export async function POST(req: NextRequest) {
     if (loadedDiamonds[0].hold_id) cancelParams.set('hold', loadedDiamonds[0].hold_id);
   }
 
-  const firstDiamond = loadedDiamonds[0] ?? null;
+  const orderId = randomUUID();
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    payment_method_types: ['card'],
-    customer_email: customerEmail,
-    success_url: `${siteUrl}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/ring-builder/review?${cancelParams.toString()}`,
-    line_items: lineItems,
-    metadata: {
-      flow: 'ring_builder',
-      purchase_mode: mode,
-      ring_size: ringSize ?? '',
-      setting_slug: setting?.slug ?? '',
-      setting_sku: setting?.sku ?? '',
-      setting_metal: body.metal ?? setting?.default_metal ?? '',
-      setting_quantity: String(settingQty),
-      diamond_count: String(loadedDiamonds.length),
-      // First diamond for legacy compatibility
-      nivoda_offer_id: firstDiamond?.offer_id ?? '',
-      nivoda_hold_id: firstDiamond?.hold_id ?? '',
-      diamond_shape: firstDiamond?.shape ?? '',
-      diamond_carat: firstDiamond ? String(firstDiamond.carat) : '',
-      diamond_color: firstDiamond?.color ?? '',
-      diamond_clarity: firstDiamond?.clarity ?? '',
-      diamond_cut: firstDiamond?.cut ?? '',
-      total_usd: String(total),
-      deposit_usd: String(deposit),
-      setting_price_usd: String(settingPrice),
-      customer_note: customerNote ?? '',
-    },
-    payment_intent_data: {
-      metadata: {
-        flow: 'ring_builder',
-        purchase_mode: mode,
-        setting_sku: setting?.sku ?? '',
-        nivoda_offer_id: firstDiamond?.offer_id ?? '',
-      },
-    },
-  });
+  let session: { id: string; url: string };
+  try {
+    session = await createHostedPaymentSession({
+      orderId,
+      amountUsd: deposit,
+      description,
+      email: customerEmail,
+      successUrl: `${siteUrl}/order/success?order_id=${orderId}`,
+      cancelUrl: `${siteUrl}/ring-builder/review?${cancelParams.toString()}`,
+    });
+  } catch (e) {
+    console.error('[ring-builder/checkout] AuthNet session error:', e);
+    return NextResponse.json({ error: 'Payment gateway error. Please try again or call (424) 421-4072.' }, { status: 502 });
+  }
 
   // ── Persist pending order ─────────────────────────────────────────────
   const client = createServiceClient();
-  await client
-    .from('customers')
-    .upsert({ email: customerEmail }, { onConflict: 'email' });
+  await client.from('customers').upsert({
+    email: customerEmail,
+    name: body.customer_name,
+    phone: body.phone,
+  }, { onConflict: 'email' });
 
-  // diamonds[] array with quantities for the bundle
   const bundleDiamonds = loadedDiamonds.map(d => ({
     offer_id: d.offer_id,
     hold_id: d.hold_id ?? null,
-    shape: d.shape,
-    carat: d.carat,
-    color: d.color,
-    clarity: d.clarity,
-    cut: d.cut,
-    lab: d.lab,
-    cert_number: d.certNumber,
-    price_usd: d.price,
-    quantity: d.quantity,
+    shape: d.shape, carat: d.carat, color: d.color, clarity: d.clarity,
+    cut: d.cut, lab: d.lab, cert_number: d.certNumber, price_usd: d.price, quantity: d.quantity,
   }));
 
-  // Compute the SKU that reflects the actual metal chosen (e.g. SE500UQ-PL not SE500UQ-14y)
-  const chosenMetal = body.metal ?? setting?.default_metal;
   const metalSku = setting ? skuForMetal(setting.sku, chosenMetal) : null;
 
   await client.from('orders').insert({
+    id: orderId,
     customer_email: customerEmail,
     stripe_checkout_session_id: session.id,
     deposit_usd: deposit,
     total_usd: total,
+    shipping_cost_usd: SHIPPING_FEE_USD,
     status: 'pending',
     currency: 'usd',
     nivoda_offer_id: firstDiamond?.offer_id ?? null,
@@ -363,39 +308,24 @@ export async function POST(req: NextRequest) {
       ring_size: ringSize ?? null,
       ring_sizes: body.ring_sizes ?? null,
       note: customerNote,
+      preferred_diamond_shape: body.preferred_diamond_shape ?? null,
+      preferred_diamond_carat: body.preferred_diamond_carat ?? null,
     },
     milestones: [
-      {
-        name: 'deposit',
-        amount_usd: deposit,
-        status: 'pending',
-        created_at: new Date().toISOString(),
-      },
+      { name: 'deposit', amount_usd: deposit, status: 'pending', created_at: new Date().toISOString() },
       { name: 'balance', amount_usd: balance, status: 'not_due' },
     ],
+    shipping_country: body.shipping_address.country,
     shipping_address: {
+      ...body.shipping_address,
       _bundle: {
-        flow: 'ring_builder',
-        mode,
-        ring_size: ringSize ?? null,
-        setting: setting
-          ? {
-              sku: metalSku ?? setting.sku,
-              slug: setting.slug,
-              name: setting.name,
-              metal: chosenMetal,
-              price_usd: settingPrice,
-              quantity: settingQty,
-              breakdown: settingBreakdown,
-            }
-          : null,
-        // New: full diamonds array with individual quantities
+        flow: 'ring_builder', mode, ring_size: ringSize ?? null,
+        setting: setting ? { sku: metalSku ?? setting.sku, slug: setting.slug, name: setting.name, metal: chosenMetal, price_usd: settingPrice, quantity: settingQty, breakdown: settingBreakdown } : null,
         diamonds: bundleDiamonds,
-        // Legacy: keep single diamond object for backward compat with old admin views
         diamond: bundleDiamonds[0] ?? null,
       },
     },
   });
 
-  return NextResponse.json({ url: session.url, session_id: session.id });
+  return NextResponse.json({ url: session.url, order_id: orderId });
 }

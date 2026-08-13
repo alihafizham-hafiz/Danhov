@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function GiftCardsPage() {
   return (
-    <main style={{ fontFamily: "'Cormorant Garamond', serif", color: '#1a1410', background: '#faf6f1' }}>
+    <main style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", color: '#1a1410', background: '#faf6f1' }}>
       <style>{`
         /* ── Hero ── */
         .gc-hero {
@@ -299,7 +299,7 @@ export default function GiftCardsPage() {
           Gift cards are non-refundable and cannot be exchanged for cash. Balances roll over and never expire.
           Questions? Contact us at{' '}
           <a href="mailto:care@danhov.com">care@danhov.com</a> or call{' '}
-          <a href="tel:+18883264687">(888) 326-4687</a>.
+          <a href="tel:+14244214072">(424) 421-4072</a>.
         </p>
       </div>
     </main>

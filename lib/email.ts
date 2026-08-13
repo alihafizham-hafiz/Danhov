@@ -1,10 +1,14 @@
 /**
- * Email — wraps Resend.
+ * Email — nodemailer via Gmail SMTP (care@danhov.com Google Workspace account).
  *
- * Server-only. If RESEND_API_KEY is missing we don't throw — we log and
- * return { sent: false }. Lets the rest of the flow keep working in dev
- * before the email vendor is wired up.
+ * Required env vars:
+ *   SMTP_USER  — care@danhov.com
+ *   SMTP_PASS  — Gmail App Password (generated at myaccount.google.com/apppasswords)
+ *
+ * Server-only. Missing env vars skip the send without crashing.
  */
+
+import nodemailer from 'nodemailer';
 
 type EmailArgs = {
   to: string | string[];
@@ -16,41 +20,40 @@ type EmailArgs = {
 
 type SendResult = { sent: boolean; id?: string; error?: string };
 
+function getTransport() {
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (!user || !pass) return null;
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+  });
+}
+
 export async function sendEmail(args: EmailArgs): Promise<SendResult> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.warn('[email] RESEND_API_KEY not set — skipping send', {
+  const transport = getTransport();
+  if (!transport) {
+    console.warn('[email] SMTP_USER / SMTP_PASS not set — skipping send', {
       to: args.to,
       subject: args.subject,
     });
-    return { sent: false, error: 'RESEND_API_KEY not configured' };
+    return { sent: false, error: 'SMTP not configured' };
   }
 
-  const from = process.env.RESEND_FROM_EMAIL || 'DANHOV Atelier <onboarding@resend.dev>';
+  const from = `DANHOV Atelier <${process.env.SMTP_USER}>`;
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from,
-        to: Array.isArray(args.to) ? args.to : [args.to],
-        subject: args.subject,
-        html: args.html,
-        text: args.text,
-        reply_to: args.replyTo,
-      }),
+    const info = await transport.sendMail({
+      from,
+      to: Array.isArray(args.to) ? args.to.join(', ') : args.to,
+      subject: args.subject,
+      html: args.html,
+      text: args.text,
+      replyTo: args.replyTo ?? process.env.SMTP_USER,
     });
-    if (!res.ok) {
-      const body = await res.text();
-      console.error('[email] Resend error', res.status, body);
-      return { sent: false, error: `Resend ${res.status}: ${body}` };
-    }
-    const data = (await res.json()) as { id?: string };
-    return { sent: true, id: data.id };
+    return { sent: true, id: info.messageId };
   } catch (e) {
     console.error('[email] send failed', e);
     return { sent: false, error: e instanceof Error ? e.message : 'unknown' };
@@ -58,7 +61,7 @@ export async function sendEmail(args: EmailArgs): Promise<SendResult> {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// Brand-styled template wrapper. All templates share this shell.
+// Brand-styled template wrapper
 // ──────────────────────────────────────────────────────────────────────────
 function shell(title: string, body: string): string {
   return `<!DOCTYPE html>
@@ -75,7 +78,7 @@ function shell(title: string, body: string): string {
         <tr><td style="padding:24px 44px 32px;text-align:center;background:#fff8f6;border-top:1px solid rgba(172,52,56,0.06);font-size:11px;line-height:1.7;color:#7a5c58;letter-spacing:0.04em;">
           <em style="font-family:Georgia,serif;font-size:13px;color:#7a5c58;">"Waves are the ocean."</em><br/>
           Handcrafted in Los Angeles since 1984.<br/>
-          <a href="mailto:care@danhov.com" style="color:#AC3438;text-decoration:none;">care@danhov.com</a> · 1 (888) DANHOV-7
+          <a href="mailto:care@danhov.com" style="color:#AC3438;text-decoration:none;">care@danhov.com</a> · (424) 421-4072
         </td></tr>
       </table>
     </td></tr>
@@ -135,7 +138,7 @@ export function quoteLockEmail(args: {
   return {
     subject: `Your DANHOV quote is locked — ${reference}`,
     html: shell('Your DANHOV quote is locked', body),
-    text: `Your DANHOV price is locked.\n\nProduct: ${args.productName} (Style ${args.sku})\nMetal: ${args.metal}\nPrice: ${priceFmt}\nReference: ${reference}\nExpires: ${expires}\n\nReply to this email or call 1 (888) DANHOV-7 when you're ready.\n\nWith love,\nDANHOV Atelier`,
+    text: `Your DANHOV price is locked.\n\nProduct: ${args.productName} (Style ${args.sku})\nMetal: ${args.metal}\nPrice: ${priceFmt}\nReference: ${reference}\nExpires: ${expires}\n\nReply to this email or call (424) 421-4072 when you're ready.\n\nWith love,\nDANHOV Atelier`,
   };
 }
 

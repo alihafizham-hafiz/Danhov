@@ -12,13 +12,13 @@ const nextConfig = {
   },
 
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'www.danhov.com' },
       { protocol: 'https', hostname: 'danhov.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev' },
     ],
-    formats: ['image/avif', 'image/webp'],
   },
 
   experimental: {
@@ -26,21 +26,33 @@ const nextConfig = {
   },
 
   async headers() {
+    const sharedSecurityHeaders = [
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      {
+        key: 'Permissions-Policy',
+        value: 'camera=(), microphone=(), geolocation=()',
+      },
+      {
+        key: 'Strict-Transport-Security',
+        value: 'max-age=63072000; includeSubDomains; preload',
+      },
+    ];
+
     return [
       {
-        source: '/(.*)',
+        source: '/authorizenet-iframe-communicator.html',
+        headers: sharedSecurityHeaders,
+      },
+      {
+        source: '/authorizenet-empty.html',
+        headers: sharedSecurityHeaders,
+      },
+      {
+        source: '/((?!authorizenet-iframe-communicator\\.html|authorizenet-empty\\.html).*)',
         headers: [
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          ...sharedSecurityHeaders,
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
-          },
         ],
       },
     ];

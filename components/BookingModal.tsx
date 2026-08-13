@@ -10,7 +10,7 @@ type Props = {
   productHint?: string;
 };
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || '';
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/jack-70/30min';
 
 export default function BookingModal({ open, onClose, prefillEmail, prefillName, productHint }: Props) {
   useEffect(() => {
@@ -74,10 +74,10 @@ export default function BookingModal({ open, onClose, prefillEmail, prefillName,
               </a>
               <br />
               <a
-                href={`tel:${process.env.NEXT_PUBLIC_PHONE_TEL || '+18883264687'}`}
+                href={`tel:${process.env.NEXT_PUBLIC_PHONE_TEL || '+14244214072'}`}
                 className="booking-link"
               >
-                {process.env.NEXT_PUBLIC_PHONE_DISPLAY || '1 (888) DANHOV-7'}
+                {process.env.NEXT_PUBLIC_PHONE_DISPLAY || '(424) 421-4072'}
               </a>
             </p>
           </div>

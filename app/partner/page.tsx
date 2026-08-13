@@ -39,7 +39,7 @@ const BENEFITS = [
         <path d="M14 9v5l3 3" stroke="#AC3438" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     ),
-    title: '4–6 Week Fulfillment',
+    title: '3 Week Fulfillment',
     body: 'Handcrafted in Los Angeles, shipped white-glove and fully insured directly to your customer or store.',
   },
   {

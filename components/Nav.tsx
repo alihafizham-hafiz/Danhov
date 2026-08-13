@@ -14,13 +14,15 @@ const BookingModal = dynamic(() => import('@/components/BookingModal'), { ssr: f
 // Single row of links rendered below the centred DANHOV logo.
 // Product-category links use homepage hash anchors so the nav scrolls
 // directly to the embedded product sections instead of navigating away.
+// Labels stay literal for customers and SEO; the `sub` line carries the
+// emotional register. Subtitles are verbatim from the brand brief.
 const LINKS_ROW = [
   { href: '/', label: 'Home' },
-  { href: '/engagement-rings', label: 'Engagement Rings' },
-  { href: '/wedding-bands', label: 'Wedding Bands' },
-  { href: '/fine-jewelry', label: 'Fine Jewelry' },
-  { href: '/mens', label: "Men's" },
-  { href: '/ring-builder', label: 'Ring Builder' },
+  { href: '/engagement-rings', label: 'Engagement Rings', sub: 'The Beginning of Oneness' },
+  { href: '/wedding-bands', label: 'Wedding Bands', sub: 'Eternal Union' },
+  { href: '/fine-jewelry', label: 'Fine Jewelry', sub: 'Light in Form' },
+  { href: '/mens', label: "Men's Jewelry", sub: 'Strength & Presence' },
+  { href: '/ring-builder', label: 'Build Your Ring', sub: 'Create Your Eternal Form' },
   { href: '/philosophy', label: 'Philosophy' },
   { href: '/story', label: 'Story' },
 ];
@@ -43,7 +45,9 @@ export default function Nav() {
   const { slugs: wishlistSlugs } = useWishlist();
   const wishlistCount = wishlistSlugs.size;
 
-  const phoneTel = process.env.NEXT_PUBLIC_PHONE_TEL || '+18883264687';
+  const phoneTel = process.env.NEXT_PUBLIC_PHONE_TEL || '+14244214072';
+  const phoneDisplay = process.env.NEXT_PUBLIC_PHONE_DISPLAY || '(424) 421-4072';
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/jack-70/30min';
 
   // Close drawer on route change; also blur any focused nav element so
   // the hover-reveal collapses when the cursor leaves after navigation.
@@ -146,16 +150,29 @@ export default function Nav() {
                 <span className="nav-cart-badge" aria-hidden="true">{cartCount > 99 ? '99+' : cartCount}</span>
               )}
             </button>
-            <button
-              type="button"
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="nav-vm-btn"
               aria-label="Book a virtual meeting"
-              onClick={() => setBookingOpen(true)}
             >
-              <VideoIcon />
-              <span>Virtual Meeting</span>
-            </button>
+              <span className="nav-vm-ico" aria-hidden="true" />
+              <span className="nav-vm-label">Virtual Meeting</span>
+            </a>
           </div>
+
+          <button
+            type="button"
+            className="nav-mobile-search"
+            aria-label="Search"
+            onClick={() => {
+              setOpen(false);
+              setSearchOpen(true);
+            }}
+          >
+            <SearchIcon />
+          </button>
 
           {/* Mobile hamburger — only visible on small screens */}
           <button
@@ -181,11 +198,12 @@ export default function Nav() {
                 <Link
                   href={l.href}
                   prefetch
-                  className={active ? 'is-active' : undefined}
+                  className={active ? 'is-active nav-link-stack' : 'nav-link-stack'}
                   aria-current={active ? 'page' : undefined}
                   onClick={(e) => handleHashScroll(e, l.href)}
                 >
-                  {l.label}
+                  <span className="nav-link-label">{l.label}</span>
+                  {l.sub && <span className="nav-link-sub">{l.sub}</span>}
                 </Link>
               </li>
             );
@@ -213,33 +231,49 @@ export default function Nav() {
                   setOpen(false);
                 }}
               >
-                {l.label}
+                <span className="nav-link-label">{l.label}</span>
+                {l.sub && <span className="nav-drawer-sub">{l.sub}</span>}
               </Link>
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          className="nav-cta nav-drawer-cta nav-drawer-vm"
-          onClick={() => { setOpen(false); setBookingOpen(true); }}
-        >
-          <VideoIcon />
-          Virtual Meeting
-        </button>
-        <Link
-          href="/#appointment"
-          className="nav-cta nav-drawer-cta"
-          onClick={() => setOpen(false)}
-        >
-          Book Appointment
-        </Link>
-        <a
-          href={`tel:${phoneTel}`}
-          className="nav-drawer-call"
-          onClick={() => setOpen(false)}
-        >
-          1 (888) DANHOV-7
-        </a>
+        <div className="nav-drawer-actions">
+          <button
+            type="button"
+            className="nav-drawer-action"
+            onClick={() => {
+              setOpen(false);
+              setSearchOpen(true);
+            }}
+          >
+            <SearchIcon />
+            <span>Search</span>
+          </button>
+          <a
+            href={calendlyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-drawer-action"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-vm-ico" aria-hidden="true" />
+            <span>Virtual Meeting</span>
+          </a>
+          <Link
+            href="/#appointment"
+            className="nav-drawer-action"
+            onClick={() => setOpen(false)}
+          >
+            <span>Book Appointment</span>
+          </Link>
+          <a
+            href={`tel:${phoneTel}`}
+            className="nav-drawer-action"
+            onClick={() => setOpen(false)}
+          >
+            <span>{phoneDisplay}</span>
+          </a>
+        </div>
       </div>
 
       {/* Scrim — closes the drawer when tapped */}
@@ -314,13 +348,3 @@ function CartIcon() {
     </svg>
   );
 }
-
-function VideoIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="2" y="6" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M16 10l6-4v12l-6-4V10Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-

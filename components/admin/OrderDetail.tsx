@@ -36,6 +36,7 @@ type ShippingAddress = {
   region?: string;
   postal_code?: string;
   country?: string;
+  phone?: string;
   _bundle?: CommissionBundle | null;
 };
 
@@ -211,6 +212,7 @@ export default function OrderDetail({
   const [shipCountry, setShipCountry] = useState(
     addr.country ?? initialOrder.shipping_country ?? ''
   );
+  const [shipPhone, setShipPhone] = useState(addr.phone ?? '');
 
   // Live-recompute labor from the spec
   const liveLabor = useMemo(
@@ -252,7 +254,7 @@ export default function OrderDetail({
           shipping_address: {
             name: shipName, line1: shipLine1, line2: shipLine2,
             city: shipCity, region: shipRegion, postal_code: shipPostal,
-            country: shipCountry,
+            country: shipCountry, phone: shipPhone,
           },
           custom_overrides: {
             platinum_weight_g: platinumWeight || null,
@@ -625,6 +627,10 @@ export default function OrderDetail({
                 <span>Country</span>
                 <input type="text" className="adm-input" value={shipCountry} onChange={(e) => setShipCountry(e.target.value)} />
               </label>
+              <label className="adm-field">
+                <span>Phone number</span>
+                <input type="tel" className="adm-input" value={shipPhone} onChange={(e) => setShipPhone(e.target.value)} />
+              </label>
               <label className="adm-field adm-field--full">
                 <span>Address line 1</span>
                 <input type="text" className="adm-input" value={shipLine1} onChange={(e) => setShipLine1(e.target.value)} />
@@ -720,15 +726,15 @@ export default function OrderDetail({
 
           {(initialOrder.stripe_checkout_session_id || initialOrder.stripe_payment_intent_id) && (
             <div className="adm-card">
-              <h3 className="adm-h3">Stripe</h3>
+              <h3 className="adm-h3">Payment Gateway</h3>
               {initialOrder.stripe_checkout_session_id && (
                 <div className="adm-mono adm-page-sub" style={{ wordBreak: 'break-all', marginBottom: 6 }}>
-                  Session: {initialOrder.stripe_checkout_session_id}
+                  Invoice Ref: {initialOrder.stripe_checkout_session_id}
                 </div>
               )}
               {initialOrder.stripe_payment_intent_id && (
                 <div className="adm-mono adm-page-sub" style={{ wordBreak: 'break-all' }}>
-                  PI: {initialOrder.stripe_payment_intent_id}
+                  Transaction ID: {initialOrder.stripe_payment_intent_id}
                 </div>
               )}
             </div>

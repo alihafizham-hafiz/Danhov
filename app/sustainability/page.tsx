@@ -94,7 +94,7 @@ const SECTIONS = [
 
 export default function SustainabilityPage() {
   return (
-    <main style={{ fontFamily: "'Cormorant Garamond', serif", color: '#1a1410', background: '#faf6f1' }}>
+    <main style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", color: '#1a1410', background: '#faf6f1' }}>
       <style>{`
         /* ── Breadcrumb ── */
         .sr-crumb {

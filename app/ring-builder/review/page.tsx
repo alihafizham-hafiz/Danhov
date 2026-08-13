@@ -7,11 +7,13 @@ import '../builder.css';
 import { fetchProductWithPricingBySlug } from '@/lib/products';
 import { priceProduct } from '@/lib/pricing';
 import { cachedGetDiamond } from '@/lib/nivoda-cache';
+import { getDiamondMarkups } from '@/lib/diamond-markups';
+import { requiresCenterStone } from '@/lib/product-purchase-mode';
 
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { setting?: string; diamond?: string; diamonds?: string; hold?: string };
+  searchParams: { setting?: string; diamond?: string; diamonds?: string; hold?: string; finished?: string };
 }): Promise<Metadata> {
   const hasSetting = !!searchParams.setting;
   const hasDiamond = !!(searchParams.diamonds || searchParams.diamond);
@@ -44,10 +46,11 @@ function shapeDisplay(s: string | null): string {
 export default async function CompleteRingPage({
   searchParams,
 }: {
-  searchParams: { setting?: string; diamond?: string; diamonds?: string; hold?: string; metal?: string };
+  searchParams: { setting?: string; diamond?: string; diamonds?: string; hold?: string; metal?: string; dcat?: string; finished?: string };
 }) {
   const settingSlug = searchParams.setting;
   const chosenMetal = searchParams.metal ?? null;
+  let finishedPiece = searchParams.finished === '1';
 
   // Parse diamonds: prefer ?diamonds=D1|D2, fall back to ?diamond=D
   const diamondParam = searchParams.diamonds || searchParams.diamond;
@@ -71,6 +74,18 @@ export default async function CompleteRingPage({
     setting = await fetchProductWithPricingBySlug(settingSlug!);
     if (!setting) redirect('/ring-builder/setting');
 
+    // The database is authoritative. This prevents stale buttons or edited
+    // URLs from showing setting/diamond questions for a finished product.
+    finishedPiece = !requiresCenterStone(setting.centre_diamond_group);
+
+    // Finished bands and jewelry already include their listed stones. Do not
+    // let stale or hand-crafted builder URLs attach an unrelated centre stone.
+    if (diamondIds.length > 0 && !requiresCenterStone(setting.centre_diamond_group)) {
+      const params = new URLSearchParams({ setting: setting.slug, finished: '1' });
+      if (chosenMetal) params.set('metal', chosenMetal);
+      redirect(`/ring-builder/review?${params.toString()}`);
+    }
+
     const catalogPrice = parsePriceDisplay(setting.price_display);
     const canComputeLive =
       (setting.gold_weight_g ?? 0) > 0 || (setting.stones_value_usd ?? 0) > 0;
@@ -88,6 +103,11 @@ export default async function CompleteRingPage({
   }
 
   // ── Load all diamonds concurrently ────────────────────────────────────
+  // Per-category markup from the DB (same source the picker uses) so the
+  // review price matches exactly what the customer saw when selecting.
+  const diamondMarkups = await getDiamondMarkups();
+  const dMarkup = diamondMarkups[searchParams.dcat ?? 'natural'] ?? diamondMarkups.natural ?? 2.3;
+
   const reviewDiamonds: ReviewDiamond[] = [];
   if (mode === 'ring' || mode === 'diamond') {
     const results = await Promise.all(
@@ -109,9 +129,7 @@ export default async function CompleteRingPage({
         cert_number: cert?.certNumber ?? null,
         image: nivoda.stone.diamond.image ?? null,
         video: nivoda.stone.diamond.video ?? null,
-        price_usd: Math.round(
-          Number(nivoda.stone.markup_price ?? nivoda.stone.price ?? 0)
-        ),
+        price_usd: Math.round((Number(nivoda.stone.price) || 0) * dMarkup),
         // Map ?hold to the last diamond (the most recently added one when multi-selecting)
         hold_id: i === diamondIds.length - 1 ? holdParam : null,
       });
@@ -145,7 +163,7 @@ export default async function CompleteRingPage({
           {mode === 'ring' ? (
             <>Complete <em>your ring</em></>
           ) : mode === 'setting' ? (
-            <>Purchase <em>your setting</em></>
+            <>Purchase <em>your {finishedPiece ? 'piece' : 'setting'}</em></>
           ) : (
             <>Purchase <em>your diamond{reviewDiamonds.length > 1 ? 's' : ''}</em></>
           )}
@@ -154,7 +172,7 @@ export default async function CompleteRingPage({
           <p className="section-body">
             {mode === 'ring'
               ? "Review your pairing below. When you're ready, place your order and your piece begins in our Los Angeles atelier."
-              : "Review your chosen setting. Your piece will be handcrafted to order in Los Angeles in 4–6 weeks."}
+              : `Review your chosen ${finishedPiece ? 'piece' : 'setting'}. Your piece will be handcrafted to order in Los Angeles in 3 weeks.`}
           </p>
         )}
       </section>
@@ -165,6 +183,8 @@ export default async function CompleteRingPage({
         diamonds={reviewDiamonds}
         settingPrice={settingPrice}
         metal={chosenMetal}
+        dcat={searchParams.dcat ?? 'natural'}
+        finishedPiece={finishedPiece}
       />
 
       <div className="builder-review-edit-row">

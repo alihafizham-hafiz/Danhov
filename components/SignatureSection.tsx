@@ -1,9 +1,16 @@
 import Link from 'next/link';
 import SignatureImageClient from './SignatureImageClient';
 
-const BASE = 'https://wirbqklbygxuafelsqql.supabase.co/storage/v1/object/public/product-images/products/AE505UQ/platinum/Danhov%20Abbraccio%20Swirl%20Diamond%20Engagement%20Ring%20AE505UQ_';
-
-const IMAGES = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `${BASE}${n}.jpg`);
+const IMAGES = [
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-1.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-5.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-7.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-3.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-6.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-2.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-8.jpg',
+  'https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-engagement-ring/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-pl-4.jpg',
+];
 
 const HREF  = '/product/danhov-abbraccio-swirl-diamond-engagement-ring';
 const TITLE = 'Abbraccio Swirl Diamond Engagement Ring';

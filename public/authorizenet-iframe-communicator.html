@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Authorize.Net iframe communicator</title>
+    <script>
+      function callParentFunction(message) {
+        if (
+          message &&
+          window.parent &&
+          window.parent.parent &&
+          window.parent.parent.AuthorizeNetIFrame &&
+          window.parent.parent.AuthorizeNetIFrame.onReceiveCommunication
+        ) {
+          window.parent.parent.AuthorizeNetIFrame.onReceiveCommunication(message);
+        }
+      }
+
+      function receiveMessage(event) {
+        if (event && event.data) callParentFunction(event.data);
+      }
+
+      if (window.addEventListener) {
+        window.addEventListener('message', receiveMessage, false);
+      } else if (window.attachEvent) {
+        window.attachEvent('onmessage', receiveMessage);
+      }
+
+      if (window.location.hash && window.location.hash.length > 1) {
+        callParentFunction(window.location.hash.substring(1));
+      }
+    </script>
+  </head>
+  <body></body>
+</html>

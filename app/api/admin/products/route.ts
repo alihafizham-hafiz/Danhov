@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdmin } from '@/lib/admin-auth';
 import { createServiceClient } from '@/lib/supabase/server';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -43,5 +44,6 @@ export async function POST(req: NextRequest) {
     .select('sku')
     .single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  revalidateStorefront();
   return NextResponse.json({ sku: data.sku });
 }

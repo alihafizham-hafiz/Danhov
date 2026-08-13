@@ -37,7 +37,7 @@ export default function TermsPage() {
         {
           heading: 'Contact',
           body: [
-            'Questions about these terms can be sent to care@danhov.com or by calling (888) 326-4687.',
+            'Questions about these terms can be sent to care@danhov.com or by calling (424) 421-4072.',
           ],
         },
       ]}

@@ -73,7 +73,7 @@ export default function Footer() {
             Handcrafted in Los Angeles since 1984.
           </p>
           <address className="footer-contact" aria-label="DANHOV contact information">
-            <a className="footer-contact-line footer-contact-link" href="tel:+18883264687">(888) 326-4687</a>
+            <a className="footer-contact-line footer-contact-link" href="tel:+14244214072">(424) 421-4072</a>
             <a className="footer-contact-line footer-contact-link" href="mailto:care@danhov.com">care@danhov.com</a>
             <a
               className="footer-contact-line footer-contact-link"
@@ -121,7 +121,7 @@ export default function Footer() {
             <li><Link href="/story">Our Story</Link></li>
             <li><Link href="/philosophy">Philosophy</Link></li>
             <li><Link href="/sustainability">Sustainability</Link></li>
-            <li><Link href="/blog">Journal</Link></li>
+            <li><Link href="/blog">Blog</Link></li>
             <li><Link href="/partner">Partner With Us</Link></li>
             <li><Link href="/affiliate">Affiliate Program</Link></li>
           </ul>

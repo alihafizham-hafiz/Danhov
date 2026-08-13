@@ -56,7 +56,7 @@ export default function GiftCardBalanceChecker() {
           placeholder="DANHOV-XXXX-XXXX-XXXX"
           style={{
             flex: 1, border: '1px solid #d4c9c0', borderRadius: 6,
-            padding: '9px 12px', fontSize: 13, fontFamily: "'Cormorant Garamond', serif",
+            padding: '9px 12px', fontSize: 13, fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
             outline: 'none', letterSpacing: '0.06em',
           }}
           onKeyDown={(e) => e.key === 'Enter' && check()}
@@ -67,7 +67,7 @@ export default function GiftCardBalanceChecker() {
           style={{
             padding: '9px 16px', background: '#1a1410', color: '#fff',
             border: 'none', borderRadius: 6, fontSize: 12, cursor: 'pointer',
-            fontFamily: "'Cormorant Garamond', serif", letterSpacing: '0.08em', whiteSpace: 'nowrap',
+            fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", letterSpacing: '0.08em', whiteSpace: 'nowrap',
           }}
         >
           {loading ? '…' : 'Check'}
@@ -76,7 +76,7 @@ export default function GiftCardBalanceChecker() {
       {error && <p style={{ fontSize: 12, color: '#AC3438', margin: 0 }}>{error}</p>}
       {result && (
         <div style={{ background: '#fff', border: '1px solid #ede8e2', borderRadius: 8, padding: '14px 16px', fontSize: 13 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, color: result.status === 'active' ? '#2a7a2a' : '#AC3438' }}>
+          <div style={{ fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif", fontSize: 22, color: result.status === 'active' ? '#2a7a2a' : '#AC3438' }}>
             ${result.amount_usd.toLocaleString()}
           </div>
           <div style={{ color: '#6b5e57', marginTop: 4 }}>

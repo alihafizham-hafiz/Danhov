@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   const { data: product, error: prodErr } = await client
     .from('products')
     .select(
-      'id, sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, labor_extras, stones_value_usd, stone_groups, commission_rate, is_active'
+      'id, sku, slug, name, default_metal, gold_weight_g, markup_multiplier, base_labor_usd, diamond_labor_usd, casting_labor_per_gram, custom_labor_usd, stones_value_usd, stone_groups, commission_rate, is_active'
     )
     .eq('slug', body.slug)
     .eq('is_active', true)

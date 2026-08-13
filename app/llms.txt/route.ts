@@ -55,7 +55,7 @@ Every product page shows a **live price** computed against today's 24k gold spot
 - Every metal (14k or 18k, yellow / white / rose)
 - Stone selection (diamonds: natural or lab-grown; gemstones available)
 - Complimentary engraving (up to 25 characters)
-- Production: 4–6 weeks
+- Production: 3 weeks
 
 ## Service
 
@@ -89,7 +89,7 @@ ${Array.from(byCategory.entries())
 ## Contact
 
 - Email: care@danhov.com
-- Phone: 1 (888) DANHOV-7
+- Phone: (424) 421-4072
 - Atelier: Los Angeles, California (by private appointment)
 
 ## Sitemap

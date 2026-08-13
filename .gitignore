@@ -42,6 +42,10 @@ yarn-error.log*
 # local operational backups (DB row dumps before destructive changes)
 /_backups/
 
+# local product image mirror/fallback (366MB, deployed via Vercel CLI directly,
+# not committed to keep repo size sane — source of truth is the R2 bucket)
+/public/product-images/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

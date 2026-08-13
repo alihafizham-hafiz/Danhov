@@ -1,24 +1,16 @@
 /**
- * Server-side reconciliation of a Stripe Checkout session against our
- * orders table.
+ * Server-side reconciliation after payment.
  *
- * The /api/checkout/webhook handler is the primary path for moving an
- * order from `pending` → `deposit_paid` — but webhooks are only as
- * reliable as the env config behind them. If STRIPE_WEBHOOK_SECRET
- * isn't set, or the endpoint URL isn't configured in the Stripe
- * dashboard, or Stripe is retrying, the order can sit at `pending`
- * indefinitely while the customer's money is already collected.
+ * Two paths:
+ *   finalizeAuthNetOrder(orderId) — AuthNet Accept Hosted (current)
+ *   finalizeCheckoutSession(sessionId) — legacy Stripe (kept for any old links)
  *
- * `finalizeCheckoutSession()` is a defensive second path: when a
- * customer lands on /order/success, we re-fetch the session straight
- * from Stripe, confirm payment_status === 'paid', and write the same
- * `deposit_paid` transition the webhook would have. Idempotent — if
- * the webhook fired first, we early-return.
+ * Both are idempotent — if the webhook already fired and set deposit_paid,
+ * we return completed immediately without re-writing.
  */
 
-import type Stripe from 'stripe';
-import { getStripe } from '@/lib/stripe';
 import { createServiceClient } from '@/lib/supabase/server';
+import { getTransactionDetails } from '@/lib/authorizenet';
 
 export type FinalizeResult = {
   status: 'completed' | 'pending' | 'not_found' | 'unconfigured';
@@ -27,93 +19,104 @@ export type FinalizeResult = {
   deposit_usd?: number;
 };
 
-export async function finalizeCheckoutSession(
-  sessionId: string,
-): Promise<FinalizeResult> {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return { status: 'unconfigured' };
+/** Primary path: called from /order/success?order_id=UUID */
+export async function finalizeAuthNetOrder(orderId: string): Promise<FinalizeResult> {
+  const client = createServiceClient();
+  const { data: order, error } = await client
+    .from('orders')
+    .select('id, status, milestones, deposit_usd, total_usd, stripe_checkout_session_id, stripe_payment_intent_id, quote_lock_id, product_name')
+    .eq('id', orderId)
+    .maybeSingle();
+
+  if (error || !order) return { status: 'not_found' };
+
+  // Webhook already set this — just confirm
+  if (order.status !== 'pending') {
+    return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
   }
+
+  // IPN may not have arrived yet (race condition). If we have a trans_id,
+  // verify with AuthNet directly and finalize here.
+  const transId = order.stripe_payment_intent_id as string | null;
+  if (transId) {
+    try {
+      const details = await getTransactionDetails(transId);
+      if (!details.approved) return { status: 'pending', order_id: order.id };
+      await flipOrderPaid(client, order, transId);
+      return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
+    } catch {
+      // Network error talking to AuthNet — treat as pending
+      return { status: 'pending', order_id: order.id };
+    }
+  }
+
+  // No trans_id yet (IPN hasn't arrived). AuthNet only redirects to the
+  // success URL after approval, so this almost certainly just means the
+  // IPN is in-flight. Return pending — the page can poll or the user can
+  // refresh.
+  return { status: 'pending', order_id: order.id };
+}
+
+async function flipOrderPaid(
+  client: ReturnType<typeof createServiceClient>,
+  order: { id: string; milestones: unknown; quote_lock_id: string | null },
+  transId: string,
+) {
+  const milestones = (order.milestones as Array<{ name: string; status: string; paid_at?: string }>) || [];
+  const updated = milestones.map(m =>
+    m.name === 'deposit' ? { ...m, status: 'paid', paid_at: new Date().toISOString() } : m
+  );
+
+  await client.from('orders').update({
+    status: 'deposit_paid',
+    milestones: updated,
+    stripe_payment_intent_id: transId,
+  }).eq('id', order.id).eq('status', 'pending');
+
+  if (order.quote_lock_id) {
+    await client.from('quote_locks').update({ consumed: true }).eq('id', order.quote_lock_id);
+  }
+}
+
+/** Legacy Stripe fallback — kept for old session_id links in emails. */
+export async function finalizeCheckoutSession(sessionId: string): Promise<FinalizeResult> {
+  if (!process.env.STRIPE_SECRET_KEY) return { status: 'unconfigured' };
 
   const client = createServiceClient();
   const { data: order, error } = await client
     .from('orders')
-    .select(
-      'id, status, milestones, deposit_usd, total_usd, customer_email, product_name, product_sku, quote_lock_id, shipping_address',
-    )
+    .select('id, status, milestones, deposit_usd, product_name, quote_lock_id')
     .eq('stripe_checkout_session_id', sessionId)
     .maybeSingle();
 
-  if (error || !order) {
-    return { status: 'not_found' };
-  }
+  if (error || !order) return { status: 'not_found' };
 
-  // Already reconciled (webhook beat us to it, or this is a re-load of
-  // the success page after the previous reconciliation succeeded).
   if (order.status !== 'pending') {
-    return {
-      status: 'completed',
-      order_id: order.id,
-      product_name: order.product_name,
-      deposit_usd: Number(order.deposit_usd),
-    };
+    return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
   }
 
-  // Verify the session paid status with Stripe before flipping our
-  // local state — never trust the session_id alone.
-  let session: Stripe.Checkout.Session;
+  // Dynamic import to avoid loading Stripe when unused
+  const { getStripe } = await import('@/lib/stripe');
+  let session: Awaited<ReturnType<ReturnType<typeof getStripe>['checkout']['sessions']['retrieve']>>;
   try {
     session = await getStripe().checkout.sessions.retrieve(sessionId);
-  } catch (e) {
-    console.error('[checkout-finalize] stripe retrieve failed:', e);
+  } catch {
     return { status: 'pending', order_id: order.id };
   }
 
-  if (session.payment_status !== 'paid') {
-    return { status: 'pending', order_id: order.id };
-  }
+  if (session.payment_status !== 'paid') return { status: 'pending', order_id: order.id };
 
-  // Move deposit milestone → paid, mirroring the webhook's logic.
-  const milestones =
-    (order.milestones as Array<{ name: string; status: string; paid_at?: string }>) ||
-    [];
-  const nextMilestones = milestones.map((m) =>
-    m.name === 'deposit'
-      ? { ...m, status: 'paid', paid_at: new Date().toISOString() }
-      : m,
-  );
+  const milestones = (order.milestones as Array<{ name: string; status: string; paid_at?: string }>) || [];
+  const updated = milestones.map(m => m.name === 'deposit' ? { ...m, status: 'paid', paid_at: new Date().toISOString() } : m);
+  await client.from('orders').update({
+    status: 'deposit_paid',
+    milestones: updated,
+    stripe_payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+  }).eq('id', order.id).eq('status', 'pending');
 
-  const { error: updateErr } = await client
-    .from('orders')
-    .update({
-      status: 'deposit_paid',
-      milestones: nextMilestones,
-      stripe_payment_intent_id:
-        typeof session.payment_intent === 'string' ? session.payment_intent : null,
-      shipping_country: session.customer_details?.address?.country ?? null,
-    })
-    .eq('id', order.id)
-    // Race guard — only flip if we still see `pending`. If the webhook
-    // raced us and already wrote `deposit_paid`, the update affects
-    // zero rows and we silently no-op.
-    .eq('status', 'pending');
-
-  if (updateErr) {
-    console.error('[checkout-finalize] order update failed:', updateErr);
-    return { status: 'pending', order_id: order.id };
-  }
-
-  // Consume the quote lock if this order had one (legacy concierge flow).
   if (order.quote_lock_id) {
-    await client
-      .from('quote_locks')
-      .update({ consumed: true })
-      .eq('id', order.quote_lock_id);
+    await client.from('quote_locks').update({ consumed: true }).eq('id', order.quote_lock_id);
   }
 
-  return {
-    status: 'completed',
-    order_id: order.id,
-    product_name: order.product_name,
-    deposit_usd: Number(order.deposit_usd),
-  };
+  return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
 }

@@ -1,5 +1,7 @@
 import { supabaseAnon } from '@/lib/supabase/anon';
+import { localProductImageEntry } from '@/lib/local-product-images';
 import CategoryGridClient, { type EngagementCard } from './CategoryGridClient';
+import SectionCta from '@/components/SectionCta';
 
 // ── Engagement collection definitions ─────────────────────────────────────
 
@@ -119,12 +121,14 @@ function metalPriority(key: string): number {
 
 // Pick the best metal and use ALL its angles for the cycling pool (same color, different views)
 function buildImagesForProduct(
+  sku: string | null,
   images: string[] | null,
   metalImages: Record<string, string[]> | null,
   cap = 8,
   exclude: string[] = []
 ): string[] {
-  const metalMap = metalImages ?? {};
+  const local = localProductImageEntry(sku);
+  const metalMap = local?.metal_images ?? metalImages ?? {};
   const sortedKeys = Object.keys(metalMap)
     .filter(k => (metalMap[k]?.length ?? 0) > 0)
     .sort((a, b) => metalPriority(a) - metalPriority(b));
@@ -138,7 +142,7 @@ function buildImagesForProduct(
   }
 
   // Fallback: regular images
-  const fallback = (images ?? []).filter(img => !exclude.includes(img));
+  const fallback = (local?.images ?? images ?? []).filter(img => !exclude.includes(img));
   return [...new Set(fallback)].slice(0, cap);
 }
 
@@ -159,6 +163,7 @@ async function getCollectionImages(): Promise<Record<string, string[]>> {
       const col = (p.collection as string | null)?.toLowerCase().trim();
       if (!col) continue;
       const imgs = buildImagesForProduct(
+        p.sku as string,
         p.images as string[] | null,
         p.metal_images as Record<string, string[]> | null,
       );
@@ -174,7 +179,8 @@ async function getCollectionImages(): Promise<Record<string, string[]>> {
     for (const [colKey, pinnedSku] of Object.entries(PINNED_SKUS)) {
       const pinned = rows.find(p => (p.sku as string).toLowerCase() === pinnedSku.toLowerCase());
       const pinnedImgs = pinned
-        ? buildImagesForProduct(
+          ? buildImagesForProduct(
+            pinned.sku as string,
             pinned.images as string[] | null,
             pinned.metal_images as Record<string, string[]> | null,
           )
@@ -219,7 +225,7 @@ async function fetchCategoryPreviewImages(
   try {
     const { data } = await supabaseAnon
       .from('products')
-      .select('images, metal_images')
+      .select('sku, images, metal_images')
       .filter('categories', 'cs', JSON.stringify([category]))
       .eq('is_active', true);
 
@@ -229,6 +235,7 @@ async function fetchCategoryPreviewImages(
 
     for (const p of data) {
       const combined = buildImagesForProduct(
+        p.sku as string,
         p.images as string[] | null,
         p.metal_images as Record<string, string[]> | null,
         6,
@@ -252,12 +259,13 @@ export default async function CategoryCardsSection() {
     fetchCategoryPreviewImages('engagement'),
     supabaseAnon
       .from('products')
-      .select('images, metal_images')
+      .select('sku, images, metal_images')
       .eq('sku', 'RK500P')
       .single(),
   ]);
   const fineImgs = await fetchCategoryPreviewImages('fine', [engagementHeroImgs[0]].filter(Boolean));
   const mensImgs = buildImagesForProduct(
+    mensData.data?.sku as string | null,
     mensData.data?.images as string[] | null,
     mensData.data?.metal_images as Record<string, string[]> | null,
   );
@@ -323,6 +331,7 @@ export default async function CategoryCardsSection() {
           engagementCards={[...engagementCards, ...categoryCards]}
         />
       </div>
+        <SectionCta label="Explore Collection" href="/engagement-rings" />
     </section>
   );
 }

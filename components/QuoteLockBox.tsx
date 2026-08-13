@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import DepositButton from '@/components/DepositButton';
+import { SHIPPING_FEE_USD } from '@/lib/shipping';
 
 type MetalOption = {
   metal_used: string;
@@ -221,9 +222,13 @@ export default function QuoteLockBox({ slug, sku }: { slug: string; sku: string 
             Confirmation sent to {email}. Reference{' '}
             <strong>{status.lock.quote_id.slice(0, 8).toUpperCase()}</strong>.
           </p>
+          <p className="quote-lock-disclosure">
+            Insured shipping: ${SHIPPING_FEE_USD.toLocaleString('en-US')} · Checkout total:{' '}
+            <strong>${(status.lock.locked_price_usd + SHIPPING_FEE_USD).toLocaleString('en-US')}</strong>
+          </p>
           <DepositButton quoteId={status.lock.quote_id} email={email} />
           <span className="quote-lock-disclosure" style={{ marginTop: 4 }}>
-            Production: 4–6 weeks. Secured by Stripe.
+            Production: 3 weeks. Secured by Authorize.Net.
           </span>
         </>
       )}

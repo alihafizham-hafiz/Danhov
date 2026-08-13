@@ -74,7 +74,7 @@ function affiliateConfirmHtml(name: string): string {
       <p style="margin:16px 0 0;font-style:italic;color:#7a5c58;">"Waves are the ocean." — Jack Danhov</p>
     </td></tr>
     <tr><td style="padding:20px 44px 28px;text-align:center;background:#fff8f6;border-top:1px solid rgba(172,52,56,0.06);font-size:11px;color:#7a5c58;">
-      <a href="mailto:care@danhov.com" style="color:#AC3438;text-decoration:none;">care@danhov.com</a> · 1 (888) DANHOV-7
+      <a href="mailto:care@danhov.com" style="color:#AC3438;text-decoration:none;">care@danhov.com</a> · (424) 421-4072
     </td></tr>
   </table></td></tr></table></body></html>`;
 }

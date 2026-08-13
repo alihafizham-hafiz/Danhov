@@ -4,7 +4,7 @@ import PolicyPage from '@/components/PolicyPage';
 export const metadata: Metadata = {
   title: 'Shipping & Returns',
   description:
-    'DANHOV shipping and return policy — complimentary insured US shipping, 30-day returns on non-customized pieces, and one complimentary resizing within 60 days.',
+    'DANHOV shipping and return policy — complimentary insured US shipping, 20-day returns on non-customized pieces, and one complimentary resizing within 60 days.',
   alternates: { canonical: '/shipping-and-return-policy' },
 };
 
@@ -18,7 +18,7 @@ export default function ShippingReturnsPage() {
         {
           heading: 'Return Window & Restocking Fees',
           body: [
-            'Returns are accepted within 30 days of purchase.',
+            'Returns are accepted within 20 days of purchase.',
             'Restocking fees apply to high-end products: diamonds carry a 25% restocking fee, lab-grown diamonds 40%, and moissanite 50%.',
             'Engraved items carry an additional $25 re-polishing fee.',
           ],
@@ -34,7 +34,7 @@ export default function ShippingReturnsPage() {
         {
           heading: 'Return Process',
           body: [
-            'To initiate a return, contact us at cs@danhov.com. Our team will provide a prepaid FedEx label and a Return Authorization number within one to two business days.',
+            'To initiate a return, contact us at care@danhov.com. Our team will provide a prepaid FedEx label and a Return Authorization number within one to two business days.',
             'US and Canada customers receive complimentary return shipping labels (limited to three per customer). International customers are responsible for a $50 return shipping fee.',
           ],
         },
@@ -49,7 +49,7 @@ export default function ShippingReturnsPage() {
           heading: 'Shipping',
           body: [
             'Domestic (US) shipping is complimentary and fully insured, sent via FedEx Priority Overnight with signature required.',
-            'International shipments are fully insured and hand-delivered where possible. Production plus shipping is typically 4–6 weeks from a confirmed order.',
+            'International shipments are fully insured and hand-delivered where possible. Production plus shipping is typically 3 weeks from a confirmed order.',
           ],
         },
         {
@@ -63,7 +63,7 @@ export default function ShippingReturnsPage() {
         {
           heading: 'Payment',
           body: [
-            'Payment is collected securely at checkout via Stripe. You may also pay by phone with a DANHOV specialist.',
+            'Payment is collected securely at checkout via Authorize.Net. You may also pay by phone with a DANHOV specialist.',
           ],
         },
       ]}

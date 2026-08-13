@@ -1,15 +1,18 @@
 /**
- * Gift Card purchase — creates a Stripe Checkout session.
+ * Gift Card purchase — Authorize.Net Accept Hosted.
  *
- * On success, Stripe fires checkout.session.completed → the webhook
- * at /api/checkout/webhook generates the gift card code and emails
- * the recipient.
+ * Flow:
+ *   1. Insert pending gift_card rows (codes generated up-front)
+ *   2. Get AuthNet hosted-payment token
+ *   3. Redirect to /checkout/pay
+ *   4. AuthNet webhook fires → activates cards and emails recipient(s)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { randomUUID } from 'crypto';
 import { createServiceClient } from '@/lib/supabase/server';
-import { getStripe } from '@/lib/stripe';
+import { authNetConfigured, createHostedPaymentSession } from '@/lib/authorizenet';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -28,13 +31,12 @@ const Body = z.object({
 
 function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  const seg = () =>
-    Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  const seg = () => Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
   return `DANHOV-${seg()}-${seg()}-${seg()}`;
 }
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY) {
+  if (!authNetConfigured()) {
     return NextResponse.json(
       { error: 'Payment processing is not yet enabled. Please contact care@danhov.com.' },
       { status: 503 }
@@ -49,20 +51,40 @@ export async function POST(req: NextRequest) {
   }
 
   const { amount, quantity, sender_name, sender_email, recipient_name, recipient_email, message, deliver_at, for_self } = body;
+  const totalUsd = amount * quantity;
 
-  const stripe = getStripe();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://danhov.com';
+  // Generate a shared payment ref for all cards in this purchase
+  const paymentRef = `GC-${randomUUID().slice(0, 8).toUpperCase()}`; // e.g. GC-6A872BB1
 
-  // Create one pending gift card row per quantity
   const sb = createServiceClient();
-  const codes: string[] = [];
-  for (let i = 0; i < quantity; i++) {
-    codes.push(generateCode());
+
+  const host = req.headers.get('host') ?? '';
+  const proto = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
+  const siteUrl = `${proto}://${host}`;
+
+  const itemName = quantity === 1
+    ? `DANHOV Gift Card — $${amount.toLocaleString()}`
+    : `DANHOV Gift Cards ×${quantity} — $${amount.toLocaleString()} each`;
+
+  // Create the hosted payment session first so we can key the cards to its invoice ref.
+  let session: { id: string; url: string };
+  try {
+    session = await createHostedPaymentSession({
+      orderId: paymentRef,
+      amountUsd: totalUsd,
+      description: `${itemName}${for_self ? '' : ` — For ${recipient_name}`}`,
+      email: sender_email.toLowerCase(),
+      successUrl: `${siteUrl}/gift-cards/success`,
+      cancelUrl: `${siteUrl}/gift-cards/buy`,
+    });
+  } catch (e) {
+    console.error('[gift-cards/purchase] AuthNet session error:', e);
+    return NextResponse.json({ error: 'Payment gateway error. Please try again or contact care@danhov.com.' }, { status: 502 });
   }
 
-  // Insert pending rows so we have IDs before Stripe session
-  const gcRows = codes.map((code) => ({
-    code,
+  // Insert pending rows keyed to the gateway invoice ref; the webhook activates them.
+  const gcRows = Array.from({ length: quantity }, () => ({
+    code: generateCode(),
     amount_usd: amount,
     sender_name,
     sender_email: sender_email.toLowerCase(),
@@ -71,63 +93,14 @@ export async function POST(req: NextRequest) {
     message: message || null,
     deliver_at: deliver_at ? new Date(deliver_at).toISOString() : null,
     status: 'pending',
+    stripe_session_id: session.id,
   }));
 
-  const { data: inserted, error: dbErr } = await sb
-    .from('gift_cards')
-    .insert(gcRows)
-    .select('id, code');
-
-  if (dbErr || !inserted) {
-    console.error('gift-cards/purchase db error:', dbErr?.message);
+  const { error: dbErr } = await sb.from('gift_cards').insert(gcRows);
+  if (dbErr) {
+    console.error('[gift-cards/purchase] db error:', dbErr.message);
     return NextResponse.json({ error: 'Could not create gift card. Please try again.' }, { status: 500 });
   }
 
-  const cardIds = inserted.map((r: { id: string }) => r.id).join(',');
-
-  const itemName =
-    quantity === 1
-      ? `DANHOV Gift Card — $${amount.toLocaleString()}`
-      : `DANHOV Gift Cards × ${quantity} — $${amount.toLocaleString()} each`;
-
-  const recipientLine = for_self ? 'For yourself' : `For: ${recipient_name} <${recipient_email}>`;
-
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    payment_method_types: ['card'],
-    customer_email: sender_email.toLowerCase(),
-    success_url: `${siteUrl}/gift-cards/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/gift-cards/buy`,
-    line_items: [
-      {
-        quantity: 1,
-        price_data: {
-          currency: 'usd',
-          unit_amount: amount * quantity * 100,
-          product_data: {
-            name: itemName,
-            description: `${recipientLine}${message ? ` · "${message.slice(0, 80)}${message.length > 80 ? '…' : ''}"` : ''}`,
-          },
-        },
-      },
-    ],
-    metadata: {
-      flow: 'gift_card',
-      gift_card_ids: cardIds,
-      amount_usd: String(amount),
-      quantity: String(quantity),
-      sender_name,
-      sender_email: sender_email.toLowerCase(),
-      recipient_name,
-      recipient_email: recipient_email.toLowerCase(),
-    },
-  });
-
-  // Attach stripe session ID to gift card rows
-  await sb
-    .from('gift_cards')
-    .update({ stripe_session_id: session.id })
-    .in('id', inserted.map((r: { id: string }) => r.id));
-
-  return NextResponse.json({ url: session.url, session_id: session.id });
+  return NextResponse.json({ url: session.url });
 }

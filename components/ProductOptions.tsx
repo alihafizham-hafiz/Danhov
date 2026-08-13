@@ -3,12 +3,14 @@
 import { useRouter } from 'next/navigation';
 import MetalSwatches from '@/components/MetalSwatches';
 import { useMetal } from '@/components/MetalContext';
+import { requiresCenterStone } from '@/lib/product-purchase-mode';
 
 type Props = {
   sku: string;
   slug: string;
   name: string;
   collection: string | null;
+  centreDiamondGroup: { count?: number | null } | null;
   metals: string[];
   defaultMetal: string | null;
   images: string[];
@@ -23,6 +25,7 @@ export default function ProductOptions({
   slug,
   name,
   collection: _collection,
+  centreDiamondGroup,
   metals,
   defaultMetal: _defaultMetal,
   images: _images,
@@ -48,8 +51,13 @@ export default function ProductOptions({
   }
 
   function buyRingOnly() {
-    router.push(`/ring-builder/review?setting=${encodeURIComponent(slug)}`);
+    const params = new URLSearchParams({ setting: slug });
+    if (metal) params.set('metal', metal);
+    if (!requiresCenterStone(centreDiamondGroup)) params.set('finished', '1');
+    router.push(`/ring-builder/review?${params.toString()}`);
   }
+
+  const isSetting = requiresCenterStone(centreDiamondGroup);
 
   return (
     <>
@@ -60,27 +68,30 @@ export default function ProductOptions({
       />
 
       {displayPrice && (
-        <p className="product-price">{displayPrice}</p>
+        <>
+          <p className="product-price">{displayPrice}</p>
+          <p className="product-price-note">
+            {isSetting
+              ? 'Includes the setting and listed accent diamonds. Centre diamond selected separately.'
+              : 'Includes the finished piece and all listed diamonds.'}
+          </p>
+        </>
       )}
 
       <div className="atb">
-        <button
-          type="button"
-          className="atb-btn"
-          onClick={goToDiamond}
-        >
+        {isSetting && <button type="button" className="atb-btn" onClick={goToDiamond}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           Choose Your Diamond
-        </button>
+        </button>}
 
         <button
           type="button"
           className="atb-btn atb-btn--secondary"
           onClick={buyRingOnly}
         >
-          Buy Ring Only
+          {isSetting ? 'Buy Setting Only' : 'Buy This Piece'}
         </button>
 
         <div className="atb-trust">

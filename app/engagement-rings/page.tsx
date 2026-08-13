@@ -15,11 +15,6 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 // Collection chips on /engagement-rings.
-//
-// "Per Lei" is rendered specially — Per Lei *is* the U Collection per the
-// client. When that chip is active, the listing component renders the
-// U Collection narrative content instead of any product grid. See
-// ListingPage.tsx for the branch (matches on value === 'per-lei').
 const COLLECTIONS = [
   { label: 'Abbraccio', value: 'abbraccio' },
   { label: 'Voltaggio', value: 'voltaggio' },
@@ -34,15 +29,10 @@ const COLLECTIONS = [
   { label: 'Unito', value: 'unito' },
 ];
 
-export default async function EngagementRingsPage({
-  searchParams,
-}: {
-  searchParams: { collection?: string };
-}) {
+export default async function EngagementRingsPage() {
   const rawProducts = await fetchProductsWithPricingByCategory('engagement');
   const priceMap = await computeListingPriceMap(rawProducts);
   const products = rawProducts.map(p => ({ ...p, price_computed: priceMap[p.sku] }));
-  const initialCollection = searchParams.collection ?? 'all';
 
   return (
     <>
@@ -59,7 +49,6 @@ export default async function EngagementRingsPage({
             '"Every ring is a <span>living geometry</span> — an eternal circle holding the infinite story of two souls becoming one."',
         }}
         products={products}
-        initialCollection={initialCollection}
       />
       <PageBlocks pageSlug="engagement-rings" />
     </>
