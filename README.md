@@ -33,7 +33,7 @@ Git with an email address associated with your GitHub account so Vercel can
 identify the commit author:
 
 ```bash
-git config user.email "your-github-email@example.com"
+git config user.email "seniorcloser@gmail.com"
 ```
 
 ## Project structure
