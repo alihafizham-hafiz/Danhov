@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Cormorant_Garamond } from 'next/font/google';
 
 const cormorant = Cormorant_Garamond({
@@ -112,6 +113,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Loaded for storefront and admin alike; it is cookieless. */}
         <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-HE85QHZ7WW" />
     </html>
   );
 }
