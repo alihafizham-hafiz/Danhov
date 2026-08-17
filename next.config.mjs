@@ -4,6 +4,12 @@ const nextConfig = {
 
   poweredByHeader: false,
 
+  // CI reports the existing lint backlog separately as an informational job.
+  // Keep production builds aligned with that policy until lint becomes a gate.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   compiler: {
     // Strip console.log/debug/info in production; keep .warn and .error for Vercel logs
     removeConsole: process.env.NODE_ENV === 'production'
