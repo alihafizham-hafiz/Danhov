@@ -307,14 +307,24 @@ export type PriceBreakdown = {
 
 /**
  * Parse a product's metals array into canonical metal keys.
- * Handles both stored keys ('14k_yellow') and display names ('14k Yellow Gold').
+ * Handles both stored keys ('14k_yellow') and display names ('14k Yellow Gold') —
+ * the latter come from legacy Magento text split verbatim by scripts/seed-products.ts,
+ * so a trailing "gold" (as in "14k_yellow_gold") must be stripped to match DENSITY_RATIO.
  */
 export function availableMetals(metals: string[]): string[] {
   if (!metals || metals.length === 0) return [];
   const ALL_KEYS = new Set(Object.keys(DENSITY_RATIO));
-  return metals
-    .map((m) => m.toLowerCase().trim().replace(/\s+/g, '_'))
-    .filter((m) => ALL_KEYS.has(m));
+  const out = new Set<string>();
+  for (const raw of metals) {
+    const norm = raw.toLowerCase().trim().replace(/\s+/g, '_');
+    if (ALL_KEYS.has(norm)) {
+      out.add(norm);
+      continue;
+    }
+    const withoutGold = norm.replace(/_gold$/, '');
+    if (ALL_KEYS.has(withoutGold)) out.add(withoutGold);
+  }
+  return Array.from(out);
 }
 
 /**

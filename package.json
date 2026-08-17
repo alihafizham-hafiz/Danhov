@@ -9,6 +9,8 @@
     "check:images": "node scripts/verify-product-images.mjs",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "seed": "tsx scripts/seed-products.ts",
     "seed:admin": "node scripts/seed-admin.mjs",
     "seed:blocks": "node scripts/seed-page-blocks.mjs"
@@ -37,6 +39,7 @@
     "eslint-config-next": "^14.2.35",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
+    "vitest": "^4.1.10",
     "ws": "^8.20.1"
   },
   "engines": {

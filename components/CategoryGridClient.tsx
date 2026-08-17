@@ -1,8 +1,8 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // ── Shared types ──────────────────────────────────────────────────────────
 
@@ -111,15 +111,13 @@ function RailCard({ card }: { card: EngagementCard }) {
               key={src}
               className={`img-slide${i === activeIdx ? ' img-slide--active' : ''}`}
             >
-              <img
+              <Image
                 src={src}
                 alt={card.label}
-                style={{
-                  width: '100%', height: '100%',
-                  objectFit: 'contain', objectPosition: 'center',
-                  display: 'block',
-                }}
-                loading="eager"
+                fill
+                sizes="(max-width: 600px) 90vw, 384px"
+                style={{ objectFit: 'contain', objectPosition: 'center' }}
+                priority={i === 0}
               />
             </div>
           ))

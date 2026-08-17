@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 /**
  * Full-screen brand splash shown on the *initial* page load (hard load / first
@@ -50,8 +51,14 @@ export default function InitialLoader() {
             <circle cx="100" cy="58" r="5" fill="#AC3438" opacity="0.7" />
             <circle cx="100" cy="142" r="3" fill="#AC3438" opacity="0.4" />
           </svg>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="route-loader-mark" src="/danhov-mark.png" alt="" width={643} height={824} />
+          <Image
+            className="route-loader-mark"
+            src="/danhov-mark.png"
+            alt=""
+            width={45}
+            height={58}
+            priority
+          />
         </div>
       </div>
     </div>
