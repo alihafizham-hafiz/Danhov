@@ -22,9 +22,6 @@ const SHAPES = [
   'Round', 'Oval', 'Cushion', 'Princess', 'Emerald',
   'Pear', 'Radiant', 'Heart', 'Marquise', 'Asscher',
 ] as const;
-const COLORS = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'] as const;
-const CLARITIES = ['FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2'] as const;
-const CUTS = ['EX', 'ID', 'VG'] as const;
 const CARAT_BUCKETS = [0.30, 0.50, 0.70, 1.00, 1.25, 1.50, 1.75, 2.00, 2.50, 3.00];
 
 /**

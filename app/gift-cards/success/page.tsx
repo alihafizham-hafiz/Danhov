@@ -13,7 +13,7 @@ export default function GiftCardSuccessPage() {
         </h1>
         <p style={{ fontSize: 15, color: '#6b5e57', lineHeight: 1.7, margin: '0 0 32px' }}>
           Your DANHOV gift card has been purchased and will be delivered to the
-          recipient's email on the date you selected. A receipt has been sent to
+          recipient&apos;s email on the date you selected. A receipt has been sent to
           your email as well.
         </p>
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>

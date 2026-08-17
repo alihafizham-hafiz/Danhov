@@ -579,7 +579,7 @@ export default function GiftCardBuyFlow() {
                   </span>
                 </div>
                 {form.message && (
-                  <div className="gcb-review-msg">"{form.message}"</div>
+                  <div className="gcb-review-msg">&quot;{form.message}&quot;</div>
                 )}
               </div>
             </div>

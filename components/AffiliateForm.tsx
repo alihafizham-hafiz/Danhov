@@ -47,7 +47,7 @@ export default function AffiliateForm() {
         <h3 className="aff-success-title">Application received.</h3>
         <p className="aff-success-body">
           Thank you for applying. We review every application individually and
-          you'll hear from us within two business days.
+          you&apos;ll hear from us within two business days.
         </p>
       </div>
     );

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AbbraccioStorySection() {
   return (
@@ -37,10 +38,12 @@ export default function AbbraccioStorySection() {
         </div>
 
         <div className="abbr-visual">
-          <img
+          <Image
             src="/abbraccio-one-wire-story.jpeg"
             alt="Abbraccio ring shown as two lines returning to one"
             className="abbr-photo"
+            width={1600}
+            height={900}
           />
         </div>
       </div>

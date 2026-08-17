@@ -4,13 +4,11 @@ import { useEffect, useMemo, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
-  computeProductTotal,
   computeStoneBreakdown,
   pricePerCaratFromCt,
   effectiveSizeMm,
   DIAMOND_SHAPES,
   DENSITY_RATIO,
-  RHODIUM_UPLIFT_DISPLAY,
   METAL_LABEL_DISPLAY,
   type StoneGroup,
 } from '@/lib/stone-math';
@@ -233,18 +231,6 @@ export default function ProductEditor({
   }, [activeTab]);
 
   // Stone / labour derived values
-  const productTotal = useMemo(
-    () =>
-      computeProductTotal({
-        stoneGroups:        form.stone_groups,
-        weightInPlatinumG:  form.gold_weight_g,
-        jewelleryLabourUsd: form.base_labor_usd,
-        diamondLabourUsd:   form.diamond_labor_usd,
-        defaultMetal:       form.default_metal,
-      }),
-    [form.stone_groups, form.gold_weight_g, form.base_labor_usd, form.diamond_labor_usd, form.default_metal],
-  );
-
   const totalStoneCount = useMemo(
     () => (form.stone_groups ?? []).reduce((s, g) => s + (g.count ?? 0), 0),
     [form.stone_groups],
@@ -266,7 +252,6 @@ export default function ProductEditor({
   });
 
   const extrasTotal  = laborExtras.three_d_run + laborExtras.rhodium + laborExtras.laser_engraving;
-  const totalLabour  = settingLabour + centreLabour + customLabour + extrasTotal;
 
   const [saving,   setSaving]   = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -520,14 +505,6 @@ export default function ProductEditor({
       [arr[idx], arr[j]] = [arr[j], arr[idx]];
       map[metal] = arr;
       return { ...f, metal_images: map };
-    });
-  }
-
-  function toggleMetal(m: string) {
-    setForm((f) => {
-      const s = new Set(f.metals ?? []);
-      if (s.has(m)) s.delete(m); else s.add(m);
-      return { ...f, metals: Array.from(s) };
     });
   }
 

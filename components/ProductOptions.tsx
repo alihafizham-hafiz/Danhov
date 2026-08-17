@@ -23,7 +23,7 @@ type Props = {
 export default function ProductOptions({
   sku: _sku,
   slug,
-  name,
+  name: _name,
   collection: _collection,
   centreDiamondGroup,
   metals,

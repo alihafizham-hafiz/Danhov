@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 type Stage = 'input' | 'generating' | 'error';
 
@@ -28,7 +27,6 @@ export default function AIProductWizard({
   }) => void;
   onSwitchToManual: () => void;
 }) {
-  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [platinumWeight, setPlatinumWeight] = useState<number>(4.0);

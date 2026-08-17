@@ -43,13 +43,16 @@ export async function POST(req: NextRequest) {
   // 1) Read raw body (needed for signature check)
   const rawBody = await req.text();
 
-  // 2) Optional but recommended — verify the signature if a signing key is set.
+  // 2) Verify the signature. Fail closed: a misconfigured/missing signing key
+  // must reject the request, not silently accept an unsigned payload.
   const signingKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY;
-  if (signingKey) {
-    const header = req.headers.get('calendly-webhook-signature') || '';
-    if (!verifyCalendlySignature(rawBody, header, signingKey)) {
-      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-    }
+  if (!signingKey) {
+    console.error('consultation/webhook: CALENDLY_WEBHOOK_SIGNING_KEY not configured');
+    return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 });
+  }
+  const header = req.headers.get('calendly-webhook-signature') || '';
+  if (!verifyCalendlySignature(rawBody, header, signingKey)) {
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
 
   let json: CalendlyPayload;

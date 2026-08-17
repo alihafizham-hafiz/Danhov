@@ -11,6 +11,7 @@ import { bankTransferEnabled, BANK_METHOD } from '@/lib/bank';
 import { priceProduct } from '@/lib/pricing';
 import { fetchProductWithPricingBySlug } from '@/lib/products';
 import { SHIPPING_FEE_USD } from '@/lib/shipping';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -66,6 +67,15 @@ const Body = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(ip, 'cart-checkout', 20, 10 * 60 * 1000);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } }
+    );
+  }
+
   let body: z.infer<typeof Body>;
   try {
     body = Body.parse(await req.json());

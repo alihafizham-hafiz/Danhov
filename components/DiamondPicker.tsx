@@ -36,7 +36,7 @@ export function DiamondCardMedia({
   image,
   video,
   shape,
-  carat,
+  carat: _carat,
   autoPlay = false,
 }: {
   image: string | null;
@@ -211,18 +211,6 @@ const SHAPES: { value: Shape; label: string }[] = [
   { value: 'ASSCHER', label: 'Asscher' },
 ];
 
-const SHAPE_IMAGES: Record<Shape, string> = {
-  ROUND:    '/diamond-shapes/round.jpg',
-  OVAL:     '/diamond-shapes/oval.jpg',
-  CUSHION:  '/diamond-shapes/cushion.jpg',
-  PRINCESS: '/diamond-shapes/princess.jpg',
-  EMERALD:  '/diamond-shapes/emerald.jpg',
-  PEAR:     '/diamond-shapes/pear.jpg',
-  RADIANT:  '/diamond-shapes/radiant.jpg',
-  HEART:    '/diamond-shapes/heart.png',
-  MARQUISE: '/diamond-shapes/marquise.jpg',
-  ASSCHER:  '/diamond-shapes/asscher.jpg',
-};
 const COLORS: Color[] = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
 const CLARITIES: Clarity[] = ['FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2'];
 const CUTS: { value: Cut; label: string }[] = [
@@ -273,117 +261,6 @@ function ShapeIcon({ shape, color = 'currentColor' }: { shape: Shape; color?: st
   }
 }
 
-/**
- * Multi-faceted diamond illustration used when a stone has no real image
- * (e.g. fallback inventory). Renders a top-view brilliant cut with facet
- * lines, sparkle highlights and a soft drop-shadow so the card reads as
- * a polished catalogue entry rather than a placeholder.
- */
-function DiamondGlyph({ shape, carat }: { shape: Shape; carat: number }) {
-  // Scale the glyph slightly by carat — bigger stones read as bigger
-  // illustrations. Clamps to [0.85, 1.15].
-  const scale = Math.min(1.15, Math.max(0.85, 0.85 + (carat / 5)));
-
-  // For shapes we don't have a custom diamond rendering of, fall back to
-  // the silhouette icon centred in the media area.
-  if (shape !== 'ROUND' && shape !== 'OVAL' && shape !== 'CUSHION' && shape !== 'PRINCESS') {
-    return (
-      <svg viewBox="0 0 100 100" aria-hidden="true" style={{ width: '100%', height: '100%' }}>
-        <defs>
-          <radialGradient id="bg" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="#ffe1d6" />
-            <stop offset="100%" stopColor="#f6dcd1" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="50" cy="50" r="48" fill="url(#bg)" />
-        <g transform={`translate(50 50) scale(${scale}) translate(-20 -20)`}>
-          <ShapeIcon shape={shape} color="#AC3438" />
-        </g>
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 100 100" aria-hidden="true" style={{ width: '100%', height: '100%' }}>
-      <defs>
-        {/* Soft pink sparkle wash behind the stone */}
-        <radialGradient id="dg-bg" cx="50%" cy="40%" r="60%">
-          <stop offset="0%" stopColor="#fff0e8" />
-          <stop offset="100%" stopColor="#f6dcd1" stopOpacity="0" />
-        </radialGradient>
-        {/* Stone gradient — silver/white with warm tints */}
-        <radialGradient id="dg-stone" cx="40%" cy="35%" r="70%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-          <stop offset="55%" stopColor="#f8e9e1" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#e8c8bb" stopOpacity="0.75" />
-        </radialGradient>
-      </defs>
-
-      {/* Backdrop wash */}
-      <circle cx="50" cy="50" r="48" fill="url(#dg-bg)" />
-
-      <g transform={`translate(50 50) scale(${scale}) translate(-50 -50)`}>
-        {/* Stone outline + fill */}
-        {shape === 'ROUND' && (
-          <>
-            <circle cx="50" cy="50" r="32" fill="url(#dg-stone)" stroke="#AC3438" strokeWidth="1.2" />
-            {/* Star facets */}
-            <g stroke="#AC3438" strokeWidth="0.5" opacity="0.55" fill="none">
-              <circle cx="50" cy="50" r="22" />
-              <circle cx="50" cy="50" r="12" />
-              <line x1="50" y1="18" x2="50" y2="82" />
-              <line x1="18" y1="50" x2="82" y2="50" />
-              <line x1="27" y1="27" x2="73" y2="73" />
-              <line x1="73" y1="27" x2="27" y2="73" />
-            </g>
-            {/* Sparkle highlights */}
-            <circle cx="40" cy="36" r="3" fill="#ffffff" opacity="0.95" />
-            <circle cx="62" cy="44" r="1.4" fill="#ffffff" opacity="0.85" />
-          </>
-        )}
-
-        {shape === 'OVAL' && (
-          <>
-            <ellipse cx="50" cy="50" rx="24" ry="34" fill="url(#dg-stone)" stroke="#AC3438" strokeWidth="1.2" />
-            <g stroke="#AC3438" strokeWidth="0.5" opacity="0.55" fill="none">
-              <ellipse cx="50" cy="50" rx="16" ry="24" />
-              <ellipse cx="50" cy="50" rx="8" ry="12" />
-              <line x1="50" y1="16" x2="50" y2="84" />
-              <line x1="26" y1="50" x2="74" y2="50" />
-            </g>
-            <ellipse cx="42" cy="34" rx="3.5" ry="5" fill="#ffffff" opacity="0.9" />
-          </>
-        )}
-
-        {shape === 'CUSHION' && (
-          <>
-            <rect x="18" y="18" width="64" height="64" rx="14" fill="url(#dg-stone)" stroke="#AC3438" strokeWidth="1.2" />
-            <g stroke="#AC3438" strokeWidth="0.5" opacity="0.55" fill="none">
-              <rect x="26" y="26" width="48" height="48" rx="10" />
-              <rect x="36" y="36" width="28" height="28" rx="5" />
-              <line x1="50" y1="18" x2="50" y2="82" />
-              <line x1="18" y1="50" x2="82" y2="50" />
-            </g>
-            <circle cx="38" cy="36" r="3" fill="#ffffff" opacity="0.9" />
-          </>
-        )}
-
-        {shape === 'PRINCESS' && (
-          <>
-            <rect x="20" y="20" width="60" height="60" fill="url(#dg-stone)" stroke="#AC3438" strokeWidth="1.2" />
-            <g stroke="#AC3438" strokeWidth="0.5" opacity="0.55" fill="none">
-              <line x1="20" y1="20" x2="80" y2="80" />
-              <line x1="80" y1="20" x2="20" y2="80" />
-              <line x1="50" y1="20" x2="50" y2="80" />
-              <line x1="20" y1="50" x2="80" y2="50" />
-            </g>
-            <circle cx="36" cy="34" r="2.6" fill="#ffffff" opacity="0.9" />
-          </>
-        )}
-      </g>
-    </svg>
-  );
-}
 
 function ensureSessionId(): string {
   if (typeof window === 'undefined') return 'srv';
@@ -547,7 +424,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
       .finally(() => {
         if (reqId === lastReq.current) setLoading(false);
       });
-  }, [filterSignature, offset, shape, labgrown, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir]);
+  }, [filterSignature, offset, shape, labgrown, caratMin, caratMax, colors, clarities, cuts, sortField, sortDir, fancyColors, fancyMode]);
 
   // Selecting a stone places a short Nivoda hold (reserves it while the
   // customer reviews) and advances straight to the Complete Ring screen —

@@ -78,15 +78,23 @@ export async function generateMetadata({
   const hero = product.images?.[0] ?? null;
 
   const cleanName = stripMetalSuffix(product.name);
+  // Engagement pieces are configured through the ring builder — that's the
+  // canonical URL for those. This page still renders (customers land here
+  // from search/links), it just isn't the one Google should index, so it
+  // doesn't compete with /ring-builder/setting/<slug> for the same product.
+  const canonicalPath =
+    product.category === 'engagement'
+      ? `/ring-builder/setting/${product.slug}`
+      : `/product/${product.slug}`;
   return {
     title: cleanName,
     description: narrative.meta_description,
-    alternates: { canonical: `/product/${product.slug}` },
+    alternates: { canonical: canonicalPath },
     openGraph: {
       title: cleanName,
       description: narrative.meta_description,
       type: 'website',
-      url: `/product/${product.slug}`,
+      url: canonicalPath,
       images: hero ? [{ url: hero }] : undefined,
     },
     twitter: {
@@ -104,7 +112,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   // Compute live prices per metal variant so the detail page can update
   // the displayed price when the customer switches metal swatches.
-  let pricemap: Record<string, number> = {};
+  const pricemap: Record<string, number> = {};
   const hasPricingData = (product.gold_weight_g ?? 0) > 0;
 
   const primaryCategory = product.categories[0] ?? product.category;

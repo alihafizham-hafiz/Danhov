@@ -15,7 +15,7 @@ type PresentationPayload = {
   signature?: string;
 };
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params: _params }: { params: { slug: string } }) {
   return {
     title: 'A Private DANHOV Presentation',
     robots: { index: false, follow: false },

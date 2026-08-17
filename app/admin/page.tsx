@@ -14,7 +14,23 @@ type Stats = {
   locks_active: number;
 };
 
-async function loadStats(): Promise<{ stats: Stats; recentOrders: any[]; upcomingConsultations: any[] }> {
+type RecentOrder = {
+  id: string;
+  customer_email: string | null;
+  total_usd: number;
+  status: string;
+  created_at: string;
+};
+
+type UpcomingConsultation = {
+  id: string;
+  customer_email: string | null;
+  customer_name: string | null;
+  scheduled_at: string;
+  status: string;
+};
+
+async function loadStats(): Promise<{ stats: Stats; recentOrders: RecentOrder[]; upcomingConsultations: UpcomingConsultation[] }> {
   const sb = createServiceClient();
   const now = new Date().toISOString();
 

@@ -1,4 +1,5 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createClient as createSupabaseJsClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
@@ -36,7 +37,6 @@ export function createClient() {
  * Throws a clear error if neither is set.
  */
 export function createServiceClient() {
-  const { createClient } = require('@supabase/supabase-js');
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
@@ -49,5 +49,5 @@ export function createServiceClient() {
       'Missing Supabase service-role key. Set SUPABASE_SERVICE_ROLE_KEY (or legacy SUPABASE_SECRET_KEY) in your environment.'
     );
   }
-  return createClient(url, key, { auth: { persistSession: false } });
+  return createSupabaseJsClient(url, key, { auth: { persistSession: false } });
 }

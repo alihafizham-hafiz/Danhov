@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import PartnerForm from '@/components/PartnerForm';
 
 export const metadata: Metadata = {

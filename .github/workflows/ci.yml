@@ -25,6 +25,5 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Lint (informational — not yet a merge gate, see repo README)
+      - name: Lint
         run: npm run lint
-        continue-on-error: true

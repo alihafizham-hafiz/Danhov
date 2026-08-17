@@ -96,7 +96,7 @@ export default async function SettingDetailPage({ params, searchParams }: Props)
   const availableMetalCopy = metalsWithImages.map((m) => METAL_LABEL_DISPLAY[m] ?? m).join(' · ');
 
   // Compute live per-metal prices
-  let pricemap: Record<string, number> = {};
+  const pricemap: Record<string, number> = {};
   if ((product.gold_weight_g ?? 0) > 0) {
     try {
       const breakdowns = await priceAllOptions(product, [...ALL_METALS]);

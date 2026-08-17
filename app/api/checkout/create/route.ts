@@ -16,6 +16,7 @@ import { randomUUID } from 'crypto';
 import { createServiceClient } from '@/lib/supabase/server';
 import { authNetConfigured, createHostedPaymentSession } from '@/lib/authorizenet';
 import { SHIPPING_FEE_USD } from '@/lib/shipping';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -28,6 +29,15 @@ const Body = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(ip, 'checkout-create', 20, 10 * 60 * 1000);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } }
+    );
+  }
+
   if (!authNetConfigured()) {
     return NextResponse.json(
       { error: 'Online deposits are not yet enabled. Please call (424) 421-4072 and we will take payment by phone.' },

@@ -83,10 +83,6 @@ function baseSkuKey(sku: string | null | undefined): string {
   return sku.replace(/-\d*[a-z]+$/i, '').toLowerCase();
 }
 
-function displayBaseSku(sku: string): string {
-  return sku.replace(/-\d*[a-z]+$/i, '');
-}
-
 // Determine the primary metal for this product variant (for swatch colour)
 function variantPrimaryMetal(p: Product): string | null {
   const concrete = concreteMetalKeys(p);
@@ -816,7 +812,6 @@ function SettingGroupCard({ group, diamondId, diamondsParam }: { group: ProductG
     ? `?diamond=${encodeURIComponent(diamondId)}`
     : '';
   const canonicalHref = `/ring-builder/setting/${p.slug}${dSuffix}`;
-  const baseSku = p.sku ? displayBaseSku(p.sku) : null;
 
   return (
     <div

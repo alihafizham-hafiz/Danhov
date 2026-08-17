@@ -20,6 +20,7 @@ import { getDiamondMarkups } from '@/lib/diamond-markups';
 import { priceProduct } from '@/lib/pricing';
 import { fetchProductWithPricingBySlug } from '@/lib/products';
 import { refreshDiamond } from '@/lib/nivoda-cache';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 const DEPOSIT_PERCENT = 1;
 import { stripMetalSuffix } from '@/lib/product-display';
@@ -95,6 +96,15 @@ function skuForMetal(rawSku: string, metal: string | null | undefined): string {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(ip, 'ring-builder-checkout', 20, 10 * 60 * 1000);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } }
+    );
+  }
+
   if (!authNetConfigured()) {
     return NextResponse.json(
       { error: 'Online deposits are not yet enabled. Please call (424) 421-4072 and we will take payment by phone.' },

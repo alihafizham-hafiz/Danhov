@@ -134,8 +134,6 @@ export function priceDiamond(
 // Build a curated catalog of ~80 stones covering the popular ranges.
 // IDs are stable strings so we can put them in URLs.
 
-const CARAT_OPTIONS: number[] = [0.5, 0.7, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0];
-
 function generateCatalog(): Diamond[] {
   const out: Diamond[] = [];
   let seq = 1000;
