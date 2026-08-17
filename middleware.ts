@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { resolveLegacyRedirect } from '@/lib/resolve-legacy-redirect';
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
@@ -12,6 +13,19 @@ type CookieToSet = { name: string; value: string; options?: CookieOptions };
  * sessions stay valid.
  */
 export async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+
+  // Legacy-URL redirects run first and skip the Supabase session work
+  // entirely — these paths are never valid app routes.
+  const legacyTarget = resolveLegacyRedirect(path);
+  if (legacyTarget) {
+    const url = req.nextUrl.clone();
+    const [targetPath, targetQuery] = legacyTarget.split('?');
+    url.pathname = targetPath;
+    url.search = targetQuery ? `?${targetQuery}` : '';
+    return NextResponse.redirect(url, 308);
+  }
+
   // Expose the pathname to server components via a request header so the
   // root layout can conditionally skip the public-site chrome on /admin/*.
   const requestHeaders = new Headers(req.headers);
@@ -41,7 +55,6 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Protect /admin/* (except /admin/login itself)
-  const path = req.nextUrl.pathname;
   if (path.startsWith('/admin') && path !== '/admin/login') {
     if (!user) {
       const url = req.nextUrl.clone();
@@ -62,5 +75,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/home', '/ringbuilder/:path*', '/danhov-:path*'],
 };
