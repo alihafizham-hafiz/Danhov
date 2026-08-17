@@ -1,76 +1,8 @@
 {
-  "A1B511UA": {
-    "images": [
-      "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-      "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-      "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-    ],
-    "metal_images": {
-      "14k_rose": [
-        "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/14k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "14k_white": [
-        "/product-images/a1b511ua/14k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/14k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/14k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "14k_yellow": [
-        "/product-images/a1b511ua/14k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/14k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/14k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "18k_rose": [
-        "/product-images/a1b511ua/18k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/18k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/18k_rose/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "18k_white": [
-        "/product-images/a1b511ua/18k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/18k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/18k_white/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "18k_yellow": [
-        "/product-images/a1b511ua/18k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/18k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/18k_yellow/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ],
-      "platinum": [
-        "/product-images/a1b511ua/platinum/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-1-1.jpg",
-        "/product-images/a1b511ua/platinum/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-2-2.jpg",
-        "/product-images/a1b511ua/platinum/danhov-abbraccio-triple-shank-wedding-band-a1b511ua-3-3.jpg"
-      ]
-    }
-  },
-  "A1B515UQ": {
-    "images": [
-      "/product-images/a1b515uq/default/danhov-abbraccio-double-quarter-moon-curved-diamond-band-a1b515uq-1-1.jpg",
-      "/product-images/a1b515uq/default/danhov-abbraccio-double-quarter-moon-curved-diamond-band-a1b515uq-2-2.jpg",
-      "/product-images/a1b515uq/default/danhov-abbraccio-double-quarter-moon-curved-diamond-band-a1b515uq-3-3.jpg",
-      "/product-images/a1b515uq/default/danhov-abbraccio-double-quarter-moon-curved-diamond-band-a1b515uq-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "A1B520UQ": {
-    "images": [
-      "/product-images/a1b520uq/default/danhov-abbraccio-half-moon-curved-diamond-wedding-band-a1b520uq-1-1.jpg",
-      "/product-images/a1b520uq/default/danhov-abbraccio-half-moon-curved-diamond-wedding-band-a1b520uq-2-2.jpg",
-      "/product-images/a1b520uq/default/danhov-abbraccio-half-moon-curved-diamond-wedding-band-a1b520uq-3-3.jpg",
-      "/product-images/a1b520uq/default/danhov-abbraccio-half-moon-curved-diamond-wedding-band-a1b520uq-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "AB135UQ": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/ab135uq/ab135uq-ab135uq-1-1.jpg"
     ]
-  },
-  "AB135UQ-1": {
-    "images": [
-      "/product-images/ab135uq-1/default/ab135uq-ab135uq-1-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "AB501UQ": {
     "metal_images": {
@@ -1102,15 +1034,6 @@
       ]
     }
   },
-  "AE505UQ-PR": {
-    "images": [
-      "/product-images/ae505uq-pr/default/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-14r-1-1.jpg",
-      "/product-images/ae505uq-pr/default/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-14w-1-1.jpg",
-      "/product-images/ae505uq-pr/default/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-14y-1-1.jpg",
-      "/product-images/ae505uq-pr/default/danhov-abbraccio-swirl-princess-diamond-engagement-ring-ae505uq-pr-18r-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "AE506UQ": {
     "metal_images": {
       "14k_rose": [
@@ -1656,24 +1579,6 @@
       ]
     }
   },
-  "AE513UQ-BD": {
-    "images": [
-      "/product-images/ae513uq-bd/default/danhov-abbraccio-double-swirl-brown-pink-diamond-engagement-ring-ae513uq-bd-14r-1-1.jpg",
-      "/product-images/ae513uq-bd/default/danhov-abbraccio-double-swirl-brown-pink-diamond-engagement-ring-ae513uq-bd-14w-1-1.jpg",
-      "/product-images/ae513uq-bd/default/danhov-abbraccio-double-swirl-brown-pink-diamond-engagement-ring-ae513uq-bd-14y-1-1.jpg",
-      "/product-images/ae513uq-bd/default/danhov-abbraccio-double-swirl-brown-pink-diamond-engagement-ring-ae513uq-bd-18r-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "AE513UQ-PD": {
-    "images": [
-      "/product-images/ae513uq-pd/default/danhov-abbraccio-double-swirl-peachy-pink-diamond-engagement-ring-ae513uq-pd-14r-1-1.jpg",
-      "/product-images/ae513uq-pd/default/danhov-abbraccio-double-swirl-peachy-pink-diamond-engagement-ring-ae513uq-pd-14w-1-1.jpg",
-      "/product-images/ae513uq-pd/default/danhov-abbraccio-double-swirl-peachy-pink-diamond-engagement-ring-ae513uq-pd-14y-1-1.jpg",
-      "/product-images/ae513uq-pd/default/danhov-abbraccio-double-swirl-peachy-pink-diamond-engagement-ring-ae513uq-pd-18r-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "AE515UQ": {
     "metal_images": {
       "14k_rose": [
@@ -2011,13 +1916,6 @@
       ]
     }
   },
-  "AE520UQ-R": {
-    "images": [
-      "/product-images/ae520uq-r/default/danhov-abbraccio-swirl-fine-ring-ae520uq-r-14w-1-1.jpg",
-      "/product-images/ae520uq-r/default/danhov-abbraccio-swirl-fine-ring-ae520uq-r-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "AE522P": {
     "metal_images": {
       "18k_white": [
@@ -2274,14 +2172,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-engagement-ring/14k-white-gold/danhov-abbraccio-swirl-engagement-ring-ae528vhs-4.jpg"
       ]
     }
-  },
-  "AE528VHS-GT": {
-    "images": [
-      "/product-images/ae528vhs-gt/default/danhov-abbraccio-swirl-garnet-ring-ae528vhs-gt-14w-1-1.jpg",
-      "/product-images/ae528vhs-gt/default/danhov-abbraccio-swirl-garnet-ring-ae528vhs-gt-18w-1-1.jpg",
-      "/product-images/ae528vhs-gt/default/danhov-abbraccio-swirl-garnet-ring-ae528vhs-gt-pl-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "AE529VHS": {
     "images": [
@@ -2922,51 +2812,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-abbraccio-swirl-princess-diamond-earrings/danhov-abbraccio-swirl-princess-diamond-earrings-ah501u-pr-14y-4.jpg"
     ]
   },
-  "AH501U-CU": {
-    "images": [
-      "/product-images/ah501u-cu/default/danhov-abbraccio-swirl-cusion-diamond-earrings-ah501u-cu-14y-1-1.jpg",
-      "/product-images/ah501u-cu/default/danhov-abbraccio-swirl-cusion-diamond-earrings-ah501u-cu-14y-2-2.jpg",
-      "/product-images/ah501u-cu/default/danhov-abbraccio-swirl-cusion-diamond-earrings-ah501u-cu-14y-3-3.jpg",
-      "/product-images/ah501u-cu/default/danhov-abbraccio-swirl-cusion-diamond-earrings-ah501u-cu-14y-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "AH501U-EM": {
-    "images": [
-      "/product-images/ah501u-em/default/danhov-abbraccio-swirl-emerald-diamond-earrings-ah501u-em-14r-1-1.jpg",
-      "/product-images/ah501u-em/default/danhov-abbraccio-swirl-emerald-diamond-earrings-ah501u-em-14r-2-2.jpg",
-      "/product-images/ah501u-em/default/danhov-abbraccio-swirl-emerald-diamond-earrings-ah501u-em-14r-3-3.jpg",
-      "/product-images/ah501u-em/default/danhov-abbraccio-swirl-emerald-diamond-earrings-ah501u-em-14r-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "AH501U-OV": {
-    "images": [
-      "/product-images/ah501u-ov/default/danhov-abbraccio-swirl-oval-diamond-earrings-ah501u-ov-14w-1-1.jpg",
-      "/product-images/ah501u-ov/default/danhov-abbraccio-swirl-oval-diamond-earrings-ah501u-ov-14w-2-2.jpg",
-      "/product-images/ah501u-ov/default/danhov-abbraccio-swirl-oval-diamond-earrings-ah501u-ov-14w-3-3.jpg",
-      "/product-images/ah501u-ov/default/danhov-abbraccio-swirl-oval-diamond-earrings-ah501u-ov-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "AH501U-PR": {
-    "images": [
-      "/product-images/ah501u-pr/default/danhov-abbraccio-swirl-princess-diamond-earrings-ah501u-pr-14y-1-1.jpg",
-      "/product-images/ah501u-pr/default/danhov-abbraccio-swirl-princess-diamond-earrings-ah501u-pr-14y-2-2.jpg",
-      "/product-images/ah501u-pr/default/danhov-abbraccio-swirl-princess-diamond-earrings-ah501u-pr-14y-3-3.jpg",
-      "/product-images/ah501u-pr/default/danhov-abbraccio-swirl-princess-diamond-earrings-ah501u-pr-14y-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "AH501U-RD": {
-    "images": [
-      "/product-images/ah501u-rd/default/danhov-abbraccio-swirl-round-diamond-earrings-ah501u-rd-14w-1-1.jpg",
-      "/product-images/ah501u-rd/default/danhov-abbraccio-swirl-round-diamond-earrings-ah501u-rd-14w-2-2.jpg",
-      "/product-images/ah501u-rd/default/danhov-abbraccio-swirl-round-diamond-earrings-ah501u-rd-14w-3-3.jpg",
-      "/product-images/ah501u-rd/default/danhov-abbraccio-swirl-round-diamond-earrings-ah501u-rd-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "B501UQ": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-her-diamond-wedding-band/danhov-classico-her-diamond-wedding-band-b501uq-1.jpg",
@@ -3080,24 +2925,6 @@
       ]
     }
   },
-  "CB112-PL-1": {
-    "images": [
-      "/product-images/cb112-pl-1/default/danhov-classico-simple-wedding-band-for-women-cb112-pl-1-1-1.jpg",
-      "/product-images/cb112-pl-1/default/danhov-classico-simple-wedding-band-for-women-cb112-pl-1-2-2.jpg",
-      "/product-images/cb112-pl-1/default/danhov-classico-simple-wedding-band-for-women-cb112-pl-1-3-3.jpg",
-      "/product-images/cb112-pl-1/default/danhov-classico-simple-wedding-band-for-women-cb112-pl-1-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "CB112-Q": {
-    "images": [
-      "/product-images/cb112-q/default/danhov-classico-round-diamond-wedding-band-cb112-q-14w-1-1.jpg",
-      "/product-images/cb112-q/default/danhov-classico-round-diamond-wedding-band-cb112-q-14w-2-2.jpg",
-      "/product-images/cb112-q/default/danhov-classico-round-diamond-wedding-band-cb112-q-14w-3-3.jpg",
-      "/product-images/cb112-q/default/danhov-classico-round-diamond-wedding-band-cb112-q-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "CB116": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-knife-edge-diamond-wedding-ring-for-women/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-1.jpg",
@@ -3107,15 +2934,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-knife-edge-diamond-wedding-ring-for-women/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-knife-edge-diamond-wedding-ring-for-women/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-6.jpg"
     ]
-  },
-  "CB116-A": {
-    "images": [
-      "/product-images/cb116-a/default/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-1-1.jpg",
-      "/product-images/cb116-a/default/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-2-2.jpg",
-      "/product-images/cb116-a/default/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-3-3.jpg",
-      "/product-images/cb116-a/default/danhov-classico-knife-edge-diamond-wedding-ring-for-women-cb116-a-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "CB504UQ": {
     "images": [
@@ -3485,15 +3303,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-flat-diamond-men-s-wedding-band/danhov-classico-flat-diamond-men-s-wedding-band-cm113-8-14w-4.jpg"
     ]
   },
-  "CM113-8": {
-    "images": [
-      "/product-images/cm113-8/default/danhov-classico-flat-diamond-men-s-wedding-band-cm113-8-14w-1-1.jpg",
-      "/product-images/cm113-8/default/danhov-classico-flat-diamond-men-s-wedding-band-cm113-8-14w-2-2.jpg",
-      "/product-images/cm113-8/default/danhov-classico-flat-diamond-men-s-wedding-band-cm113-8-14w-3-3.jpg",
-      "/product-images/cm113-8/default/danhov-classico-flat-diamond-men-s-wedding-band-cm113-8-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "CM116": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-round-band/danhov-classico-round-band-cm116-1.jpg",
@@ -3517,24 +3326,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-flat-diamond-wedding-band-for-men/danhov-classico-flat-diamond-wedding-band-for-men-cm500-8-14w-4.jpg"
     ]
   },
-  "CM500-8": {
-    "images": [
-      "/product-images/cm500-8/default/danhov-classico-flat-diamond-wedding-band-for-men-cm500-8-14w-1-1.jpg",
-      "/product-images/cm500-8/default/danhov-classico-flat-diamond-wedding-band-for-men-cm500-8-14w-2-2.jpg",
-      "/product-images/cm500-8/default/danhov-classico-flat-diamond-wedding-band-for-men-cm500-8-14w-3-3.jpg",
-      "/product-images/cm500-8/default/danhov-classico-flat-diamond-wedding-band-for-men-cm500-8-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "CM500-8-BD": {
-    "images": [
-      "/product-images/cm500-8-bd/default/danhov-classico-flat-black-diamond-wedding-band-for-men-cm500-8-bd-14w-1-1.jpg",
-      "/product-images/cm500-8-bd/default/danhov-classico-flat-black-diamond-wedding-band-for-men-cm500-8-bd-14w-2-2.jpg",
-      "/product-images/cm500-8-bd/default/danhov-classico-flat-black-diamond-wedding-band-for-men-cm500-8-bd-14w-3-3.jpg",
-      "/product-images/cm500-8-bd/default/danhov-classico-flat-black-diamond-wedding-band-for-men-cm500-8-bd-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "CM501P": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-diamond-wedding-ring/danhov-classico-diamond-wedding-ring-cm501p-1-14w-1.jpg",
@@ -3548,24 +3339,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-diamond-wedding-ring/danhov-classico-diamond-wedding-ring-cm501p-2-14w-4.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-diamond-wedding-ring/danhov-classico-diamond-wedding-ring-cm501p-2-14w-5.jpg"
     ]
-  },
-  "CM501P-1": {
-    "images": [
-      "/product-images/cm501p-1/default/danhov-classico-diamond-wedding-ring-cm501p-1-14w-1-1.jpg",
-      "/product-images/cm501p-1/default/danhov-classico-diamond-wedding-ring-cm501p-1-14w-2-2.jpg",
-      "/product-images/cm501p-1/default/danhov-classico-diamond-wedding-ring-cm501p-1-14w-3-3.jpg",
-      "/product-images/cm501p-1/default/danhov-classico-diamond-wedding-ring-cm501p-1-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "CM501P-2": {
-    "images": [
-      "/product-images/cm501p-2/default/danhov-classico-diamond-wedding-ring-cm501p-2-14w-1-1.jpg",
-      "/product-images/cm501p-2/default/danhov-classico-diamond-wedding-ring-cm501p-2-14w-2-2.jpg",
-      "/product-images/cm501p-2/default/danhov-classico-diamond-wedding-ring-cm501p-2-14w-3-3.jpg",
-      "/product-images/cm501p-2/default/danhov-classico-diamond-wedding-ring-cm501p-2-14w-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "DB501VA": {
     "images": [
@@ -4053,12 +3826,6 @@
       ]
     }
   },
-  "FE102-R": {
-    "images": [
-      "/product-images/fe102-r/default/danhov-petalo-floral-diamond-engagement-ring-fe102-r-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "FE104": {
     "metal_images": {
       "14k_white": [
@@ -4210,13 +3977,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-petalo-floral-engagement-ring/14k-white-gold/danhov-petalo-floral-engagement-ring-fe501uq-4.jpg"
       ]
     }
-  },
-  "FE501UQ-YT": {
-    "images": [
-      "/product-images/fe501uq-yt/default/danhov-petalo-yellow-tourmaline-diamond-engagement-ring-fe501uq-yt-14w-1-1.jpg",
-      "/product-images/fe501uq-yt/default/danhov-petalo-yellow-tourmaline-diamond-engagement-ring-fe501uq-yt-18w-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "HE500P": {
     "metal_images": {
@@ -4686,96 +4446,6 @@
       ]
     }
   },
-  "LE103-AS": {
-    "images": [
-      "/product-images/le103-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le103-as-18w-1-1.jpg",
-      "/product-images/le103-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le103-as-pl-1-1.jpg",
-      "/product-images/le103-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le103-as-18w-2-2.jpg",
-      "/product-images/le103-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le103-as-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-EM": {
-    "images": [
-      "/product-images/le103-em/default/danhov-per-lei-emerald-cut-diamond-engagement-ring-le103-em-18w-1-1.jpg",
-      "/product-images/le103-em/default/danhov-per-lei-emerald-cut-diamond-engagement-ring-le103-em-pl-1-1.jpg",
-      "/product-images/le103-em/default/danhov-per-lei-emerald-cut-diamond-engagement-ring-le103-em-18w-2-2.jpg",
-      "/product-images/le103-em/default/danhov-per-lei-emerald-cut-diamond-engagement-ring-le103-em-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-EMEW": {
-    "images": [
-      "/product-images/le103-emew/default/danhov-per-lei-emerald-cut-engagement-ring-le103-emew-18w-1-1.jpg",
-      "/product-images/le103-emew/default/danhov-per-lei-emerald-cut-engagement-ring-le103-emew-pl-1-1.jpg",
-      "/product-images/le103-emew/default/danhov-per-lei-emerald-cut-engagement-ring-le103-emew-18w-2-2.jpg",
-      "/product-images/le103-emew/default/danhov-per-lei-emerald-cut-engagement-ring-le103-emew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-HS": {
-    "images": [
-      "/product-images/le103-hs/default/danhov-per-lei-heart-shaped-diamond-engagement-ring-le103-hs-18w-1-1.jpg",
-      "/product-images/le103-hs/default/danhov-per-lei-heart-shaped-diamond-engagement-ring-le103-hs-pl-1-1.jpg",
-      "/product-images/le103-hs/default/danhov-per-lei-heart-shaped-diamond-engagement-ring-le103-hs-18w-2-2.jpg",
-      "/product-images/le103-hs/default/danhov-per-lei-heart-shaped-diamond-engagement-ring-le103-hs-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-MQ": {
-    "images": [
-      "/product-images/le103-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mq-18w-1-1.jpg",
-      "/product-images/le103-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mq-pl-1-1.jpg",
-      "/product-images/le103-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mq-18w-2-2.jpg",
-      "/product-images/le103-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-MQEW": {
-    "images": [
-      "/product-images/le103-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mqew-18w-1-1.jpg",
-      "/product-images/le103-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mqew-pl-1-1.jpg",
-      "/product-images/le103-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mqew-18w-2-2.jpg",
-      "/product-images/le103-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le103-mqew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-OV": {
-    "images": [
-      "/product-images/le103-ov/default/danhov-per-lei-single-shank-oval-engagement-ring-le103-ov-18w-1-1.jpg",
-      "/product-images/le103-ov/default/danhov-per-lei-single-shank-oval-engagement-ring-le103-ov-pl-1-1.jpg",
-      "/product-images/le103-ov/default/danhov-per-lei-single-shank-oval-engagement-ring-le103-ov-18w-2-2.jpg",
-      "/product-images/le103-ov/default/danhov-per-lei-single-shank-oval-engagement-ring-le103-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-OVEW": {
-    "images": [
-      "/product-images/le103-ovew/default/danhov-per-lei-single-shank-oval-cut-diamond-engagement-ring-le103-ovew-18w-1-1.jpg",
-      "/product-images/le103-ovew/default/danhov-per-lei-single-shank-oval-cut-diamond-engagement-ring-le103-ovew-pl-1-1.jpg",
-      "/product-images/le103-ovew/default/danhov-per-lei-single-shank-oval-cut-diamond-engagement-ring-le103-ovew-18w-2-2.jpg",
-      "/product-images/le103-ovew/default/danhov-per-lei-single-shank-oval-cut-diamond-engagement-ring-le103-ovew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-PR": {
-    "images": [
-      "/product-images/le103-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le103-pr-18w-1-1.jpg",
-      "/product-images/le103-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le103-pr-pl-1-1.jpg",
-      "/product-images/le103-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le103-pr-18w-2-2.jpg",
-      "/product-images/le103-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le103-pr-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE103-PS": {
-    "images": [
-      "/product-images/le103-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le103-ps-18w-1-1.jpg",
-      "/product-images/le103-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le103-ps-pl-1-1.jpg",
-      "/product-images/le103-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le103-ps-18w-2-2.jpg",
-      "/product-images/le103-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le103-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "LE104": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-single-shank-asscher-cut-engagement-ring/danhov-per-lei-single-shank-asscher-cut-engagement-ring-le104-as-18w-1.jpg",
@@ -4868,105 +4538,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-single-shank-marquise-engagement-ring/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mqew-pl-4.jpg"
     ]
   },
-  "LE104-AS": {
-    "images": [
-      "/product-images/le104-as/default/danhov-per-lei-single-shank-asscher-cut-engagement-ring-le104-as-18w-1-1.jpg",
-      "/product-images/le104-as/default/danhov-per-lei-single-shank-asscher-cut-engagement-ring-le104-as-pl-1-1.jpg",
-      "/product-images/le104-as/default/danhov-per-lei-single-shank-asscher-cut-engagement-ring-le104-as-18w-2-2.jpg",
-      "/product-images/le104-as/default/danhov-per-lei-single-shank-asscher-cut-engagement-ring-le104-as-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-EM": {
-    "images": [
-      "/product-images/le104-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-em-18w-1-1.jpg",
-      "/product-images/le104-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-em-pl-1-1.jpg",
-      "/product-images/le104-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-em-18w-2-2.jpg",
-      "/product-images/le104-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-em-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-EMEW": {
-    "images": [
-      "/product-images/le104-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-emew-18w-1-1.jpg",
-      "/product-images/le104-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-emew-pl-1-1.jpg",
-      "/product-images/le104-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-emew-18w-2-2.jpg",
-      "/product-images/le104-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le104-emew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-HS": {
-    "images": [
-      "/product-images/le104-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le104-hs-18w-1-1.jpg",
-      "/product-images/le104-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le104-hs-pl-1-1.jpg",
-      "/product-images/le104-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le104-hs-18w-2-2.jpg",
-      "/product-images/le104-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le104-hs-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-MQ": {
-    "images": [
-      "/product-images/le104-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mq-18w-1-1.jpg",
-      "/product-images/le104-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mq-pl-1-1.jpg",
-      "/product-images/le104-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mq-18w-2-2.jpg",
-      "/product-images/le104-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-MQEW": {
-    "images": [
-      "/product-images/le104-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mqew-18w-1-1.jpg",
-      "/product-images/le104-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mqew-pl-1-1.jpg",
-      "/product-images/le104-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mqew-18w-2-2.jpg",
-      "/product-images/le104-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le104-mqew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-OV": {
-    "images": [
-      "/product-images/le104-ov/default/danhov-per-lei-oval-cut-engagement-ring-le104-ov-18w-1-1.jpg",
-      "/product-images/le104-ov/default/danhov-per-lei-oval-cut-engagement-ring-le104-ov-pl-1-1.jpg",
-      "/product-images/le104-ov/default/danhov-per-lei-oval-cut-engagement-ring-le104-ov-18w-2-2.jpg",
-      "/product-images/le104-ov/default/danhov-per-lei-oval-cut-engagement-ring-le104-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-OV-OP": {
-    "images": [
-      "/product-images/le104-ov-op/default/danhov-per-lei-oval-opal-diamond-ring-le104-ov-op-1-1.jpg",
-      "/product-images/le104-ov-op/default/danhov-per-lei-oval-opal-diamond-ring-le104-ov-op-18w-1-1.jpg",
-      "/product-images/le104-ov-op/default/danhov-per-lei-oval-opal-diamond-ring-le104-ov-op-pl-1-1.jpg",
-      "/product-images/le104-ov-op/default/danhov-per-lei-oval-opal-diamond-ring-le104-ov-op-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-OVEW": {
-    "images": [
-      "/product-images/le104-ovew/default/danhov-per-lei-oval-engagement-ring-le104-ovew-18w-1-1.jpg",
-      "/product-images/le104-ovew/default/danhov-per-lei-oval-engagement-ring-le104-ovew-pl-1-1.jpg",
-      "/product-images/le104-ovew/default/danhov-per-lei-oval-engagement-ring-le104-ovew-18w-2-2.jpg",
-      "/product-images/le104-ovew/default/danhov-per-lei-oval-engagement-ring-le104-ovew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-PR": {
-    "images": [
-      "/product-images/le104-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le104-pr-18w-1-1.jpg",
-      "/product-images/le104-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le104-pr-pl-1-1.jpg",
-      "/product-images/le104-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le104-pr-18w-2-2.jpg",
-      "/product-images/le104-pr/default/danhov-per-lei-single-shank-princess-cut-engagement-ring-le104-pr-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE104-PS": {
-    "images": [
-      "/product-images/le104-ps/default/danhov-per-lei-pear-engagement-ring-with-halo-le104-ps-18w-1-1.jpg",
-      "/product-images/le104-ps/default/danhov-per-lei-pear-engagement-ring-with-halo-le104-ps-pl-1-1.jpg",
-      "/product-images/le104-ps/default/danhov-per-lei-pear-engagement-ring-with-halo-le104-ps-18w-2-2.jpg",
-      "/product-images/le104-ps/default/danhov-per-lei-pear-engagement-ring-with-halo-le104-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "LE105": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-single-shank-heart-engagement-ring/danhov-per-lei-single-shank-heart-engagement-ring-le105-hs-18w-1.jpg",
@@ -5024,60 +4595,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-single-shank-marquise-engagement-ring/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-pl-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-single-shank-marquise-engagement-ring/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-pl-4.jpg"
     ]
-  },
-  "LE105-HS": {
-    "images": [
-      "/product-images/le105-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le105-hs-18w-1-1.jpg",
-      "/product-images/le105-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le105-hs-pl-1-1.jpg",
-      "/product-images/le105-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le105-hs-18w-2-2.jpg",
-      "/product-images/le105-hs/default/danhov-per-lei-single-shank-heart-engagement-ring-le105-hs-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE105-MQ": {
-    "images": [
-      "/product-images/le105-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mq-18w-1-1.jpg",
-      "/product-images/le105-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mq-pl-1-1.jpg",
-      "/product-images/le105-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mq-18w-2-2.jpg",
-      "/product-images/le105-mq/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE105-MQEW": {
-    "images": [
-      "/product-images/le105-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-18w-1-1.jpg",
-      "/product-images/le105-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-pl-1-1.jpg",
-      "/product-images/le105-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-18w-2-2.jpg",
-      "/product-images/le105-mqew/default/danhov-per-lei-single-shank-marquise-engagement-ring-le105-mqew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE105-OV": {
-    "images": [
-      "/product-images/le105-ov/default/danhov-per-lei-oval-engagement-ring-le105-ov-18w-1-1.jpg",
-      "/product-images/le105-ov/default/danhov-per-lei-oval-engagement-ring-le105-ov-pl-1-1.jpg",
-      "/product-images/le105-ov/default/danhov-per-lei-oval-engagement-ring-le105-ov-18w-2-2.jpg",
-      "/product-images/le105-ov/default/danhov-per-lei-oval-engagement-ring-le105-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE105-OVEW": {
-    "images": [
-      "/product-images/le105-ovew/default/danhov-per-lei-oval-engagement-ring-with-halo-le105-ovew-18w-1-1.jpg",
-      "/product-images/le105-ovew/default/danhov-per-lei-oval-engagement-ring-with-halo-le105-ovew-pl-1-1.jpg",
-      "/product-images/le105-ovew/default/danhov-per-lei-oval-engagement-ring-with-halo-le105-ovew-18w-2-2.jpg",
-      "/product-images/le105-ovew/default/danhov-per-lei-oval-engagement-ring-with-halo-le105-ovew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE105-PS": {
-    "images": [
-      "/product-images/le105-ps/default/danhov-per-lei-pear-shaped-diamond-engagement-ring-le105-ps-18w-1-1.jpg",
-      "/product-images/le105-ps/default/danhov-per-lei-pear-shaped-diamond-engagement-ring-le105-ps-pl-1-1.jpg",
-      "/product-images/le105-ps/default/danhov-per-lei-pear-shaped-diamond-engagement-ring-le105-ps-18w-2-2.jpg",
-      "/product-images/le105-ps/default/danhov-per-lei-pear-shaped-diamond-engagement-ring-le105-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "LE106": {
     "images": [
@@ -5172,96 +4689,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-double-shank-asscher-engagement-ring/18k-white-gold/danhov-per-lei-double-shank-asscher-engagement-ring-le106-4.jpg"
       ]
     }
-  },
-  "LE106-AS": {
-    "images": [
-      "/product-images/le106-as/default/danhov-per-lei-double-shank-asscher-engagement-ring-le106-as-18w-1-1.jpg",
-      "/product-images/le106-as/default/danhov-per-lei-double-shank-asscher-engagement-ring-le106-as-pl-1-1.jpg",
-      "/product-images/le106-as/default/danhov-per-lei-double-shank-asscher-engagement-ring-le106-as-18w-2-2.jpg",
-      "/product-images/le106-as/default/danhov-per-lei-double-shank-asscher-engagement-ring-le106-as-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-EM": {
-    "images": [
-      "/product-images/le106-em/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-em-18w-1-1.jpg",
-      "/product-images/le106-em/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-em-pl-1-1.jpg",
-      "/product-images/le106-em/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-em-18w-2-2.jpg",
-      "/product-images/le106-em/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-em-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-EMEW": {
-    "images": [
-      "/product-images/le106-emew/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-emew-18w-1-1.jpg",
-      "/product-images/le106-emew/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-emew-pl-1-1.jpg",
-      "/product-images/le106-emew/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-emew-18w-2-2.jpg",
-      "/product-images/le106-emew/default/danhov-per-lei-double-shank-emerald-engagement-ring-le106-emew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-HS": {
-    "images": [
-      "/product-images/le106-hs/default/danhov-per-lei-double-shank-heart-engagement-ring-le106-hs-18w-1-1.jpg",
-      "/product-images/le106-hs/default/danhov-per-lei-double-shank-heart-engagement-ring-le106-hs-pl-1-1.jpg",
-      "/product-images/le106-hs/default/danhov-per-lei-double-shank-heart-engagement-ring-le106-hs-18w-2-2.jpg",
-      "/product-images/le106-hs/default/danhov-per-lei-double-shank-heart-engagement-ring-le106-hs-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-MQ": {
-    "images": [
-      "/product-images/le106-mq/default/danhov-per-lei-double-shank-marquise-engagement-ring-le106-mq-18w-1-1.jpg",
-      "/product-images/le106-mq/default/danhov-per-lei-double-shank-marquise-engagement-ring-le106-mq-pl-1-1.jpg",
-      "/product-images/le106-mq/default/danhov-per-lei-double-shank-marquise-engagement-ring-le106-mq-18w-2-2.jpg",
-      "/product-images/le106-mq/default/danhov-per-lei-double-shank-marquise-engagement-ring-le106-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-OV": {
-    "images": [
-      "/product-images/le106-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le106-ov-18w-1-1.jpg",
-      "/product-images/le106-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le106-ov-pl-1-1.jpg",
-      "/product-images/le106-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le106-ov-18w-2-2.jpg",
-      "/product-images/le106-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le106-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-OVEW": {
-    "images": [
-      "/product-images/le106-ovew/default/danhov-per-lei-double-shank-oval-engagement-ring-le106-ovew-18w-1-1.jpg",
-      "/product-images/le106-ovew/default/danhov-per-lei-double-shank-oval-engagement-ring-le106-ovew-pl-1-1.jpg",
-      "/product-images/le106-ovew/default/danhov-per-lei-double-shank-oval-engagement-ring-le106-ovew-18w-2-2.jpg",
-      "/product-images/le106-ovew/default/danhov-per-lei-double-shank-oval-engagement-ring-le106-ovew-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-OVEW-BT": {
-    "images": [
-      "/product-images/le106-ovew-bt/default/danhov-per-lei-blush-topaz-split-shank-ring-le106-ovew-bt-1-1.jpg",
-      "/product-images/le106-ovew-bt/default/danhov-per-lei-blush-topaz-split-shank-ring-le106-ovew-bt-18w-1-1.jpg",
-      "/product-images/le106-ovew-bt/default/danhov-per-lei-blush-topaz-split-shank-ring-le106-ovew-bt-pl-1-1.jpg",
-      "/product-images/le106-ovew-bt/default/danhov-per-lei-blush-topaz-split-shank-ring-le106-ovew-bt-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-PR": {
-    "images": [
-      "/product-images/le106-pr/default/danhov-per-lei-double-shank-princess-engagement-ring-le106-pr-18w-1-1.jpg",
-      "/product-images/le106-pr/default/danhov-per-lei-double-shank-princess-engagement-ring-le106-pr-pl-1-1.jpg",
-      "/product-images/le106-pr/default/danhov-per-lei-double-shank-princess-engagement-ring-le106-pr-18w-2-2.jpg",
-      "/product-images/le106-pr/default/danhov-per-lei-double-shank-princess-engagement-ring-le106-pr-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE106-PS": {
-    "images": [
-      "/product-images/le106-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le106-ps-18w-1-1.jpg",
-      "/product-images/le106-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le106-ps-pl-1-1.jpg",
-      "/product-images/le106-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le106-ps-18w-2-2.jpg",
-      "/product-images/le106-ps/default/danhov-per-lei-pear-diamond-engagement-ring-le106-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "LE115": {
     "images": [
@@ -5375,87 +4802,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-marquise-engagement-ring/danhov-per-lei-marquise-engagement-ring-le505p-mqew-18w-4.jpg"
     ]
   },
-  "LE505P-AS": {
-    "images": [
-      "/product-images/le505p-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le505p-as-18w-1-1.jpg",
-      "/product-images/le505p-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le505p-as-18w-2-2.jpg",
-      "/product-images/le505p-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le505p-as-18w-3-3.jpg",
-      "/product-images/le505p-as/default/danhov-per-lei-single-shank-asscher-engagement-ring-le505p-as-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-EM": {
-    "images": [
-      "/product-images/le505p-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-em-18w-1-1.jpg",
-      "/product-images/le505p-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-em-18w-2-2.jpg",
-      "/product-images/le505p-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-em-18w-3-3.jpg",
-      "/product-images/le505p-em/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-em-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-EMEW": {
-    "images": [
-      "/product-images/le505p-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-emew-pl-1-1.jpg",
-      "/product-images/le505p-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-emew-pl-2-2.jpg",
-      "/product-images/le505p-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-emew-pl-3-3.jpg",
-      "/product-images/le505p-emew/default/danhov-per-lei-single-shank-emerald-engagement-ring-le505p-emew-pl-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-MQ": {
-    "images": [
-      "/product-images/le505p-mq/default/danhov-per-lei-marquise-diamond-engagement-ring-le505p-mq-18w-1-1.jpg",
-      "/product-images/le505p-mq/default/danhov-per-lei-marquise-diamond-engagement-ring-le505p-mq-18w-2-2.jpg",
-      "/product-images/le505p-mq/default/danhov-per-lei-marquise-diamond-engagement-ring-le505p-mq-18w-3-3.jpg",
-      "/product-images/le505p-mq/default/danhov-per-lei-marquise-diamond-engagement-ring-le505p-mq-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-MQEW": {
-    "images": [
-      "/product-images/le505p-mqew/default/danhov-per-lei-marquise-engagement-ring-le505p-mqew-18w-1-1.jpg",
-      "/product-images/le505p-mqew/default/danhov-per-lei-marquise-engagement-ring-le505p-mqew-18w-2-2.jpg",
-      "/product-images/le505p-mqew/default/danhov-per-lei-marquise-engagement-ring-le505p-mqew-18w-3-3.jpg",
-      "/product-images/le505p-mqew/default/danhov-per-lei-marquise-engagement-ring-le505p-mqew-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-OV": {
-    "images": [
-      "/product-images/le505p-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le505p-ov-18w-1-1.jpg",
-      "/product-images/le505p-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le505p-ov-18w-2-2.jpg",
-      "/product-images/le505p-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le505p-ov-18w-3-3.jpg",
-      "/product-images/le505p-ov/default/danhov-per-lei-oval-diamond-engagement-ring-le505p-ov-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-OVEW": {
-    "images": [
-      "/product-images/le505p-ovew/default/danhov-per-lei-oval-diamond-ring-for-women-le505p-ovew-18w-1-1.jpg",
-      "/product-images/le505p-ovew/default/danhov-per-lei-oval-diamond-ring-for-women-le505p-ovew-18w-2-2.jpg",
-      "/product-images/le505p-ovew/default/danhov-per-lei-oval-diamond-ring-for-women-le505p-ovew-18w-3-3.jpg",
-      "/product-images/le505p-ovew/default/danhov-per-lei-oval-diamond-ring-for-women-le505p-ovew-18w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-PR": {
-    "images": [
-      "/product-images/le505p-pr/default/danhov-per-lei-princess-cut-engagement-ring-le505p-pr-18w-1-1.jpg",
-      "/product-images/le505p-pr/default/danhov-per-lei-princess-cut-engagement-ring-le505p-pr-pl-1-1.jpg",
-      "/product-images/le505p-pr/default/danhov-per-lei-princess-cut-engagement-ring-le505p-pr-18w-2-2.jpg",
-      "/product-images/le505p-pr/default/danhov-per-lei-princess-cut-engagement-ring-le505p-pr-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505P-PS": {
-    "images": [
-      "/product-images/le505p-ps/default/danhov-per-lei-pear-shaped-engagement-ring-le505p-ps-18w-1-1.jpg",
-      "/product-images/le505p-ps/default/danhov-per-lei-pear-shaped-engagement-ring-le505p-ps-pl-1-1.jpg",
-      "/product-images/le505p-ps/default/danhov-per-lei-pear-shaped-engagement-ring-le505p-ps-18w-2-2.jpg",
-      "/product-images/le505p-ps/default/danhov-per-lei-pear-shaped-engagement-ring-le505p-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "LE505UH": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-diamond-ring-for-women/danhov-per-lei-diamond-ring-for-women-le505uh-emew-yd-14w-1.jpg",
@@ -5527,58 +4873,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-halo-diamond-engagement-ring/14k-white-gold/danhov-per-lei-halo-diamond-engagement-ring-le505uh-4.jpg"
       ]
     }
-  },
-  "LE505UH-AS": {
-    "images": [
-      "/product-images/le505uh-as/default/danhov-per-lei-asscher-engagement-ring-le505uh-as-14w-1-1.jpg",
-      "/product-images/le505uh-as/default/danhov-per-lei-asscher-engagement-ring-le505uh-as-18w-1-1.jpg",
-      "/product-images/le505uh-as/default/danhov-per-lei-asscher-engagement-ring-le505uh-as-pl-1-1.jpg",
-      "/product-images/le505uh-as/default/danhov-per-lei-asscher-engagement-ring-le505uh-as-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505UH-AS-CT": {
-    "images": [
-      "/product-images/le505uh-as-ct/default/danhov-per-lei-citrine-diamond-ring-le505uh-as-ct-14w-1-1.jpg",
-      "/product-images/le505uh-as-ct/default/danhov-per-lei-citrine-diamond-ring-le505uh-as-ct-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505UH-EM": {
-    "images": [
-      "/product-images/le505uh-em/default/danhov-per-lei-emerald-cut-engagement-ring-le505uh-em-14w-1-1.jpg",
-      "/product-images/le505uh-em/default/danhov-per-lei-emerald-cut-engagement-ring-le505uh-em-18w-1-1.jpg",
-      "/product-images/le505uh-em/default/danhov-per-lei-emerald-cut-engagement-ring-le505uh-em-pl-1-1.jpg",
-      "/product-images/le505uh-em/default/danhov-per-lei-emerald-cut-engagement-ring-le505uh-em-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505UH-EMEW": {
-    "images": [
-      "/product-images/le505uh-emew/default/danhov-per-lei-single-shank-engagement-ring-le505uh-emew-14w-1-1.jpg",
-      "/product-images/le505uh-emew/default/danhov-per-lei-single-shank-engagement-ring-le505uh-emew-18w-1-1.jpg",
-      "/product-images/le505uh-emew/default/danhov-per-lei-single-shank-engagement-ring-le505uh-emew-pl-1-1.jpg",
-      "/product-images/le505uh-emew/default/danhov-per-lei-single-shank-engagement-ring-le505uh-emew-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505UH-EMEW-YD": {
-    "images": [
-      "/product-images/le505uh-emew-yd/default/danhov-per-lei-diamond-ring-for-women-le505uh-emew-yd-14w-1-1.jpg",
-      "/product-images/le505uh-emew-yd/default/danhov-per-lei-diamond-ring-for-women-le505uh-emew-yd-18w-1-1.jpg",
-      "/product-images/le505uh-emew-yd/default/danhov-per-lei-diamond-ring-for-women-le505uh-emew-yd-pl-1-1.jpg",
-      "/product-images/le505uh-emew-yd/default/danhov-per-lei-diamond-ring-for-women-le505uh-emew-yd-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "LE505UH-PR": {
-    "images": [
-      "/product-images/le505uh-pr/default/danhov-per-lei-princess-cut-diamond-engagement-ring-le505uh-pr-14w-1-1.jpg",
-      "/product-images/le505uh-pr/default/danhov-per-lei-princess-cut-diamond-engagement-ring-le505uh-pr-18w-1-1.jpg",
-      "/product-images/le505uh-pr/default/danhov-per-lei-princess-cut-diamond-engagement-ring-le505uh-pr-pl-1-1.jpg",
-      "/product-images/le505uh-pr/default/danhov-per-lei-princess-cut-diamond-engagement-ring-le505uh-pr-14w-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "LE510P": {
     "metal_images": {
@@ -6269,15 +5563,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-heart-shaped-engagement-ring/danhov-per-lei-heart-shaped-engagement-ring-le534p-hs-pl-4.jpg"
     ]
   },
-  "LE534P-HS": {
-    "images": [
-      "/product-images/le534p-hs/default/danhov-per-lei-heart-shaped-engagement-ring-le534p-hs-14r-1-1.jpg",
-      "/product-images/le534p-hs/default/danhov-per-lei-heart-shaped-engagement-ring-le534p-hs-14w-1-1.jpg",
-      "/product-images/le534p-hs/default/danhov-per-lei-heart-shaped-engagement-ring-le534p-hs-18r-1-1.jpg",
-      "/product-images/le534p-hs/default/danhov-per-lei-heart-shaped-engagement-ring-le534p-hs-18w-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "LE535UQ": {
     "metal_images": {
       "14k_rose": [
@@ -6602,12 +5887,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-eagle-claw-prong-diamond-engagement-ring/14k-rose-gold/danhov-per-lei-eagle-claw-prong-diamond-engagement-ring-le540uq-9.jpg"
     ]
   },
-  "LG607309074": {
-    "images": [
-      "/product-images/lg607309074/default/ve515-14w-sz5-75-diamond-1-79-carat-f-vvs2-lg607309074-ve515-14w-1-79-carat-f-vvs2-lg607309074-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "LP531U": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-diamond-oval-pendant/danhov-per-lei-diamond-oval-pendant-lp531u-1.jpg",
@@ -6615,50 +5894,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-diamond-oval-pendant/danhov-per-lei-diamond-oval-pendant-lp531u-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-per-lei-diamond-oval-pendant/danhov-per-lei-diamond-oval-pendant-lp531u-4.jpg"
     ]
-  },
-  "P1B501UQ": {
-    "images": [
-      "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-      "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-      "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-    ],
-    "metal_images": {
-      "14k_rose": [
-        "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/14k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "14k_white": [
-        "/product-images/p1b501uq/14k_white/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/14k_white/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/14k_white/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "14k_yellow": [
-        "/product-images/p1b501uq/14k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/14k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/14k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "18k_rose": [
-        "/product-images/p1b501uq/18k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/18k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/18k_rose/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "18k_white": [
-        "/product-images/p1b501uq/18k_white/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/18k_white/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/18k_white/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "18k_yellow": [
-        "/product-images/p1b501uq/18k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/18k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/18k_yellow/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ],
-      "platinum": [
-        "/product-images/p1b501uq/platinum/danhov-perlina-diamond-wedding-band-p1b501uq-1-1.jpg",
-        "/product-images/p1b501uq/platinum/danhov-perlina-diamond-wedding-band-p1b501uq-2-2.jpg",
-        "/product-images/p1b501uq/platinum/danhov-perlina-diamond-wedding-band-p1b501uq-3-3.jpg"
-      ]
-    }
   },
   "PE501UQ": {
     "metal_images": {
@@ -6760,15 +5995,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-men-s-wedding-band/danhov-pelote-men-s-wedding-band-pm100-8-14w-4.jpg"
     ]
   },
-  "PM100-8": {
-    "images": [
-      "/product-images/pm100-8/default/danhov-pelote-men-s-wedding-band-pm100-8-14w-1-1.jpg",
-      "/product-images/pm100-8/default/danhov-pelote-men-s-wedding-band-pm100-8-14w-2-2.jpg",
-      "/product-images/pm100-8/default/danhov-pelote-men-s-wedding-band-pm100-8-14w-3-3.jpg",
-      "/product-images/pm100-8/default/danhov-pelote-men-s-wedding-band-pm100-8-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "PM102": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-band-for-him/danhov-pelote-domed-diamond-wedding-band-for-him-pm102-6-1.jpg",
@@ -6785,24 +6011,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-men-s-wedding-band/danhov-pelote-domed-men-s-wedding-band-pm102-4-6.jpg"
     ]
   },
-  "PM102-4": {
-    "images": [
-      "/product-images/pm102-4/default/danhov-pelote-domed-men-s-wedding-band-pm102-4-1-1.jpg",
-      "/product-images/pm102-4/default/danhov-pelote-domed-men-s-wedding-band-pm102-4-2-2.jpg",
-      "/product-images/pm102-4/default/danhov-pelote-domed-men-s-wedding-band-pm102-4-3-3.jpg",
-      "/product-images/pm102-4/default/danhov-pelote-domed-men-s-wedding-band-pm102-4-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "PM102-6": {
-    "images": [
-      "/product-images/pm102-6/default/danhov-pelote-domed-diamond-wedding-band-for-him-pm102-6-1-1.jpg",
-      "/product-images/pm102-6/default/danhov-pelote-domed-diamond-wedding-band-for-him-pm102-6-2-2.jpg",
-      "/product-images/pm102-6/default/danhov-pelote-domed-diamond-wedding-band-for-him-pm102-6-3-3.jpg",
-      "/product-images/pm102-6/default/danhov-pelote-domed-diamond-wedding-band-for-him-pm102-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "PM103": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-band-for-men/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-1.jpg",
@@ -6812,15 +6020,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-band-for-men/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-band-for-men/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-6.jpg"
     ]
-  },
-  "PM103-6": {
-    "images": [
-      "/product-images/pm103-6/default/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-1-1.jpg",
-      "/product-images/pm103-6/default/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-2-2.jpg",
-      "/product-images/pm103-6/default/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-3-3.jpg",
-      "/product-images/pm103-6/default/danhov-pelote-domed-diamond-wedding-band-for-men-pm103-6-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "PM104": {
     "images": [
@@ -6832,15 +6031,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-platinum-domed-diamond-wedding-band-for-men/danhov-pelote-platinum-domed-diamond-wedding-band-for-men-pm104-8-6.jpg"
     ]
   },
-  "PM104-8": {
-    "images": [
-      "/product-images/pm104-8/default/danhov-pelote-platinum-domed-diamond-wedding-band-for-men-pm104-8-1-1.jpg",
-      "/product-images/pm104-8/default/danhov-pelote-platinum-domed-diamond-wedding-band-for-men-pm104-8-2-2.jpg",
-      "/product-images/pm104-8/default/danhov-pelote-platinum-domed-diamond-wedding-band-for-men-pm104-8-3-3.jpg",
-      "/product-images/pm104-8/default/danhov-pelote-platinum-domed-diamond-wedding-band-for-men-pm104-8-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "PM105": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-ring-for-men/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-1.jpg",
@@ -6850,34 +6040,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-ring-for-men/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-pelote-domed-diamond-wedding-ring-for-men/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-6.jpg"
     ]
-  },
-  "PM105-6": {
-    "images": [
-      "/product-images/pm105-6/default/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-1-1.jpg",
-      "/product-images/pm105-6/default/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-2-2.jpg",
-      "/product-images/pm105-6/default/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-3-3.jpg",
-      "/product-images/pm105-6/default/danhov-pelote-domed-diamond-wedding-ring-for-men-pm105-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "R1B571YA": {
-    "images": [
-      "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-1-1.jpg",
-      "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-2-2.jpg",
-      "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-3-3.jpg"
-    ],
-    "metal_images": {
-      "18k_white": [
-        "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-1-1.jpg",
-        "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-2-2.jpg",
-        "/product-images/r1b571ya/18k_white/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-3-3.jpg"
-      ],
-      "platinum": [
-        "/product-images/r1b571ya/platinum/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-1-1.jpg",
-        "/product-images/r1b571ya/platinum/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-2-2.jpg",
-        "/product-images/r1b571ya/platinum/norme-de-danhov-unique-diamond-wedding-band-r1b571ya-3-3.jpg"
-      ]
-    }
   },
   "RB510P": {
     "images": [
@@ -8567,15 +7729,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-diamond-wedding-band/norme-de-danhov-diamond-wedding-band-rb590ya1b-9.jpg"
     ]
   },
-  "RB590YA1B": {
-    "images": [
-      "/product-images/rb590ya1b/default/norme-de-danhov-diamond-wedding-band-rb590ya1b-1-1.jpg",
-      "/product-images/rb590ya1b/default/norme-de-danhov-diamond-wedding-band-rb590ya1b-2-2.jpg",
-      "/product-images/rb590ya1b/default/norme-de-danhov-diamond-wedding-band-rb590ya1b-3-3.jpg",
-      "/product-images/rb590ya1b/default/norme-de-danhov-diamond-wedding-band-rb590ya1b-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "RB591UH": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-wedding-band/norme-de-danhov-wedding-band-rb591uh-1.jpg",
@@ -8721,15 +7874,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-wedding-band/18k-white-gold/norme-de-danhov-wedding-band-rb601p-9.jpg"
       ]
     }
-  },
-  "RB601P-18W-1": {
-    "images": [
-      "/product-images/rb601p-18w-1/default/norme-de-danhov-wedding-band-rb601p-18w-1-1-1.jpg",
-      "/product-images/rb601p-18w-1/default/norme-de-danhov-wedding-band-rb601p-18w-1-2-2.jpg",
-      "/product-images/rb601p-18w-1/default/norme-de-danhov-wedding-band-rb601p-18w-1-3-3.jpg",
-      "/product-images/rb601p-18w-1/default/norme-de-danhov-wedding-band-rb601p-18w-1-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "RB602UA": {
     "metal_images": {
@@ -9754,15 +8898,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-engagement-ring/18k-white-gold/norme-de-danhov-engagement-ring-re515p-9.jpg"
       ]
     }
-  },
-  "RE515P-EM": {
-    "images": [
-      "/product-images/re515p-em/default/norme-de-danhov-emerald-cut-engagement-ring-re515p-em-14r-1-1.jpg",
-      "/product-images/re515p-em/default/norme-de-danhov-emerald-cut-engagement-ring-re515p-em-14w-1-1.jpg",
-      "/product-images/re515p-em/default/norme-de-danhov-emerald-cut-engagement-ring-re515p-em-14y-1-1.jpg",
-      "/product-images/re515p-em/default/norme-de-danhov-emerald-cut-engagement-ring-re515p-em-18r-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "RE527P": {
     "metal_images": {
@@ -11462,15 +10597,6 @@
       ]
     }
   },
-  "RE578UQ-DT": {
-    "images": [
-      "/product-images/re578uq-dt/default/norme-de-danhov-two-tone-diamond-engagement-ring-for-her-re578uq-dt-14r-1-1.jpg",
-      "/product-images/re578uq-dt/default/norme-de-danhov-two-tone-diamond-engagement-ring-for-her-re578uq-dt-18r-1-1.jpg",
-      "/product-images/re578uq-dt/default/norme-de-danhov-two-tone-diamond-engagement-ring-for-her-re578uq-dt-14r-2-2.jpg",
-      "/product-images/re578uq-dt/default/norme-de-danhov-two-tone-diamond-engagement-ring-for-her-re578uq-dt-18r-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "RE579UQ": {
     "metal_images": {
       "14k_rose": [
@@ -12570,15 +11696,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-two-tone-engagement-ring-for-women/norme-de-danhov-two-tone-engagement-ring-for-women-re596p-dt-18r-5.jpg"
     ]
   },
-  "RE596P-DT": {
-    "images": [
-      "/product-images/re596p-dt/default/norme-de-danhov-two-tone-engagement-ring-for-women-re596p-dt-14r-1-1.jpg",
-      "/product-images/re596p-dt/default/norme-de-danhov-two-tone-engagement-ring-for-women-re596p-dt-18r-1-1.jpg",
-      "/product-images/re596p-dt/default/norme-de-danhov-two-tone-engagement-ring-for-women-re596p-dt-14r-2-2.jpg",
-      "/product-images/re596p-dt/default/norme-de-danhov-two-tone-engagement-ring-for-women-re596p-dt-18r-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "RE597YQ": {
     "metal_images": {
       "14k_rose": [
@@ -12783,15 +11900,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-diamond-engagement-ring-for-women/14k-white-gold/norme-de-danhov-diamond-engagement-ring-for-women-re599uq-5.jpg"
       ]
     }
-  },
-  "RE599UQ-14W-1": {
-    "images": [
-      "/product-images/re599uq-14w-1/default/norme-de-danhov-diamond-engagement-ring-for-women-re599uq-14w-1-1-1.jpg",
-      "/product-images/re599uq-14w-1/default/norme-de-danhov-diamond-engagement-ring-for-women-re599uq-14w-1-2-2.jpg",
-      "/product-images/re599uq-14w-1/default/norme-de-danhov-diamond-engagement-ring-for-women-re599uq-14w-1-3-3.jpg",
-      "/product-images/re599uq-14w-1/default/norme-de-danhov-diamond-engagement-ring-for-women-re599uq-14w-1-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "RE600S": {
     "metal_images": {
@@ -14049,24 +13157,6 @@
       ]
     }
   },
-  "RH504P-14R": {
-    "images": [
-      "/product-images/rh504p-14r/default/bezel-set-round-stud-earrings-rh504p-14r-nd-1-1.jpg",
-      "/product-images/rh504p-14r/default/bezel-set-round-stud-earrings-rh504p-14r-nd-2-2.jpg",
-      "/product-images/rh504p-14r/default/bezel-set-round-stud-earrings-rh504p-14r-nd-3-3.jpg",
-      "/product-images/rh504p-14r/default/bezel-set-round-stud-earrings-rh504p-14r-nd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "RH504P-14W": {
-    "images": [
-      "/product-images/rh504p-14w/default/bezel-set-round-diamond-stud-earrings-with-0-5-cttw-natural-diamonds-rh504p-14w-nd-1-1.jpg",
-      "/product-images/rh504p-14w/default/bezel-set-round-diamond-stud-earrings-with-0-5-cttw-natural-diamonds-rh504p-14w-nd-2-2.jpg",
-      "/product-images/rh504p-14w/default/bezel-set-round-diamond-stud-earrings-with-0-5-cttw-natural-diamonds-rh504p-14w-nd-3-3.jpg",
-      "/product-images/rh504p-14w/default/bezel-set-round-diamond-stud-earrings-with-0-5-cttw-natural-diamonds-rh504p-14w-nd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "RH505U": {
     "metal_images": {
       "14k_rose": [
@@ -14568,24 +13658,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/norme-de-danhov-flat-black-diamond-wedding-band-for-men/norme-de-danhov-flat-black-diamond-wedding-band-for-men-rm500ga-7b-14w-5.jpg"
     ]
   },
-  "RM500GA-7": {
-    "images": [
-      "/product-images/rm500ga-7/default/norme-de-danhov-flat-diamond-wedding-band-for-men-rm500ga-7-14w-1-1.jpg",
-      "/product-images/rm500ga-7/default/norme-de-danhov-flat-diamond-wedding-band-for-men-rm500ga-7-14w-2-2.jpg",
-      "/product-images/rm500ga-7/default/norme-de-danhov-flat-diamond-wedding-band-for-men-rm500ga-7-14w-3-3.jpg",
-      "/product-images/rm500ga-7/default/norme-de-danhov-flat-diamond-wedding-band-for-men-rm500ga-7-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "RM500GA-7B": {
-    "images": [
-      "/product-images/rm500ga-7b/default/norme-de-danhov-flat-black-diamond-wedding-band-for-men-rm500ga-7b-14w-1-1.jpg",
-      "/product-images/rm500ga-7b/default/norme-de-danhov-flat-black-diamond-wedding-band-for-men-rm500ga-7b-14w-2-2.jpg",
-      "/product-images/rm500ga-7b/default/norme-de-danhov-flat-black-diamond-wedding-band-for-men-rm500ga-7b-14w-3-3.jpg",
-      "/product-images/rm500ga-7b/default/norme-de-danhov-flat-black-diamond-wedding-band-for-men-rm500ga-7b-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "RM600S": {
     "metal_images": {
       "14k_rose": [
@@ -15029,15 +14101,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-triple-shank-marquise-engagement-ring/danhov-solo-filo-triple-shank-marquise-engagement-ring-se104-mq-pl-4.jpg"
     ]
   },
-  "SE104-MQ": {
-    "images": [
-      "/product-images/se104-mq/default/danhov-solo-filo-triple-shank-marquise-engagement-ring-se104-mq-18w-1-1.jpg",
-      "/product-images/se104-mq/default/danhov-solo-filo-triple-shank-marquise-engagement-ring-se104-mq-pl-1-1.jpg",
-      "/product-images/se104-mq/default/danhov-solo-filo-triple-shank-marquise-engagement-ring-se104-mq-18w-2-2.jpg",
-      "/product-images/se104-mq/default/danhov-solo-filo-triple-shank-marquise-engagement-ring-se104-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "SE108": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-designer-engagement-ring/danhov-solo-filo-designer-engagement-ring-se108-1.jpg",
@@ -15055,13 +14118,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-unique-three-stone-engagement-ring/danhov-solo-filo-unique-three-stone-engagement-ring-se114-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-unique-three-stone-engagement-ring/danhov-solo-filo-unique-three-stone-engagement-ring-se114-4.jpg"
     ]
-  },
-  "SE114-PT": {
-    "images": [
-      "/product-images/se114-pt/default/danhov-solo-filo-pink-diamond-ring-se114-pt-18w-1-1.jpg",
-      "/product-images/se114-pt/default/danhov-solo-filo-pink-diamond-ring-se114-pt-pl-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "SE117": {
     "images": [
@@ -15179,12 +14235,6 @@
       ]
     }
   },
-  "SE500UQ-YD": {
-    "images": [
-      "/product-images/se500uq-yd/default/danhov-solo-filo-yellow-diamond-engagement-ring-se500uq-yd-18w-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "SE504UQ": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-double-shank-engagement-ring/danhov-solo-filo-double-shank-engagement-ring-se504uq-1.jpg",
@@ -15265,12 +14315,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-solo-filo-elegant-diamond-engagement-ring/18k-white-gold/danhov-solo-filo-elegant-diamond-engagement-ring-se510uq-9.jpg"
       ]
     }
-  },
-  "SE510UQ-YD": {
-    "images": [
-      "/product-images/se510uq-yd/default/danhov-solo-filo-yellow-diamond-engagement-ring-se510uq-yd-pl-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "SE511UQ": {
     "images": [
@@ -15477,42 +14521,6 @@
       ]
     }
   },
-  "SE516UQ-14W": {
-    "images": [
-      "/product-images/se516uq-14w/default/danhov-solo-filo-halo-engagement-ring-se516uq-14w-rd-1-1.jpg",
-      "/product-images/se516uq-14w/default/danhov-solo-filo-halo-engagement-ring-se516uq-14w-rd-2-2.jpg",
-      "/product-images/se516uq-14w/default/danhov-solo-filo-halo-engagement-ring-se516uq-14w-rd-3-3.jpg",
-      "/product-images/se516uq-14w/default/danhov-solo-filo-halo-engagement-ring-se516uq-14w-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "SE516UQ-18W": {
-    "images": [
-      "/product-images/se516uq-18w/default/danhov-solo-filo-halo-engagement-ring-se516uq-18w-rd-1-1.jpg",
-      "/product-images/se516uq-18w/default/danhov-solo-filo-halo-engagement-ring-se516uq-18w-rd-2-2.jpg",
-      "/product-images/se516uq-18w/default/danhov-solo-filo-halo-engagement-ring-se516uq-18w-rd-3-3.jpg",
-      "/product-images/se516uq-18w/default/danhov-solo-filo-halo-engagement-ring-se516uq-18w-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "SE516UQ-PLAT": {
-    "images": [
-      "/product-images/se516uq-plat/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-1-1.jpg",
-      "/product-images/se516uq-plat/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-2-2.jpg",
-      "/product-images/se516uq-plat/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-3-3.jpg",
-      "/product-images/se516uq-plat/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "SE516UQ-PLAT-RD": {
-    "images": [
-      "/product-images/se516uq-plat-rd/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-1-1.jpg",
-      "/product-images/se516uq-plat-rd/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-2-2.jpg",
-      "/product-images/se516uq-plat-rd/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-3-3.jpg",
-      "/product-images/se516uq-plat-rd/default/danhov-solo-filo-halo-engagement-ring-se516uq-plat-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "SE517UH": {
     "metal_images": {
       "14k_rose": [
@@ -15642,24 +14650,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-wedding-ring-for-her/danhov-tubetto-wedding-ring-for-her-tb101-h-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-wedding-ring-for-her/danhov-tubetto-wedding-ring-for-her-tb101-h-6.jpg"
     ]
-  },
-  "TB101-A": {
-    "images": [
-      "/product-images/tb101-a/default/danhov-tubetto-diamond-wedding-band-for-women-tb101-a-1-1.jpg",
-      "/product-images/tb101-a/default/danhov-tubetto-diamond-wedding-band-for-women-tb101-a-2-2.jpg",
-      "/product-images/tb101-a/default/danhov-tubetto-diamond-wedding-band-for-women-tb101-a-3-3.jpg",
-      "/product-images/tb101-a/default/danhov-tubetto-diamond-wedding-band-for-women-tb101-a-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "TB101-H": {
-    "images": [
-      "/product-images/tb101-h/default/danhov-tubetto-wedding-ring-for-her-tb101-h-1-1.jpg",
-      "/product-images/tb101-h/default/danhov-tubetto-wedding-ring-for-her-tb101-h-2-2.jpg",
-      "/product-images/tb101-h/default/danhov-tubetto-wedding-ring-for-her-tb101-h-3-3.jpg",
-      "/product-images/tb101-h/default/danhov-tubetto-wedding-ring-for-her-tb101-h-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "TB117": {
     "images": [
@@ -16504,15 +15494,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-three-stone-engagement-ring/danhov-tubetto-three-stone-engagement-ring-te116-pr-pl-4.jpg"
     ]
   },
-  "TE116-PR": {
-    "images": [
-      "/product-images/te116-pr/default/danhov-tubetto-three-stone-engagement-ring-te116-pr-18w-1-1.jpg",
-      "/product-images/te116-pr/default/danhov-tubetto-three-stone-engagement-ring-te116-pr-pl-1-1.jpg",
-      "/product-images/te116-pr/default/danhov-tubetto-three-stone-engagement-ring-te116-pr-18w-2-2.jpg",
-      "/product-images/te116-pr/default/danhov-tubetto-three-stone-engagement-ring-te116-pr-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "TE117": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-engagement-ring-white-gold/danhov-tubetto-engagement-ring-white-gold-te117-1.jpg",
@@ -16542,29 +15523,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-halo-engagement-ring/danhov-tubetto-halo-engagement-ring-te124-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-halo-engagement-ring/danhov-tubetto-halo-engagement-ring-te124-4.jpg"
     ]
-  },
-  "TE124-EM": {
-    "images": [
-      "/product-images/te124-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-1-1.jpg",
-      "/product-images/te124-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "TE124-EM-EM": {
-    "images": [
-      "/product-images/te124-em-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-1-1.jpg",
-      "/product-images/te124-em-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-18w-1-1.jpg",
-      "/product-images/te124-em-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-pl-1-1.jpg",
-      "/product-images/te124-em-em/default/danhov-tubetto-single-shank-emerald-diamond-ring-te124-em-em-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "TE124-GT": {
-    "images": [
-      "/product-images/te124-gt/default/danhov-tubetto-single-shank-green-tourmaline-diamond-ring-te124-gt-18w-1-1.jpg",
-      "/product-images/te124-gt/default/danhov-tubetto-single-shank-green-tourmaline-diamond-ring-te124-gt-pl-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "TE125": {
     "images": [
@@ -16820,24 +15778,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-round-unique-wedding-band-for-men/danhov-tubetto-round-unique-wedding-band-for-men-tm101-4-6.jpg"
     ]
   },
-  "TM101-4": {
-    "images": [
-      "/product-images/tm101-4/default/danhov-tubetto-round-unique-wedding-band-for-men-tm101-4-1-1.jpg",
-      "/product-images/tm101-4/default/danhov-tubetto-round-unique-wedding-band-for-men-tm101-4-2-2.jpg",
-      "/product-images/tm101-4/default/danhov-tubetto-round-unique-wedding-band-for-men-tm101-4-3-3.jpg",
-      "/product-images/tm101-4/default/danhov-tubetto-round-unique-wedding-band-for-men-tm101-4-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "TM101-6": {
-    "images": [
-      "/product-images/tm101-6/default/danhov-tubetto-domed-men-s-designer-wedding-ring-tm101-6-14w-1-1.jpg",
-      "/product-images/tm101-6/default/danhov-tubetto-domed-men-s-designer-wedding-ring-tm101-6-18w-1-1.jpg",
-      "/product-images/tm101-6/default/danhov-tubetto-domed-men-s-designer-wedding-ring-tm101-6-pl-1-1.jpg",
-      "/product-images/tm101-6/default/danhov-tubetto-domed-men-s-designer-wedding-ring-tm101-6-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM106": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-domed-wedding-ring-for-men/danhov-tubetto-domed-wedding-ring-for-men-tm106-6-1.jpg",
@@ -16854,24 +15794,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-handmade-domed-men-s-wedding-band/danhov-tubetto-handmade-domed-men-s-wedding-band-tm106-4-6.jpg"
     ]
   },
-  "TM106-4": {
-    "images": [
-      "/product-images/tm106-4/default/danhov-tubetto-handmade-domed-men-s-wedding-band-tm106-4-1-1.jpg",
-      "/product-images/tm106-4/default/danhov-tubetto-handmade-domed-men-s-wedding-band-tm106-4-2-2.jpg",
-      "/product-images/tm106-4/default/danhov-tubetto-handmade-domed-men-s-wedding-band-tm106-4-3-3.jpg",
-      "/product-images/tm106-4/default/danhov-tubetto-handmade-domed-men-s-wedding-band-tm106-4-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "TM106-6": {
-    "images": [
-      "/product-images/tm106-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm106-6-1-1.jpg",
-      "/product-images/tm106-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm106-6-2-2.jpg",
-      "/product-images/tm106-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm106-6-3-3.jpg",
-      "/product-images/tm106-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm106-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM108": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-award-winning-wedding-ring-for-men/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-1.jpg",
@@ -16879,15 +15801,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-award-winning-wedding-ring-for-men/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-award-winning-wedding-ring-for-men/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-4.jpg"
     ]
-  },
-  "TM108-6": {
-    "images": [
-      "/product-images/tm108-6/default/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-1-1.jpg",
-      "/product-images/tm108-6/default/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-2-2.jpg",
-      "/product-images/tm108-6/default/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-3-3.jpg",
-      "/product-images/tm108-6/default/danhov-tubetto-award-winning-wedding-ring-for-men-tm108-6-14w-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "TM119": {
     "images": [
@@ -16899,15 +15812,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-designer-wedding-ring-for-men/danhov-tubetto-red-designer-wedding-ring-for-men-tm119-6-6.jpg"
     ]
   },
-  "TM119-6": {
-    "images": [
-      "/product-images/tm119-6/default/danhov-tubetto-red-designer-wedding-ring-for-men-tm119-6-1-1.jpg",
-      "/product-images/tm119-6/default/danhov-tubetto-red-designer-wedding-ring-for-men-tm119-6-2-2.jpg",
-      "/product-images/tm119-6/default/danhov-tubetto-red-designer-wedding-ring-for-men-tm119-6-3-3.jpg",
-      "/product-images/tm119-6/default/danhov-tubetto-red-designer-wedding-ring-for-men-tm119-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM122": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-men-s-wedding-band/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-1.jpg",
@@ -16917,15 +15821,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-men-s-wedding-band/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-men-s-wedding-band/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-6.jpg"
     ]
-  },
-  "TM122-6": {
-    "images": [
-      "/product-images/tm122-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-1-1.jpg",
-      "/product-images/tm122-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-2-2.jpg",
-      "/product-images/tm122-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-3-3.jpg",
-      "/product-images/tm122-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm122-6-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "TM123": {
     "images": [
@@ -16937,15 +15832,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-designer-domed-wedding-ring-for-men/danhov-tubetto-red-designer-domed-wedding-ring-for-men-tm123-6-6.jpg"
     ]
   },
-  "TM123-6": {
-    "images": [
-      "/product-images/tm123-6/default/danhov-tubetto-red-designer-domed-wedding-ring-for-men-tm123-6-1-1.jpg",
-      "/product-images/tm123-6/default/danhov-tubetto-red-designer-domed-wedding-ring-for-men-tm123-6-2-2.jpg",
-      "/product-images/tm123-6/default/danhov-tubetto-red-designer-domed-wedding-ring-for-men-tm123-6-3-3.jpg",
-      "/product-images/tm123-6/default/danhov-tubetto-red-designer-domed-wedding-ring-for-men-tm123-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM124": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-wedding-ring-for-men/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-1.jpg",
@@ -16955,15 +15841,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-wedding-ring-for-men/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-wedding-ring-for-men/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-6.jpg"
     ]
-  },
-  "TM124-6": {
-    "images": [
-      "/product-images/tm124-6/default/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-1-1.jpg",
-      "/product-images/tm124-6/default/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-2-2.jpg",
-      "/product-images/tm124-6/default/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-3-3.jpg",
-      "/product-images/tm124-6/default/danhov-tubetto-red-domed-wedding-ring-for-men-tm124-6-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "TM125": {
     "images": [
@@ -16975,15 +15852,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-unique-wedding-band-for-him/danhov-tubetto-red-unique-wedding-band-for-him-tm125-6-6.jpg"
     ]
   },
-  "TM125-6": {
-    "images": [
-      "/product-images/tm125-6/default/danhov-tubetto-red-unique-wedding-band-for-him-tm125-6-1-1.jpg",
-      "/product-images/tm125-6/default/danhov-tubetto-red-unique-wedding-band-for-him-tm125-6-2-2.jpg",
-      "/product-images/tm125-6/default/danhov-tubetto-red-unique-wedding-band-for-him-tm125-6-3-3.jpg",
-      "/product-images/tm125-6/default/danhov-tubetto-red-unique-wedding-band-for-him-tm125-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM126": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-men-s-wedding-band/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-1.jpg",
@@ -16994,15 +15862,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-red-domed-men-s-wedding-band/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-6.jpg"
     ]
   },
-  "TM126-6": {
-    "images": [
-      "/product-images/tm126-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-1-1.jpg",
-      "/product-images/tm126-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-2-2.jpg",
-      "/product-images/tm126-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-3-3.jpg",
-      "/product-images/tm126-6/default/danhov-tubetto-red-domed-men-s-wedding-band-tm126-6-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TM129": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-domed-wedding-ring-for-men/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-1.jpg",
@@ -17012,15 +15871,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-domed-wedding-ring-for-men/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-5.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-domed-wedding-ring-for-men/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-6.jpg"
     ]
-  },
-  "TM129-6": {
-    "images": [
-      "/product-images/tm129-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-1-1.jpg",
-      "/product-images/tm129-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-2-2.jpg",
-      "/product-images/tm129-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-3-3.jpg",
-      "/product-images/tm129-6/default/danhov-tubetto-domed-wedding-ring-for-men-tm129-6-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "TM500UA": {
     "metal_images": {
@@ -17085,15 +15935,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tubetto-unique-men-s-wedding-ring/danhov-tubetto-unique-men-s-wedding-ring-tm505p-8-14w-4.jpg"
     ]
   },
-  "TM505P-8": {
-    "images": [
-      "/product-images/tm505p-8/default/danhov-tubetto-unique-men-s-wedding-ring-tm505p-8-14w-1-1.jpg",
-      "/product-images/tm505p-8/default/danhov-tubetto-unique-men-s-wedding-ring-tm505p-8-14w-2-2.jpg",
-      "/product-images/tm505p-8/default/danhov-tubetto-unique-men-s-wedding-ring-tm505p-8-14w-3-3.jpg",
-      "/product-images/tm505p-8/default/danhov-tubetto-unique-men-s-wedding-ring-tm505p-8-14w-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "TRH100": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-trenta-limited-edition-black-pearl-diamond-earrings/danhov-trenta-limited-edition-black-pearl-diamond-earrings-trh100-w-1.jpg",
@@ -17106,15 +15947,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-trenta-limited-edition-rose-gold-and-pearl-diamond-earrings/danhov-trenta-limited-edition-rose-gold-and-pearl-diamond-earrings-trh100-r-1.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-trenta-limited-edition-rose-gold-and-pearl-diamond-earrings/danhov-trenta-limited-edition-rose-gold-and-pearl-diamond-earrings-trh100-r-2.jpg"
     ]
-  },
-  "TRH100Y": {
-    "images": [
-      "/product-images/trh100y/default/danhov-trenta-limited-edition-black-pearl-diamond-earrings-trh100-w-1-1.jpg",
-      "/product-images/trh100y/default/danhov-trenta-limited-edition-black-pearl-diamond-earrings-trh100-y-1-1.jpg",
-      "/product-images/trh100y/default/danhov-trenta-limited-edition-black-pearl-diamond-earrings-trh100-y-18y-1-1.jpg",
-      "/product-images/trh100y/default/danhov-trenta-limited-edition-pearl-diamond-earrings-trh100-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "TRR100": {
     "images": [
@@ -17606,39 +16438,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-unito-diamond-engagement-ring-in-14kt-white-gold/danhov-unito-diamond-engagement-ring-in-14kt-white-gold-ue519bq-1.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-unito-diamond-engagement-ring-in-14kt-white-gold/danhov-unito-diamond-engagement-ring-in-14kt-white-gold-ue519bq-2.jpg"
     ]
-  },
-  "V1B526VA": {
-    "images": [
-      "/product-images/v1b526va/default/danhov-classic-voltaggio-wedding-ring-in-14kt-white-gold-v1b526va-1-1.jpg",
-      "/product-images/v1b526va/default/danhov-classic-voltaggio-wedding-ring-in-14kt-white-gold-v1b526va-2-2.jpg",
-      "/product-images/v1b526va/default/danhov-classic-voltaggio-wedding-ring-in-14kt-white-gold-v1b526va-3-3.jpg",
-      "/product-images/v1b526va/default/danhov-classic-voltaggio-wedding-ring-in-14kt-white-gold-v1b526va-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "V1E510VH": {
-    "images": [
-      "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-1-1.jpg",
-      "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-2-2.jpg",
-      "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-3-3.jpg"
-    ],
-    "metal_images": {
-      "14k_rose": [
-        "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-1-1.jpg",
-        "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-2-2.jpg",
-        "/product-images/v1e510vh/14k_rose/danhov-tension-engagement-ring-v1e510vh-3-3.jpg"
-      ],
-      "14k_white": [
-        "/product-images/v1e510vh/14k_white/danhov-tension-engagement-ring-v1e510vh-1-1.jpg",
-        "/product-images/v1e510vh/14k_white/danhov-tension-engagement-ring-v1e510vh-2-2.jpg",
-        "/product-images/v1e510vh/14k_white/danhov-tension-engagement-ring-v1e510vh-3-3.jpg"
-      ],
-      "14k_yellow": [
-        "/product-images/v1e510vh/14k_yellow/danhov-tension-engagement-ring-v1e510vh-1-1.jpg",
-        "/product-images/v1e510vh/14k_yellow/danhov-tension-engagement-ring-v1e510vh-2-2.jpg",
-        "/product-images/v1e510vh/14k_yellow/danhov-tension-engagement-ring-v1e510vh-3-3.jpg"
-      ]
-    }
   },
   "VB502UH": {
     "images": [
@@ -18286,33 +17085,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve509vh-14y-rd-5.jpg"
     ]
   },
-  "VE509VH-14R": {
-    "images": [
-      "/product-images/ve509vh-14r/default/danhov-tension-engagement-ring-ve509vh-14r-rd-1-1.jpg",
-      "/product-images/ve509vh-14r/default/danhov-tension-engagement-ring-ve509vh-14r-rd-2-2.jpg",
-      "/product-images/ve509vh-14r/default/danhov-tension-engagement-ring-ve509vh-14r-rd-3-3.jpg",
-      "/product-images/ve509vh-14r/default/danhov-tension-engagement-ring-ve509vh-14r-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE509VH-14W": {
-    "images": [
-      "/product-images/ve509vh-14w/default/danhov-tension-engagement-ring-ve509vh-14w-rd-1-1.jpg",
-      "/product-images/ve509vh-14w/default/danhov-tension-engagement-ring-ve509vh-14w-rd-2-2.jpg",
-      "/product-images/ve509vh-14w/default/danhov-tension-engagement-ring-ve509vh-14w-rd-3-3.jpg",
-      "/product-images/ve509vh-14w/default/danhov-tension-engagement-ring-ve509vh-14w-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE509VH-14Y": {
-    "images": [
-      "/product-images/ve509vh-14y/default/danhov-tension-engagement-ring-ve509vh-14y-rd-1-1.jpg",
-      "/product-images/ve509vh-14y/default/danhov-tension-engagement-ring-ve509vh-14y-rd-2-2.jpg",
-      "/product-images/ve509vh-14y/default/danhov-tension-engagement-ring-ve509vh-14y-rd-3-3.jpg",
-      "/product-images/ve509vh-14y/default/danhov-tension-engagement-ring-ve509vh-14y-rd-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "VE510P": {
     "metal_images": {
       "14k_rose": [
@@ -18477,39 +17249,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/14k-white-gold/danhov-tension-engagement-ring-ve515p-5.jpg"
       ]
     }
-  },
-  "VE515P-14R": {
-    "images": [
-      "/product-images/ve515p-14r/default/danhov-tension-engagement-ring-ve515p-14r-cu-1-1.jpg",
-      "/product-images/ve515p-14r/default/danhov-tension-engagement-ring-ve515p-14r-em-1-1.jpg",
-      "/product-images/ve515p-14r/default/danhov-tension-engagement-ring-ve515p-14r-mq-1-1.jpg",
-      "/product-images/ve515p-14r/default/danhov-tension-engagement-ring-ve515p-14r-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE515P-14W": {
-    "images": [
-      "/product-images/ve515p-14w/default/danhov-tension-engagement-ring-ve515p-14w-cu-1-1.jpg",
-      "/product-images/ve515p-14w/default/danhov-tension-engagement-ring-ve515p-14w-em-1-1.jpg",
-      "/product-images/ve515p-14w/default/danhov-tension-engagement-ring-ve515p-14w-mq-1-1.jpg",
-      "/product-images/ve515p-14w/default/danhov-tension-engagement-ring-ve515p-14w-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE515P-14Y": {
-    "images": [
-      "/product-images/ve515p-14y/default/danhov-tension-engagement-ring-ve515p-14y-cu-1-1.jpg",
-      "/product-images/ve515p-14y/default/danhov-tension-engagement-ring-ve515p-14y-em-1-1.jpg",
-      "/product-images/ve515p-14y/default/danhov-tension-engagement-ring-ve515p-14y-mq-1-1.jpg",
-      "/product-images/ve515p-14y/default/danhov-tension-engagement-ring-ve515p-14y-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE515P-14Y-1": {
-    "images": [
-      "/product-images/ve515p-14y-1/default/ve515p-14y-gold-ring-with-a-2-050carat-round-lab-grown-d-vvs1-ideal-cut-lg759510461-ve515p-14y-1-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "VE522P": {
     "metal_images": {
@@ -19155,33 +17894,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve536lr-14y-rd-5.jpg"
     ]
   },
-  "VE536LR-14R": {
-    "images": [
-      "/product-images/ve536lr-14r/default/danhov-tension-engagement-ring-ve536lr-14r-cu-1-1.jpg",
-      "/product-images/ve536lr-14r/default/danhov-tension-engagement-ring-ve536lr-14r-em-1-1.jpg",
-      "/product-images/ve536lr-14r/default/danhov-tension-engagement-ring-ve536lr-14r-pr-1-1.jpg",
-      "/product-images/ve536lr-14r/default/danhov-tension-engagement-ring-ve536lr-14r-rd-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536LR-14W": {
-    "images": [
-      "/product-images/ve536lr-14w/default/danhov-tension-engagement-ring-ve536lr-14w-cu-1-1.jpg",
-      "/product-images/ve536lr-14w/default/danhov-tension-engagement-ring-ve536lr-14w-em-1-1.jpg",
-      "/product-images/ve536lr-14w/default/danhov-tension-engagement-ring-ve536lr-14w-pr-1-1.jpg",
-      "/product-images/ve536lr-14w/default/danhov-tension-engagement-ring-ve536lr-14w-rd-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536LR-14Y": {
-    "images": [
-      "/product-images/ve536lr-14y/default/danhov-tension-engagement-ring-ve536lr-14y-cu-1-1.jpg",
-      "/product-images/ve536lr-14y/default/danhov-tension-engagement-ring-ve536lr-14y-em-1-1.jpg",
-      "/product-images/ve536lr-14y/default/danhov-tension-engagement-ring-ve536lr-14y-pr-1-1.jpg",
-      "/product-images/ve536lr-14y/default/danhov-tension-engagement-ring-ve536lr-14y-rd-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "VE536P": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve536p-14r-cu-1.jpg",
@@ -19260,33 +17972,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve536p-14y-rd-4.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve536p-14y-rd-5.jpg"
     ]
-  },
-  "VE536P-14R": {
-    "images": [
-      "/product-images/ve536p-14r/default/danhov-tension-engagement-ring-ve536p-14r-cu-1-1.jpg",
-      "/product-images/ve536p-14r/default/danhov-tension-engagement-ring-ve536p-14r-em-1-1.jpg",
-      "/product-images/ve536p-14r/default/danhov-tension-engagement-ring-ve536p-14r-mq-1-1.jpg",
-      "/product-images/ve536p-14r/default/danhov-tension-engagement-ring-ve536p-14r-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536P-14W": {
-    "images": [
-      "/product-images/ve536p-14w/default/danhov-tension-engagement-ring-ve536p-14w-cu-1-1.jpg",
-      "/product-images/ve536p-14w/default/danhov-tension-engagement-ring-ve536p-14w-em-1-1.jpg",
-      "/product-images/ve536p-14w/default/danhov-tension-engagement-ring-ve536p-14w-mq-1-1.jpg",
-      "/product-images/ve536p-14w/default/danhov-tension-engagement-ring-ve536p-14w-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536P-14Y": {
-    "images": [
-      "/product-images/ve536p-14y/default/danhov-tension-engagement-ring-ve536p-14y-cu-1-1.jpg",
-      "/product-images/ve536p-14y/default/danhov-tension-engagement-ring-ve536p-14y-em-1-1.jpg",
-      "/product-images/ve536p-14y/default/danhov-tension-engagement-ring-ve536p-14y-mq-1-1.jpg",
-      "/product-images/ve536p-14y/default/danhov-tension-engagement-ring-ve536p-14y-pr-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "VE536VH": {
     "images": [
@@ -19371,33 +18056,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve536vh-14y-rd-5.jpg"
     ]
   },
-  "VE536VH-14R": {
-    "images": [
-      "/product-images/ve536vh-14r/default/danhov-tension-engagement-ring-ve536vh-14r-cu-1-1.jpg",
-      "/product-images/ve536vh-14r/default/danhov-tension-engagement-ring-ve536vh-14r-em-1-1.jpg",
-      "/product-images/ve536vh-14r/default/danhov-tension-engagement-ring-ve536vh-14r-mq-1-1.jpg",
-      "/product-images/ve536vh-14r/default/danhov-tension-engagement-ring-ve536vh-14r-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536VH-14W": {
-    "images": [
-      "/product-images/ve536vh-14w/default/danhov-tension-engagement-ring-ve536vh-14w-cu-1-1.jpg",
-      "/product-images/ve536vh-14w/default/danhov-tension-engagement-ring-ve536vh-14w-em-1-1.jpg",
-      "/product-images/ve536vh-14w/default/danhov-tension-engagement-ring-ve536vh-14w-mq-1-1.jpg",
-      "/product-images/ve536vh-14w/default/danhov-tension-engagement-ring-ve536vh-14w-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE536VH-14Y": {
-    "images": [
-      "/product-images/ve536vh-14y/default/danhov-tension-engagement-ring-ve536vh-14y-cu-1-1.jpg",
-      "/product-images/ve536vh-14y/default/danhov-tension-engagement-ring-ve536vh-14y-em-1-1.jpg",
-      "/product-images/ve536vh-14y/default/danhov-tension-engagement-ring-ve536vh-14y-mq-1-1.jpg",
-      "/product-images/ve536vh-14y/default/danhov-tension-engagement-ring-ve536vh-14y-pr-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "VE537P": {
     "metal_images": {
       "14k_rose": [
@@ -19465,33 +18123,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539lr-14y-ps-5.jpg"
     ]
   },
-  "VE539LR-14R": {
-    "images": [
-      "/product-images/ve539lr-14r/default/danhov-tension-engagement-ring-ve539lr-14r-ps-1-1.jpg",
-      "/product-images/ve539lr-14r/default/danhov-tension-engagement-ring-ve539lr-14r-ps-2-2.jpg",
-      "/product-images/ve539lr-14r/default/danhov-tension-engagement-ring-ve539lr-14r-ps-3-3.jpg",
-      "/product-images/ve539lr-14r/default/danhov-tension-engagement-ring-ve539lr-14r-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539LR-14W": {
-    "images": [
-      "/product-images/ve539lr-14w/default/danhov-tension-engagement-ring-ve539lr-14w-ps-1-1.jpg",
-      "/product-images/ve539lr-14w/default/danhov-tension-engagement-ring-ve539lr-14w-ps-2-2.jpg",
-      "/product-images/ve539lr-14w/default/danhov-tension-engagement-ring-ve539lr-14w-ps-3-3.jpg",
-      "/product-images/ve539lr-14w/default/danhov-tension-engagement-ring-ve539lr-14w-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539LR-14Y": {
-    "images": [
-      "/product-images/ve539lr-14y/default/danhov-tension-engagement-ring-ve539lr-14y-ps-1-1.jpg",
-      "/product-images/ve539lr-14y/default/danhov-tension-engagement-ring-ve539lr-14y-ps-2-2.jpg",
-      "/product-images/ve539lr-14y/default/danhov-tension-engagement-ring-ve539lr-14y-ps-3-3.jpg",
-      "/product-images/ve539lr-14y/default/danhov-tension-engagement-ring-ve539lr-14y-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "VE539P": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539p-14r-ps-1.jpg",
@@ -19511,33 +18142,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539p-14y-ps-5.jpg"
     ]
   },
-  "VE539P-14R": {
-    "images": [
-      "/product-images/ve539p-14r/default/danhov-tension-engagement-ring-ve539p-14r-ps-1-1.jpg",
-      "/product-images/ve539p-14r/default/danhov-tension-engagement-ring-ve539p-14r-ps-2-2.jpg",
-      "/product-images/ve539p-14r/default/danhov-tension-engagement-ring-ve539p-14r-ps-3-3.jpg",
-      "/product-images/ve539p-14r/default/danhov-tension-engagement-ring-ve539p-14r-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539P-14W": {
-    "images": [
-      "/product-images/ve539p-14w/default/danhov-tension-engagement-ring-ve539p-14w-ps-1-1.jpg",
-      "/product-images/ve539p-14w/default/danhov-tension-engagement-ring-ve539p-14w-ps-2-2.jpg",
-      "/product-images/ve539p-14w/default/danhov-tension-engagement-ring-ve539p-14w-ps-3-3.jpg",
-      "/product-images/ve539p-14w/default/danhov-tension-engagement-ring-ve539p-14w-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539P-14Y": {
-    "images": [
-      "/product-images/ve539p-14y/default/danhov-tension-engagement-ring-ve539p-14y-ps-1-1.jpg",
-      "/product-images/ve539p-14y/default/danhov-tension-engagement-ring-ve539p-14y-ps-2-2.jpg",
-      "/product-images/ve539p-14y/default/danhov-tension-engagement-ring-ve539p-14y-ps-3-3.jpg",
-      "/product-images/ve539p-14y/default/danhov-tension-engagement-ring-ve539p-14y-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "VE539VH": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539vh-14w-ps-1-1.jpg",
@@ -19556,33 +18160,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539vh-14y-ps-4.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/danhov-tension-engagement-ring-ve539vh-14y-ps-5.jpg"
     ]
-  },
-  "VE539VH-14W": {
-    "images": [
-      "/product-images/ve539vh-14w/default/danhov-tension-engagement-ring-ve539vh-14w-ps-1-1.jpg",
-      "/product-images/ve539vh-14w/default/danhov-tension-engagement-ring-ve539vh-14w-ps-2-2.jpg",
-      "/product-images/ve539vh-14w/default/danhov-tension-engagement-ring-ve539vh-14w-ps-3-3.jpg",
-      "/product-images/ve539vh-14w/default/danhov-tension-engagement-ring-ve539vh-14w-ps-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539VH-14W-PS-1": {
-    "images": [
-      "/product-images/ve539vh-14w-ps-1/default/danhov-tension-engagement-ring-ve539vh-14w-ps-1-1-1.jpg",
-      "/product-images/ve539vh-14w-ps-1/default/danhov-tension-engagement-ring-ve539vh-14w-ps-1-2-2.jpg",
-      "/product-images/ve539vh-14w-ps-1/default/danhov-tension-engagement-ring-ve539vh-14w-ps-1-3-3.jpg",
-      "/product-images/ve539vh-14w-ps-1/default/danhov-tension-engagement-ring-ve539vh-14w-ps-1-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "VE539VH-14Y": {
-    "images": [
-      "/product-images/ve539vh-14y/default/danhov-tension-engagement-ring-ve539vh-14y-ps-1-1.jpg",
-      "/product-images/ve539vh-14y/default/danhov-tension-engagement-ring-ve539vh-14y-ps-2-2.jpg",
-      "/product-images/ve539vh-14y/default/danhov-tension-engagement-ring-ve539vh-14y-ps-3-3.jpg",
-      "/product-images/ve539vh-14y/default/danhov-tension-engagement-ring-ve539vh-14y-ps-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "VE540P": {
     "metal_images": {
@@ -19615,54 +18192,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/14k-rose-gold/danhov-tension-engagement-ring-ve540p-4.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-tension-engagement-ring/14k-rose-gold/danhov-tension-engagement-ring-ve540p-5.jpg"
     ]
-  },
-  "W1B504VQ": {
-    "images": [
-      "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-      "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-      "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-    ],
-    "metal_images": {
-      "14k_rose": [
-        "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/14k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ],
-      "14k_white": [
-        "/product-images/w1b504vq/14k_white/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/14k_white/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/14k_white/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ],
-      "14k_yellow": [
-        "/product-images/w1b504vq/14k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/14k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/14k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ],
-      "18k_rose": [
-        "/product-images/w1b504vq/18k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/18k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/18k_rose/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ],
-      "18k_yellow": [
-        "/product-images/w1b504vq/18k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/18k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/18k_yellow/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ],
-      "platinum": [
-        "/product-images/w1b504vq/platinum/danhov-classico-handmade-diamond-wedding-band-w1b504vq-1-1.jpg",
-        "/product-images/w1b504vq/platinum/danhov-classico-handmade-diamond-wedding-band-w1b504vq-2-2.jpg",
-        "/product-images/w1b504vq/platinum/danhov-classico-handmade-diamond-wedding-band-w1b504vq-3-3.jpg"
-      ]
-    }
-  },
-  "W1B536UA": {
-    "images": [
-      "/product-images/w1b536ua/default/danhov-classico-unique-handmade-wedding-band-w1b536ua-1-1.jpg",
-      "/product-images/w1b536ua/default/danhov-classico-unique-handmade-wedding-band-w1b536ua-2-2.jpg",
-      "/product-images/w1b536ua/default/danhov-classico-unique-handmade-wedding-band-w1b536ua-3-3.jpg",
-      "/product-images/w1b536ua/default/danhov-classico-unique-handmade-wedding-band-w1b536ua-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "WB504VQ": {
     "metal_images": {
@@ -21243,24 +19772,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-round-cut-ladies-engagement-ring/danhov-classico-round-cut-ladies-engagement-ring-we531vq-r-pl-9.jpg"
     ]
   },
-  "WE531VQ-P": {
-    "images": [
-      "/product-images/we531vq-p/default/danhov-classico-pear-cut-ladies-engagement-ring-in-14k-white-diamond-we531vq-p-14w-1-1.jpg",
-      "/product-images/we531vq-p/default/danhov-classico-pear-cut-ladies-engagement-ring-in-18k-white-diamond-we531vq-p-18w-1-1.jpg",
-      "/product-images/we531vq-p/default/danhov-classico-pear-cut-ladies-engagement-ring-we531vq-p-14r-1-1.jpg",
-      "/product-images/we531vq-p/default/danhov-classico-pear-cut-ladies-engagement-ring-we531vq-p-14y-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
-  "WE531VQ-R": {
-    "images": [
-      "/product-images/we531vq-r/default/danhov-classico-round-cut-ladies-engagement-ring-we531vq-r-14r-1-1.jpg",
-      "/product-images/we531vq-r/default/danhov-classico-round-cut-ladies-engagement-ring-we531vq-r-14w-1-1.jpg",
-      "/product-images/we531vq-r/default/danhov-classico-round-cut-ladies-engagement-ring-we531vq-r-14y-1-1.jpg",
-      "/product-images/we531vq-r/default/danhov-classico-round-cut-ladies-engagement-ring-we531vq-r-18r-1-1.jpg"
-    ],
-    "metal_images": {}
-  },
   "WE532UH": {
     "metal_images": {
       "14k_rose": [
@@ -21714,13 +20225,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-unique-handmade-engagement-ring-in-14kt/danhov-classico-unique-handmade-engagement-ring-in-14kt-we538uh-bs-14w-2.jpg"
     ]
   },
-  "WE538UH-BS": {
-    "images": [
-      "/product-images/we538uh-bs/default/danhov-classico-unique-handmade-engagement-ring-in-14kt-we538uh-bs-14w-1-1.jpg",
-      "/product-images/we538uh-bs/default/danhov-classico-unique-handmade-engagement-ring-in-14kt-we538uh-bs-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "WE539P": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-halo-princess-cut-engagement-ring/danhov-classico-halo-princess-cut-engagement-ring-we539p-pr-14w-1.jpg",
@@ -21770,42 +20274,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-classico-halo-engagement-ring/14k-white-gold/danhov-classico-halo-engagement-ring-we539p-4.jpg"
       ]
     }
-  },
-  "WE539P-AS": {
-    "images": [
-      "/product-images/we539p-as/default/danhov-classico-knife-edge-asscher-engagement-ring-we539p-as-14w-1-1.jpg",
-      "/product-images/we539p-as/default/danhov-classico-knife-edge-asscher-engagement-ring-we539p-as-18w-1-1.jpg",
-      "/product-images/we539p-as/default/danhov-classico-knife-edge-asscher-engagement-ring-we539p-as-14w-2-2.jpg",
-      "/product-images/we539p-as/default/danhov-classico-knife-edge-asscher-engagement-ring-we539p-as-18w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "WE539P-EM": {
-    "images": [
-      "/product-images/we539p-em/default/danhov-classico-halo-emerald-engagement-ring-we539p-em-14w-1-1.jpg",
-      "/product-images/we539p-em/default/danhov-classico-halo-emerald-engagement-ring-we539p-em-18w-1-1.jpg",
-      "/product-images/we539p-em/default/danhov-classico-halo-emerald-engagement-ring-we539p-em-14w-2-2.jpg",
-      "/product-images/we539p-em/default/danhov-classico-halo-emerald-engagement-ring-we539p-em-18w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "WE539P-OV": {
-    "images": [
-      "/product-images/we539p-ov/default/danhov-classico-knife-edge-oval-engagement-ring-we539p-ov-14w-1-1.jpg",
-      "/product-images/we539p-ov/default/danhov-classico-knife-edge-oval-engagement-ring-we539p-ov-18w-1-1.jpg",
-      "/product-images/we539p-ov/default/danhov-classico-knife-edge-oval-engagement-ring-we539p-ov-14w-2-2.jpg",
-      "/product-images/we539p-ov/default/danhov-classico-knife-edge-oval-engagement-ring-we539p-ov-18w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "WE539P-PR": {
-    "images": [
-      "/product-images/we539p-pr/default/danhov-classico-halo-princess-cut-engagement-ring-we539p-pr-14w-1-1.jpg",
-      "/product-images/we539p-pr/default/danhov-classico-halo-princess-cut-engagement-ring-we539p-pr-18w-1-1.jpg",
-      "/product-images/we539p-pr/default/danhov-classico-halo-princess-cut-engagement-ring-we539p-pr-14w-2-2.jpg",
-      "/product-images/we539p-pr/default/danhov-classico-halo-princess-cut-engagement-ring-we539p-pr-18w-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "WE545P": {
     "metal_images": {
@@ -22084,24 +20552,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-flat-diamond-wedding-ring-for-women/danhov-carezza-flat-diamond-wedding-ring-for-women-xb100-q-6.jpg"
     ]
   },
-  "XB100-A": {
-    "images": [
-      "/product-images/xb100-a/default/danhov-carezza-flat-diamond-wedding-band-for-her-xb100-a-1-1.jpg",
-      "/product-images/xb100-a/default/danhov-carezza-flat-diamond-wedding-band-for-her-xb100-a-2-2.jpg",
-      "/product-images/xb100-a/default/danhov-carezza-flat-diamond-wedding-band-for-her-xb100-a-3-3.jpg",
-      "/product-images/xb100-a/default/danhov-carezza-flat-diamond-wedding-band-for-her-xb100-a-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XB100-Q": {
-    "images": [
-      "/product-images/xb100-q/default/danhov-carezza-flat-diamond-wedding-ring-for-women-xb100-q-1-1.jpg",
-      "/product-images/xb100-q/default/danhov-carezza-flat-diamond-wedding-ring-for-women-xb100-q-2-2.jpg",
-      "/product-images/xb100-q/default/danhov-carezza-flat-diamond-wedding-ring-for-women-xb100-q-3-3.jpg",
-      "/product-images/xb100-q/default/danhov-carezza-flat-diamond-wedding-ring-for-women-xb100-q-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "XE105": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-emerald-engagement-ring/danhov-carezza-emerald-engagement-ring-xe105-em-18w-1.jpg",
@@ -22149,51 +20599,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-asscher-engagement-ring/danhov-carezza-asscher-engagement-ring-xe105-as-pl-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-asscher-engagement-ring/danhov-carezza-asscher-engagement-ring-xe105-as-pl-4.jpg"
     ]
-  },
-  "XE105-AS": {
-    "images": [
-      "/product-images/xe105-as/default/danhov-carezza-asscher-engagement-ring-xe105-as-18w-1-1.jpg",
-      "/product-images/xe105-as/default/danhov-carezza-asscher-engagement-ring-xe105-as-pl-1-1.jpg",
-      "/product-images/xe105-as/default/danhov-carezza-asscher-engagement-ring-xe105-as-18w-2-2.jpg",
-      "/product-images/xe105-as/default/danhov-carezza-asscher-engagement-ring-xe105-as-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE105-EM": {
-    "images": [
-      "/product-images/xe105-em/default/danhov-carezza-emerald-engagement-ring-xe105-em-18w-1-1.jpg",
-      "/product-images/xe105-em/default/danhov-carezza-emerald-engagement-ring-xe105-em-pl-1-1.jpg",
-      "/product-images/xe105-em/default/danhov-carezza-emerald-engagement-ring-xe105-em-18w-2-2.jpg",
-      "/product-images/xe105-em/default/danhov-carezza-emerald-engagement-ring-xe105-em-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE105-MQ": {
-    "images": [
-      "/product-images/xe105-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe105-mq-18w-1-1.jpg",
-      "/product-images/xe105-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe105-mq-pl-1-1.jpg",
-      "/product-images/xe105-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe105-mq-18w-2-2.jpg",
-      "/product-images/xe105-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe105-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE105-OV": {
-    "images": [
-      "/product-images/xe105-ov/default/danhov-carezza-oval-diamond-engagement-ring-xe105-ov-18w-1-1.jpg",
-      "/product-images/xe105-ov/default/danhov-carezza-oval-diamond-engagement-ring-xe105-ov-pl-1-1.jpg",
-      "/product-images/xe105-ov/default/danhov-carezza-oval-diamond-engagement-ring-xe105-ov-18w-2-2.jpg",
-      "/product-images/xe105-ov/default/danhov-carezza-oval-diamond-engagement-ring-xe105-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE105-PS": {
-    "images": [
-      "/product-images/xe105-ps/default/danhov-carezza-single-shank-pear-shaped-engagement-ring-xe105-ps-18w-1-1.jpg",
-      "/product-images/xe105-ps/default/danhov-carezza-single-shank-pear-shaped-engagement-ring-xe105-ps-pl-1-1.jpg",
-      "/product-images/xe105-ps/default/danhov-carezza-single-shank-pear-shaped-engagement-ring-xe105-ps-18w-2-2.jpg",
-      "/product-images/xe105-ps/default/danhov-carezza-single-shank-pear-shaped-engagement-ring-xe105-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "XE106": {
     "images": [
@@ -22251,51 +20656,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-pear-shaped-diamond-engagement-ring/danhov-carezza-pear-shaped-diamond-engagement-ring-xe109-ps-pl-4.jpg"
     ]
   },
-  "XE109-AS": {
-    "images": [
-      "/product-images/xe109-as/default/danhov-carezza-asscher-cut-halo-engagement-ring-xe109-as-18w-1-1.jpg",
-      "/product-images/xe109-as/default/danhov-carezza-asscher-cut-halo-engagement-ring-xe109-as-pl-1-1.jpg",
-      "/product-images/xe109-as/default/danhov-carezza-asscher-cut-halo-engagement-ring-xe109-as-18w-2-2.jpg",
-      "/product-images/xe109-as/default/danhov-carezza-asscher-cut-halo-engagement-ring-xe109-as-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE109-EM": {
-    "images": [
-      "/product-images/xe109-em/default/danhov-carezza-double-shank-emerald-engagement-ring-xe109-em-18w-1-1.jpg",
-      "/product-images/xe109-em/default/danhov-carezza-double-shank-emerald-engagement-ring-xe109-em-pl-1-1.jpg",
-      "/product-images/xe109-em/default/danhov-carezza-double-shank-emerald-engagement-ring-xe109-em-18w-2-2.jpg",
-      "/product-images/xe109-em/default/danhov-carezza-double-shank-emerald-engagement-ring-xe109-em-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE109-MQ": {
-    "images": [
-      "/product-images/xe109-mq/default/danhov-carezza-double-shank-marquise-engagement-ring-xe109-mq-18w-1-1.jpg",
-      "/product-images/xe109-mq/default/danhov-carezza-double-shank-marquise-engagement-ring-xe109-mq-pl-1-1.jpg",
-      "/product-images/xe109-mq/default/danhov-carezza-double-shank-marquise-engagement-ring-xe109-mq-18w-2-2.jpg",
-      "/product-images/xe109-mq/default/danhov-carezza-double-shank-marquise-engagement-ring-xe109-mq-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE109-OV": {
-    "images": [
-      "/product-images/xe109-ov/default/danhov-carezza-oval-cut-engagement-ring-xe109-ov-18w-1-1.jpg",
-      "/product-images/xe109-ov/default/danhov-carezza-oval-cut-engagement-ring-xe109-ov-pl-1-1.jpg",
-      "/product-images/xe109-ov/default/danhov-carezza-oval-cut-engagement-ring-xe109-ov-18w-2-2.jpg",
-      "/product-images/xe109-ov/default/danhov-carezza-oval-cut-engagement-ring-xe109-ov-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE109-PS": {
-    "images": [
-      "/product-images/xe109-ps/default/danhov-carezza-pear-shaped-diamond-engagement-ring-xe109-ps-18w-1-1.jpg",
-      "/product-images/xe109-ps/default/danhov-carezza-pear-shaped-diamond-engagement-ring-xe109-ps-pl-1-1.jpg",
-      "/product-images/xe109-ps/default/danhov-carezza-pear-shaped-diamond-engagement-ring-xe109-ps-18w-2-2.jpg",
-      "/product-images/xe109-ps/default/danhov-carezza-pear-shaped-diamond-engagement-ring-xe109-ps-pl-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
   "XE110": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-single-shank-amethyst-diamond-ring/danhov-carezza-single-shank-amethyst-diamond-ring-xe110-am-18w-1.jpg",
@@ -22305,13 +20665,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-handcrafted-engagement-ring/danhov-carezza-handcrafted-engagement-ring-xe110-3.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-handcrafted-engagement-ring/danhov-carezza-handcrafted-engagement-ring-xe110-4.jpg"
     ]
-  },
-  "XE110-AM": {
-    "images": [
-      "/product-images/xe110-am/default/danhov-carezza-single-shank-amethyst-diamond-ring-xe110-am-18w-1-1.jpg",
-      "/product-images/xe110-am/default/danhov-carezza-single-shank-amethyst-diamond-ring-xe110-am-pl-1-1.jpg"
-    ],
-    "metal_images": {}
   },
   "XE112": {
     "images": [
@@ -22420,69 +20773,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-carezza-award-winning-engagement-ring/18k-white-gold/danhov-carezza-award-winning-engagement-ring-xe500gq-4.jpg"
       ]
     }
-  },
-  "XE500GQ-AS": {
-    "images": [
-      "/product-images/xe500gq-as/default/danhov-carezza-single-shank-ascher-engagement-ring-xe500gq-as-14w-1-1.jpg",
-      "/product-images/xe500gq-as/default/danhov-carezza-single-shank-ascher-engagement-ring-xe500gq-as-18w-1-1.jpg",
-      "/product-images/xe500gq-as/default/danhov-carezza-single-shank-ascher-engagement-ring-xe500gq-as-pl-1-1.jpg",
-      "/product-images/xe500gq-as/default/danhov-carezza-single-shank-ascher-engagement-ring-xe500gq-as-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-EM": {
-    "images": [
-      "/product-images/xe500gq-em/default/danhov-carezza-emerald-cut-engagement-ring-xe500gq-em-14w-1-1.jpg",
-      "/product-images/xe500gq-em/default/danhov-carezza-emerald-cut-engagement-ring-xe500gq-em-18w-1-1.jpg",
-      "/product-images/xe500gq-em/default/danhov-carezza-emerald-cut-engagement-ring-xe500gq-em-pl-1-1.jpg",
-      "/product-images/xe500gq-em/default/danhov-carezza-emerald-cut-engagement-ring-xe500gq-em-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-MQ": {
-    "images": [
-      "/product-images/xe500gq-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe500gq-mq-14w-1-1.jpg",
-      "/product-images/xe500gq-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe500gq-mq-18w-1-1.jpg",
-      "/product-images/xe500gq-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe500gq-mq-pl-1-1.jpg",
-      "/product-images/xe500gq-mq/default/danhov-carezza-single-shank-marquise-engagement-ring-xe500gq-mq-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-OV": {
-    "images": [
-      "/product-images/xe500gq-ov/default/danhov-carezza-single-shank-oval-cut-engagement-ring-xe500gq-ov-14w-1-1.jpg",
-      "/product-images/xe500gq-ov/default/danhov-carezza-single-shank-oval-cut-engagement-ring-xe500gq-ov-18w-1-1.jpg",
-      "/product-images/xe500gq-ov/default/danhov-carezza-single-shank-oval-cut-engagement-ring-xe500gq-ov-pl-1-1.jpg",
-      "/product-images/xe500gq-ov/default/danhov-carezza-single-shank-oval-cut-engagement-ring-xe500gq-ov-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-PR": {
-    "images": [
-      "/product-images/xe500gq-pr/default/danhov-carezza-single-shank-princess-cut-engagement-ring-xe500gq-pr-14w-1-1.jpg",
-      "/product-images/xe500gq-pr/default/danhov-carezza-single-shank-princess-cut-engagement-ring-xe500gq-pr-18w-1-1.jpg",
-      "/product-images/xe500gq-pr/default/danhov-carezza-single-shank-princess-cut-engagement-ring-xe500gq-pr-pl-1-1.jpg",
-      "/product-images/xe500gq-pr/default/danhov-carezza-single-shank-princess-cut-engagement-ring-xe500gq-pr-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-PS": {
-    "images": [
-      "/product-images/xe500gq-ps/default/danhov-carezza-single-shank-pear-shaped-cut-engagement-ring-xe500gq-ps-14w-1-1.jpg",
-      "/product-images/xe500gq-ps/default/danhov-carezza-single-shank-pear-shaped-cut-engagement-ring-xe500gq-ps-18w-1-1.jpg",
-      "/product-images/xe500gq-ps/default/danhov-carezza-single-shank-pear-shaped-cut-engagement-ring-xe500gq-ps-pl-1-1.jpg",
-      "/product-images/xe500gq-ps/default/danhov-carezza-single-shank-pear-shaped-cut-engagement-ring-xe500gq-ps-14w-2-2.jpg"
-    ],
-    "metal_images": {}
-  },
-  "XE500GQ-PS-AQ": {
-    "images": [
-      "/product-images/xe500gq-ps-aq/default/danhov-carezza-single-shank-pear-shaped-cut-aquamarine-fine-ring-xe500gq-ps-aq-14w-1-1.jpg",
-      "/product-images/xe500gq-ps-aq/default/danhov-carezza-single-shank-pear-shaped-cut-aquamarine-fine-ring-xe500gq-ps-aq-18w-1-1.jpg",
-      "/product-images/xe500gq-ps-aq/default/danhov-carezza-single-shank-pear-shaped-cut-aquamarine-fine-ring-xe500gq-ps-aq-pl-1-1.jpg",
-      "/product-images/xe500gq-ps-aq/default/danhov-carezza-single-shank-pear-shaped-cut-aquamarine-fine-ring-xe500gq-ps-aq-14w-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "XE501GH": {
     "metal_images": {
@@ -22696,15 +20986,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-eternita-diamond-wedding-band-for-her/14k-rose-gold/danhov-eternita-diamond-wedding-band-for-her-yb501ga-5.jpg"
     ]
   },
-  "Z1B505UA": {
-    "images": [
-      "/product-images/z1b505ua/default/danhov-eleganza-wedding-band-for-women-z1b505ua-1-1.jpg",
-      "/product-images/z1b505ua/default/danhov-eleganza-wedding-band-for-women-z1b505ua-2-2.jpg",
-      "/product-images/z1b505ua/default/danhov-eleganza-wedding-band-for-women-z1b505ua-3-3.jpg",
-      "/product-images/z1b505ua/default/danhov-eleganza-wedding-band-for-women-z1b505ua-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
   "ZB100": {
     "images": [
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-eleganza-braided-wedding-band-for-her/danhov-eleganza-braided-wedding-band-for-her-zb100-1.jpg",
@@ -22726,24 +21007,6 @@
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-eleganza-rose-gold-braided-wedding-band/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-7.jpg",
       "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-eleganza-rose-gold-braided-wedding-band/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-8.jpg"
     ]
-  },
-  "ZB100-R": {
-    "images": [
-      "/product-images/zb100-r/default/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-1-1.jpg",
-      "/product-images/zb100-r/default/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-2-2.jpg",
-      "/product-images/zb100-r/default/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-3-3.jpg",
-      "/product-images/zb100-r/default/danhov-eleganza-rose-gold-braided-wedding-band-zb100-r-4-4.jpg"
-    ],
-    "metal_images": {}
-  },
-  "ZB100-Y": {
-    "images": [
-      "/product-images/zb100-y/default/danhov-eleganza-braided-wedding-band-for-her-zb100-y-1-1.jpg",
-      "/product-images/zb100-y/default/danhov-eleganza-braided-wedding-band-for-her-zb100-y-2-2.jpg",
-      "/product-images/zb100-y/default/danhov-eleganza-braided-wedding-band-for-her-zb100-y-3-3.jpg",
-      "/product-images/zb100-y/default/danhov-eleganza-braided-wedding-band-for-her-zb100-y-4-4.jpg"
-    ],
-    "metal_images": {}
   },
   "ZB500UH": {
     "images": [
@@ -23135,15 +21398,6 @@
         "https://pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev/danhov-eleganza-swirl-diamond-ring/18k-white-gold/danhov-eleganza-swirl-diamond-ring-ze501uq-9.jpg"
       ]
     }
-  },
-  "ZE501UQ-2T": {
-    "images": [
-      "/product-images/ze501uq-2t/default/danhov-eleganza-swirl-two-tone-diamond-ring-ze501uq-2t-14y-1-1.jpg",
-      "/product-images/ze501uq-2t/default/danhov-eleganza-swirl-two-tone-diamond-ring-ze501uq-2t-18y-1-1.jpg",
-      "/product-images/ze501uq-2t/default/danhov-eleganza-swirl-two-tone-diamond-ring-ze501uq-2t-14y-2-2.jpg",
-      "/product-images/ze501uq-2t/default/danhov-eleganza-swirl-two-tone-diamond-ring-ze501uq-2t-18y-2-2.jpg"
-    ],
-    "metal_images": {}
   },
   "ZE506UQ": {
     "metal_images": {
