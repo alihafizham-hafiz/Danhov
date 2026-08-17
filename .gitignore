@@ -42,8 +42,11 @@ yarn-error.log*
 # local operational backups (DB row dumps before destructive changes)
 /_backups/
 
-# local product image mirror/fallback (366MB, deployed via Vercel CLI directly,
-# not committed to keep repo size sane — source of truth is the R2 bucket)
+# Legacy local product image mirror. No longer required for builds — as of
+# 2026-08-17, data/product-image-manifest.json points at the R2 bucket
+# (pub-2d92bc9fc39242bf95b565216d0b999e.r2.dev) directly, so this folder
+# existing or not has no effect on deploys. Kept ignored since it's large
+# and unused going forward; safe to delete.
 /public/product-images/
 
 # typescript
