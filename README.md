@@ -26,6 +26,16 @@ Copy `.env.example` → `.env.local` and fill in:
 - `SUPABASE_SECRET_KEY` (server-side only)
 - `ANTHROPIC_API_KEY`
 
+## Deployment
+
+Production deploys from `main` through Vercel. Before committing, configure
+Git with an email address associated with your GitHub account so Vercel can
+identify the commit author:
+
+```bash
+git config user.email "your-github-email@example.com"
+```
+
 ## Project structure
 
 ```
