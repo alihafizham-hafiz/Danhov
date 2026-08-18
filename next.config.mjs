@@ -42,11 +42,11 @@ const nextConfig = {
     // this to the enforcing `Content-Security-Policy` header.
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com https://nowl.ink https://www.zyratalk.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://*.google-analytics.com",
+      "connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://*.google-analytics.com https://*.zyratalk.com wss://*.zyratalk.com",
       "frame-src 'self' https:",
       "frame-ancestors 'self'",
       "object-src 'none'",
