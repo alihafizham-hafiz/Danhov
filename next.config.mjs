@@ -32,6 +32,28 @@ const nextConfig = {
   },
 
   async headers() {
+    // Report-Only for now: logs what the policy *would* have blocked without
+    // actually blocking anything, so nothing on the live site can break from
+    // this. frame-src is intentionally broad (https: rather than a named
+    // allowlist) because the ring-builder's diamond 360°-viewer iframe comes
+    // from whichever vendor domain Nivoda's API returns per-stone across its
+    // supplier network — not a small fixed list we can safely enumerate.
+    // Once a stretch of real traffic shows no unexpected violations, switch
+    // this to the enforcing `Content-Security-Policy` header.
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://*.google-analytics.com",
+      "frame-src 'self' https:",
+      "frame-ancestors 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join('; ');
+
     const sharedSecurityHeaders = [
       { key: 'X-Content-Type-Options', value: 'nosniff' },
       { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
@@ -43,6 +65,7 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=63072000; includeSubDomains; preload',
       },
+      { key: 'Content-Security-Policy-Report-Only', value: csp },
     ];
 
     return [
