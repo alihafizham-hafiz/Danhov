@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import HomepageScripts from '@/components/HomepageScripts';
+import HeroVideo from '@/components/HeroVideo';
 import ScrollToHash from '@/components/ScrollToHash';
 import AIDesignSection from '@/components/AIDesignSection';
 import FindFormSection from '@/components/FindFormSection';
@@ -48,17 +49,7 @@ export default async function HomePage() {
              The brand film already carries that arc, so it *is* the hero
              rather than a section below it (brief §1). ─────────────────── */}
       <section className="hero hero-cine">
-        <video
-          className="hero-cine-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/danhov-video-poster.jpg"
-          src="/danhov-brand-video.mp4"
-          aria-hidden="true"
-        />
+        <HeroVideo />
         {/* Veil — keeps the headline legible over the brightest frames of the
             vortex without flattening the imagery behind it. */}
         <div className="hero-cine-veil" aria-hidden="true" />

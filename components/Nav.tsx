@@ -197,7 +197,6 @@ export default function Nav() {
               <li key={l.label}>
                 <Link
                   href={l.href}
-                  prefetch
                   className={active ? 'is-active nav-link-stack' : 'nav-link-stack'}
                   aria-current={active ? 'page' : undefined}
                   onClick={(e) => handleHashScroll(e, l.href)}

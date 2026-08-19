@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const SHAPES = [
   { name: 'Round',    value: 'ROUND',    meaning: 'Wholeness, complete',     img: '/diamond-shapes/round.jpg' },
@@ -47,8 +48,13 @@ export default function FindFormSection() {
               onClick={() => setActive(s.value)}
             >
               <div className="findform-card-img">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.img} alt={`${s.name} cut diamond`} />
+                <Image
+                  src={s.img}
+                  alt={`${s.name} cut diamond`}
+                  fill
+                  sizes="60px"
+                  style={{ objectFit: 'contain' }}
+                />
                 {active === s.value && (
                   <span className="findform-card-spinner" aria-hidden="true" />
                 )}
