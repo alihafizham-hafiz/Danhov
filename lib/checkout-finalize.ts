@@ -98,10 +98,4 @@ export async function finalizeCheckoutSession(sessionId: string): Promise<Finali
   // Stripe legacy session retrieval removed (pre-AuthNet migration only).
   // All live orders now use Authorize.Net; this flow is dead code.
   return { status: 'pending', order_id: order.id };
-
-  if (order.quote_lock_id) {
-    await client.from('quote_locks').update({ consumed: true }).eq('id', order.quote_lock_id);
-  }
-
-  return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
 }
