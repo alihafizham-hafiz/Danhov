@@ -20,6 +20,7 @@ import {
 import { stripMetalSuffix } from '@/lib/product-display';
 import SkuDisplay from '@/components/SkuDisplay';
 import { METAL_LABEL_DISPLAY } from '@/lib/stone-math';
+import { METAL_LABEL } from '@/lib/pricing';
 import RelatedProducts from '@/components/RelatedProducts';
 
 type Params = { slug: string };
@@ -78,6 +79,8 @@ export async function generateMetadata({
   const hero = product.images?.[0] ?? null;
 
   const cleanName = stripMetalSuffix(product.name);
+  const metalLabel = product.default_metal ? METAL_LABEL[product.default_metal as keyof typeof METAL_LABEL] : null;
+  const seoTitle = metalLabel ? `${cleanName} · ${metalLabel} · DANHOV` : cleanName;
   // Engagement pieces are configured through the ring builder — that's the
   // canonical URL for those. This page still renders (customers land here
   // from search/links), it just isn't the one Google should index, so it
@@ -87,11 +90,11 @@ export async function generateMetadata({
       ? `/ring-builder/setting/${product.slug}`
       : `/product/${product.slug}`;
   return {
-    title: cleanName,
+    title: seoTitle,
     description: narrative.meta_description,
     alternates: { canonical: canonicalPath },
     openGraph: {
-      title: cleanName,
+      title: seoTitle,
       description: narrative.meta_description,
       type: 'website',
       url: canonicalPath,
@@ -99,7 +102,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: cleanName,
+      title: seoTitle,
       description: narrative.meta_description,
       images: hero ? [hero] : undefined,
     },
