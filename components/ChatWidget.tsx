@@ -5,8 +5,6 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 const VoiceModal = dynamic(() => import('@/components/VoiceModal'), { ssr: false });
-const VisionModal = dynamic(() => import('@/components/VisionModal'), { ssr: false });
-const DesignWithAIModal = dynamic(() => import('@/components/DesignWithAIModal'), { ssr: false });
 
 type Msg = { role: 'user' | 'assistant' | 'system'; content: string };
 
@@ -27,8 +25,6 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false);
   const [showQuick, setShowQuick] = useState(true);
   const [voiceOpen, setVoiceOpen] = useState(false);
-  const [visionOpen, setVisionOpen] = useState(false);
-  const [designOpen, setDesignOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const msgsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -214,12 +210,6 @@ export default function ChatWidget() {
   // Wire up [data-dnh] and [data-dnh-design] triggers across the page
   useEffect(() => {
     function handler(e: MouseEvent) {
-      const designEl = (e.target as HTMLElement)?.closest('[data-dnh-design]') as HTMLElement | null;
-      if (designEl) {
-        e.preventDefault();
-        setDesignOpen(true);
-        return;
-      }
       const el = (e.target as HTMLElement)?.closest('[data-dnh]') as HTMLElement | null;
       if (el) {
         e.preventDefault();
@@ -438,28 +428,6 @@ export default function ChatWidget() {
               <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Zm5 9a1 1 0 1 1 2 0 7 7 0 0 1-6 6.93V21a1 1 0 1 1-2 0v-3.07A7 7 0 0 1 5 11a1 1 0 1 1 2 0 5 5 0 0 0 10 0Z" fill="currentColor"/>
             </svg>
           </button>
-          <button
-            type="button"
-            className="dnh-modal-btn"
-            aria-label="Show a photo or video to the advisor"
-            title="Photo or video"
-            onClick={() => setVisionOpen(true)}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M4 7h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Zm8 11a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z" fill="currentColor"/>
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="dnh-modal-btn"
-            aria-label="Design a piece with AI"
-            title="Design with AI"
-            onClick={() => setDesignOpen(true)}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Zm7 11l.9 2.4L22 17l-2.1.6L19 20l-.9-2.4L16 17l2.1-.6L19 14Zm-13 0l.6 1.5L8 16l-1.4.5L6 18l-.6-1.5L4 16l1.4-.5L6 14Z" fill="currentColor"/>
-            </svg>
-          </button>
           <input
             id="dnh-input"
             ref={inputRef}
@@ -491,27 +459,6 @@ export default function ChatWidget() {
           pushAssistant(text);
         }}
         contextHint={getContext()}
-      />
-      <VisionModal
-        open={visionOpen}
-        onClose={() => setVisionOpen(false)}
-        onReply={(text) => {
-          handleOpen();
-          pushSystemNote('You sent a photo or video.');
-          pushAssistant(text);
-        }}
-        contextHint={getContext()}
-      />
-      <DesignWithAIModal
-        open={designOpen}
-        onClose={() => setDesignOpen(false)}
-        onGenerated={(url, prompt) => {
-          handleOpen();
-          pushSystemNote('You designed a piece with AI.');
-          pushAssistant(
-            `Beautiful — your vision rendered: "${prompt}". You can download the image from the modal. When you're ready to bring this to life in your hand, reply here or book a private consultation, and a master jeweler will translate it into a real piece — handcrafted in 14k or 18k gold to your spec.`
-          );
-        }}
       />
     </>
   );
