@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { MENS_ENABLED } from '@/lib/feature-flags';
 
 const SOCIAL_LINKS = [
   {
@@ -108,7 +109,7 @@ export default function Footer() {
             <li><Link href="/engagement-rings">Engagement Rings</Link></li>
             <li><Link href="/wedding-bands">Wedding Bands</Link></li>
             <li><Link href="/fine-jewelry">Fine Jewelry</Link></li>
-            <li><Link href="/mens">Men&apos;s Jewelry</Link></li>
+            {MENS_ENABLED && <li><Link href="/mens">Men&apos;s Jewelry</Link></li>}
             <li><Link href="/ring-builder">Ring Builder</Link></li>
             <li><Link href="/gift-cards">Gift Cards</Link></li>
           </ul>

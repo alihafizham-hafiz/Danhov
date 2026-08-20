@@ -2,6 +2,7 @@ import { supabaseAnon } from '@/lib/supabase/anon';
 import { localProductImageEntry } from '@/lib/local-product-images';
 import CategoryGridClient, { type EngagementCard } from './CategoryGridClient';
 import SectionCta from '@/components/SectionCta';
+import { MENS_ENABLED } from '@/lib/feature-flags';
 
 // ── Engagement collection definitions ─────────────────────────────────────
 
@@ -308,7 +309,7 @@ export default async function CategoryCardsSection() {
       linkLabel: 'Browse Fine Jewelry',
       isLifePath: false,
     },
-    {
+    ...(MENS_ENABLED ? [{
       label: "Men's Jewelry",
       value: 'mens',
       meaning: 'The Worn Statement',
@@ -317,7 +318,7 @@ export default async function CategoryCardsSection() {
       images: mensImgs,
       linkLabel: "Browse Men's Jewelry",
       isLifePath: false,
-    },
+    }] : []),
   ];
 
   return (

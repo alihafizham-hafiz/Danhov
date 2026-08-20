@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import SearchOverlay from '@/components/SearchOverlay';
 import { useCart } from '@/components/CartProvider';
 import { useWishlist } from '@/components/WishlistProvider';
+import { MENS_ENABLED } from '@/lib/feature-flags';
 
 const BookingModal = dynamic(() => import('@/components/BookingModal'), { ssr: false });
 
@@ -21,7 +22,7 @@ const LINKS_ROW = [
   { href: '/engagement-rings', label: 'Engagement Rings', sub: 'The Beginning of Oneness' },
   { href: '/wedding-bands', label: 'Wedding Bands', sub: 'Eternal Union' },
   { href: '/fine-jewelry', label: 'Fine Jewelry', sub: 'Light in Form' },
-  { href: '/mens', label: "Men's Jewelry", sub: 'Strength & Presence' },
+  ...(MENS_ENABLED ? [{ href: '/mens', label: "Men's Jewelry", sub: 'Strength & Presence' }] : []),
   { href: '/ring-builder', label: 'Build Your Ring', sub: 'Create Your Eternal Form' },
   { href: '/philosophy', label: 'Philosophy' },
   { href: '/story', label: 'Story' },

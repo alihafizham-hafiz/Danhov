@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { resolveLegacyRedirect } from '@/lib/resolve-legacy-redirect';
+import { MENS_ENABLED } from '@/lib/feature-flags';
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
@@ -24,6 +25,16 @@ export async function middleware(req: NextRequest) {
     url.pathname = targetPath;
     url.search = targetQuery ? `?${targetQuery}` : '';
     return NextResponse.redirect(url, 308);
+  }
+
+  // Men's Jewelry is temporarily disabled (see lib/feature-flags.ts) — send
+  // visitors home with a real redirect instead of relying on the page's
+  // notFound() call, which Next.js serves as a 200 on statically-cached ISR
+  // routes rather than an actual 404 status.
+  if (!MENS_ENABLED && path === '/mens') {
+    const url = req.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url, 307);
   }
 
   // Expose the pathname to server components via a request header so the
@@ -75,5 +86,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/home', '/ringbuilder/:path*', '/danhov-:path*'],
+  matcher: ['/admin/:path*', '/home', '/ringbuilder/:path*', '/danhov-:path*', '/mens'],
 };
