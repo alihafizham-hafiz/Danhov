@@ -95,24 +95,9 @@ export async function finalizeCheckoutSession(sessionId: string): Promise<Finali
     return { status: 'completed', order_id: order.id, product_name: order.product_name, deposit_usd: Number(order.deposit_usd) };
   }
 
-  // Dynamic import to avoid loading Stripe when unused
-  const { getStripe } = await import('@/lib/stripe');
-  let session: Awaited<ReturnType<ReturnType<typeof getStripe>['checkout']['sessions']['retrieve']>>;
-  try {
-    session = await getStripe().checkout.sessions.retrieve(sessionId);
-  } catch {
-    return { status: 'pending', order_id: order.id };
-  }
-
-  if (session.payment_status !== 'paid') return { status: 'pending', order_id: order.id };
-
-  const milestones = (order.milestones as Array<{ name: string; status: string; paid_at?: string }>) || [];
-  const updated = milestones.map(m => m.name === 'deposit' ? { ...m, status: 'paid', paid_at: new Date().toISOString() } : m);
-  await client.from('orders').update({
-    status: 'deposit_paid',
-    milestones: updated,
-    stripe_payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : null,
-  }).eq('id', order.id).eq('status', 'pending');
+  // Stripe legacy session retrieval removed (pre-AuthNet migration only).
+  // All live orders now use Authorize.Net; this flow is dead code.
+  return { status: 'pending', order_id: order.id };
 
   if (order.quote_lock_id) {
     await client.from('quote_locks').update({ consumed: true }).eq('id', order.quote_lock_id);
