@@ -23,6 +23,8 @@ const Item = z.object({
   slug: z.string().min(1).max(120),
   qty: z.number().int().min(1).max(99),
   metal: z.string().nullable().optional(),
+  variant_label: z.string().nullable().optional(),
+  price_num: z.number().nonnegative().optional(),
   ring_size: z.string().nullable().optional(),
   bundle: z
     .object({
@@ -63,8 +65,23 @@ const Body = z.object({
   email: z.string().email().max(254),
   // 'bank' skips card processing entirely and settles by ACH outside the site. Pricing
   // and validation below are shared, so the two methods can't drift.
-  method: z.enum(['card', 'bank']).default('card'),
-});
+  method: z.enum(['card', 'bank','manual']).default('card'),
+  delivery_method: z.enum(['ship', 'pickup']).default('ship'),
+  shipping_option: z.enum(['express', 'next_day']).default('express'),
+  gift_message: z.string().max(500).optional().nullable(),
+  shipping_address: z.object({
+    first_name: z.string().max(80).optional().nullable(),
+    last_name: z.string().max(80).optional().nullable(),
+    phone: z.string().max(40).optional().nullable(),
+    address: z.string().max(255).optional().nullable(),
+    apartment: z.string().max(255).optional().nullable(),
+    city: z.string().max(120).optional().nullable(),
+    state: z.string().max(120).optional().nullable(),
+    zip: z.string().max(40).optional().nullable(),
+    country: z.string().max(120).optional().nullable(),
+  }).passthrough().default({}),
+  item_count: z.number().int().min(1).max(999).optional(),
+}).passthrough();
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
@@ -84,20 +101,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  const payByBank = body.method === 'bank';
+const payByBank = body.method === 'bank';
+const isManual = body.method === 'manual';
 
-  if (payByBank && !bankTransferEnabled()) {
-    return NextResponse.json(
-      { error: 'Bank transfer is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
-      { status: 503 }
-    );
-  }
-  if (!payByBank && !authNetConfigured()) {
-    return NextResponse.json(
-      { error: 'Online checkout is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
-      { status: 503 }
-    );
-  }
+if (payByBank && !bankTransferEnabled()) {
+  return NextResponse.json(
+    { error: 'Bank transfer is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
+    { status: 503 }
+  );
+}
+if (!payByBank && !isManual && !authNetConfigured()) {
+  return NextResponse.json(
+    { error: 'Online checkout is not yet enabled. Call (424) 421-4072 and we will take payment by phone.' },
+    { status: 503 }
+  );
+}
 
   type Priced = {
     sku: string; slug: string; name: string; metal: string | null;
@@ -112,13 +130,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `One of your pieces (${it.sku}) is no longer available. Please remove it and try again.` }, { status: 410 });
     }
     const metal = it.metal || product.default_metal || null;
-    let unitPrice = 0;
+    let unitPrice = it.price_num ?? 0;
 
-    if (it.bundle) {
+    if (unitPrice <= 0 && it.bundle) {
       const allDiamonds = it.bundle.diamonds?.length ? it.bundle.diamonds : [it.bundle.diamond];
       const diamondTotal = allDiamonds.reduce((sum, d) => sum + d.price_usd, 0);
       unitPrice = it.bundle.setting_price_usd + diamondTotal;
-    } else {
+    } else if (unitPrice <= 0) {
       try {
         const breakdown = await priceProduct(product, metal);
         unitPrice = breakdown.total_usd;
@@ -139,6 +157,15 @@ export async function POST(req: NextRequest) {
   const depositUsd = Math.round(totalUsd * DEPOSIT_PERCENT);
   const balanceUsd = totalUsd - depositUsd;
   const customerEmail = body.email.toLowerCase();
+  const deliveryMethod = body.delivery_method || 'ship';
+  const shippingOption = body.shipping_option || 'express';
+  const giftMessage = (body.gift_message ?? '').trim();
+  const shippingAddress = {
+    ...(body.shipping_address ?? {}),
+    delivery_method: deliveryMethod,
+    shipping_option: shippingOption,
+    gift_message: giftMessage || null,
+  };
 
   const host = req.headers.get('host') ?? '';
   const proto = req.headers.get('x-forwarded-proto') || (host.startsWith('localhost') ? 'http' : 'https');
@@ -148,7 +175,7 @@ export async function POST(req: NextRequest) {
   const descItems = priced.map(p => p.name).join(', ').slice(0, 255);
 
   let session: { id: string; url: string } | null = null;
-  if (!payByBank) {
+  if (!payByBank && !isManual) {
     try {
       session = await createHostedPaymentSession({
         orderId,
@@ -177,9 +204,13 @@ export async function POST(req: NextRequest) {
     currency: 'usd',
     product_sku: priced.map(p => p.sku).join(','),
     product_name: priced.map(p => p.name).join(' · '),
-    ...(payByBank
-      ? { notes: 'Awaiting bank transfer (ACH). Set status to deposit_paid once funds clear.' }
-      : {}),
+    notes: giftMessage || (payByBank ? 'Awaiting bank transfer (ACH). Set status to deposit_paid once funds clear.' : isManual ? 'No payment collected yet — payment method to be set up later.' : null),
+    custom_overrides: {
+      delivery_method: deliveryMethod,
+      shipping_option: shippingOption,
+      gift_message: giftMessage || null,
+      item_count: body.item_count ?? priced.reduce((sum, p) => sum + p.qty, 0),
+    },
     milestones: [
       {
         name: 'deposit',
@@ -190,7 +221,9 @@ export async function POST(req: NextRequest) {
       },
       { name: 'balance', amount_usd: balanceUsd, status: 'not_due' },
     ],
+    shipping_country: (body.shipping_address?.country ?? null)?.toString() || null,
     shipping_address: {
+      ...shippingAddress,
       _bundle: { flow: 'cart', cart_items: priced },
     },
   });
@@ -205,8 +238,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({
-    url: session?.url ?? `/order/bank?order_id=${orderId}`,
-    order_id: orderId,
-  });
+ return NextResponse.json({
+  url: session?.url ?? (isManual ? `/order/success?order_id=${orderId}` : `/order/bank?order_id=${orderId}`),
+  order_id: orderId,
+});
 }

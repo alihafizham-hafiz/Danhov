@@ -42,7 +42,7 @@ const nextConfig = {
     // this to the enforcing `Content-Security-Policy` header.
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com https://nowl.ink https://www.zyratalk.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://assets.calendly.com https://nowl.ink https://www.zyratalk.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
@@ -52,6 +52,7 @@ const nextConfig = {
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
+      "report-to default",
     ].join('; ');
 
     const sharedSecurityHeaders = [

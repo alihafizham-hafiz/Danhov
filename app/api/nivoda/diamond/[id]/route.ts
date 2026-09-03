@@ -15,9 +15,10 @@ export const maxDuration = 60;
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const offerId = decodeURIComponent(params.id);
+  const { id } = await params;
+  const offerId = decodeURIComponent(id);
   if (!offerId || offerId.length > 80) {
     return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
   }

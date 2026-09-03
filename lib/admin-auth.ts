@@ -18,7 +18,7 @@ export type AdminUser = {
 
 export async function getAdmin(): Promise<AdminUser | null> {
   // Step 1 — read the current user from the cookie session.
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

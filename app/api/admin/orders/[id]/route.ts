@@ -46,7 +46,8 @@ const PatchSchema = z.object({
   recompute_labor: z.boolean().optional(),
 });
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -89,7 +90,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const { data, error } = await sb
     .from('orders')
     .update(update)
-    .eq('id', params.id)
+    .eq('id', id)
     .select('*')
     .maybeSingle();
 
@@ -97,11 +98,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   return NextResponse.json({ ok: true, order: data });
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const sb = createServiceClient();
-  const { error } = await sb.from('orders').delete().eq('id', params.id);
+  const { error } = await sb.from('orders').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   return NextResponse.json({ ok: true });
 }

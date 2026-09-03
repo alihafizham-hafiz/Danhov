@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/wishlist — return slugs the signed-in user has saved
 export async function GET() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ slugs: [] });
 
@@ -20,7 +20,7 @@ export async function GET() {
 
 // POST /api/wishlist — toggle (add or remove) a product slug
 export async function POST(req: NextRequest) {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Sign in to save pieces to your wishlist.' }, { status: 401 });
 

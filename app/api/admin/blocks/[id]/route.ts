@@ -7,8 +7,9 @@ export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -28,20 +29,21 @@ export async function PATCH(
   }
 
   const sb = createServiceClient();
-  const { error } = await sb.from('page_blocks').update(update).eq('id', params.id);
+  const { error } = await sb.from('page_blocks').update(update).eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const sb = createServiceClient();
-  const { error } = await sb.from('page_blocks').delete().eq('id', params.id);
+  const { error } = await sb.from('page_blocks').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   return NextResponse.json({ ok: true });
 }

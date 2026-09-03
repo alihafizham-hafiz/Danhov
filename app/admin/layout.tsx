@@ -1,3 +1,4 @@
+// import './globals.css';
 import type { Metadata } from 'next';
 import AdminShell from '@/components/admin/AdminShell';
 import { getAdmin } from '@/lib/admin-auth';

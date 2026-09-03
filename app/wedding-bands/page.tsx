@@ -21,14 +21,15 @@ const COLLECTIONS = [
 ];
 
 export default async function WeddingBandsPage() {
-  const rawProducts = await fetchProductsWithPricingByCategory('wedding');
+  const DB_CATEGORY = 'wedding';
+  const rawProducts = await fetchProductsWithPricingByCategory(DB_CATEGORY);
   const priceMap = await computeListingPriceMap(rawProducts);
   const products = rawProducts.map(p => ({ ...p, price_computed: priceMap[p.sku] }));
   return (
     <>
       <ListingSchema category="wedding" title="Wedding Bands" />
       <ListingPage
-      category="wedding"
+      category={DB_CATEGORY}
       title="Wedding Bands"
       subtitle="Bound. Together. Forever."
       collections={COLLECTIONS}

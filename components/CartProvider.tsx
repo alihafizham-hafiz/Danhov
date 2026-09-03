@@ -36,12 +36,14 @@ export type CartGiftCard = {
 };
 
 export type CartItem = {
-  id: string;          // composite key
+  id: string;          // composite key (product + selected variation)
   sku: string;
   slug: string;
   name: string;
   collection: string | null;
   metal: string | null;
+  variant_key?: string | null;
+  variant_label?: string | null;
   image: string | null;
   price_display: string | null;
   price_num: number;
@@ -68,6 +70,7 @@ type CartContextValue = {
   authReady: boolean;
   addItem: (item: Omit<CartItem, 'qty'> & { qty?: number }) => void;
   removeItem: (id: string) => void;
+  updateItem: (id: string, patch: Partial<Pick<CartItem, 'qty' | 'metal' | 'ring_size' | 'variant_key' | 'variant_label' | 'name'>>) => void;
   setQty: (id: string, qty: number) => void;
   clear: () => void;
   openDrawer: () => void;
@@ -160,7 +163,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem: CartContextValue['addItem'] = useCallback((incoming) => {
     setItems((prev) => {
-      const id = incoming.id;
+      const variantKey = incoming.variant_key ?? incoming.metal ?? 'default';
+      const id = `${incoming.id}:${variantKey}`;
       const existing = prev.find((it) => it.id === id);
       const addQty = incoming.qty ?? 1;
       if (existing) {
@@ -177,6 +181,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           name: incoming.name,
           collection: incoming.collection,
           metal: incoming.metal,
+          variant_key: incoming.variant_key ?? incoming.metal ?? null,
+          variant_label: incoming.variant_label ?? null,
           image: incoming.image,
           price_display: incoming.price_display,
           price_num: incoming.price_num,
@@ -191,6 +197,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeItem: CartContextValue['removeItem'] = useCallback((id) => {
     setItems((prev) => prev.filter((it) => it.id !== id));
+  }, []);
+
+  const updateItem: CartContextValue['updateItem'] = useCallback((id, patch) => {
+    setItems((prev) =>
+      prev.map((it) => {
+        if (it.id !== id) return it;
+        const nextQty = patch.qty != null ? Math.max(1, Math.min(99, patch.qty)) : it.qty;
+        return {
+          ...it,
+          qty: nextQty,
+          name: patch.name !== undefined ? patch.name : it.name,
+          metal: patch.metal !== undefined ? patch.metal : it.metal,
+          variant_key: patch.variant_key !== undefined ? patch.variant_key : it.variant_key,
+          variant_label: patch.variant_label !== undefined ? patch.variant_label : it.variant_label,
+          ring_size: patch.ring_size !== undefined ? patch.ring_size : it.ring_size,
+        };
+      })
+    );
   }, []);
 
   const setQty: CartContextValue['setQty'] = useCallback((id, qty) => {
@@ -225,13 +249,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       authReady,
       addItem,
       removeItem,
+      updateItem,
       setQty,
       clear,
       openDrawer,
       closeDrawer,
       toggleDrawer,
     };
-  }, [items, signedIn, authReady, drawerOpen, addItem, removeItem, setQty, clear, openDrawer, closeDrawer, toggleDrawer]);
+  }, [items, signedIn, authReady, drawerOpen, addItem, removeItem, updateItem, setQty, clear, openDrawer, closeDrawer, toggleDrawer]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

@@ -23,14 +23,15 @@ const COLLECTIONS = [
 ];
 
 export default async function FineJewelryPage() {
-  const rawProducts = await fetchProductsWithPricingByCategory('fine');
+  const DB_CATEGORY = 'fine';
+  const rawProducts = await fetchProductsWithPricingByCategory(DB_CATEGORY);
   const priceMap = await computeListingPriceMap(rawProducts);
   const products = rawProducts.map(p => ({ ...p, price_computed: priceMap[p.sku] }));
   return (
     <>
       <ListingSchema category="fine" title="Fine Jewelry" />
       <ListingPage
-      category="fine"
+      category={DB_CATEGORY}
       title="Fine Jewelry"
       subtitle="Every piece, a sacred story."
       collections={COLLECTIONS}

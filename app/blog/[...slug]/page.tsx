@@ -7,7 +7,7 @@ import type { BlogPost } from '@/lib/blog-posts';
 import { getCachedBlogContent, setCachedBlogContent, isCacheStale } from '@/lib/blog-cache';
 
 interface Props {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -28,7 +28,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) return { title: 'Post Not Found · DANHOV Blog' };
   return {
     title: `${post.title} · DANHOV Blog`,
@@ -116,7 +117,8 @@ async function fetchArticleContent(danhovPath: string): Promise<string | null> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) notFound();
 
   const rawContent = await fetchArticleContent(post.danhovPath);

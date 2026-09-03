@@ -22,11 +22,12 @@ function pickAllowed(input: Record<string, unknown>) {
   return out;
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { sku: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ sku: string }> }) {
+  const { sku: rawSku } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const sku = decodeURIComponent(params.sku);
+  const sku = decodeURIComponent(rawSku);
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }); }
 
@@ -39,11 +40,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { sku: strin
   return NextResponse.json({ ok: true, ...(newSku ? { sku: newSku } : {}) });
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { sku: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ sku: string }> }) {
+  const { sku: rawSku } = await params;
   const admin = await getAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const sku = decodeURIComponent(params.sku);
+  const sku = decodeURIComponent(rawSku);
   const sb = createServiceClient();
   const { error } = await sb.from('products').delete().eq('sku', sku);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });

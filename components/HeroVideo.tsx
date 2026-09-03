@@ -14,7 +14,7 @@ export default function HeroVideo() {
     if (!video) return;
 
     const start = () => {
-      video.src = '/danhov-brand-video.mp4';
+      video.src = '/Vedios/Vedio_Hero.mp4';
       video.play().catch(() => {});
     };
 
@@ -34,7 +34,7 @@ export default function HeroVideo() {
       loop
       playsInline
       preload="none"
-      poster="/danhov-video-poster.jpg"
+      poster="/Vedios/image_2.png"
       aria-hidden="true"
     />
   );

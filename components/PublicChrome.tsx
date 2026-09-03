@@ -3,7 +3,6 @@
 import { Suspense } from 'react';
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
-import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Cursor from '@/components/Cursor';
 import InitialLoader from '@/components/InitialLoader';
@@ -11,6 +10,8 @@ import { CartProvider } from '@/components/CartProvider';
 import WishlistProvider from '@/components/WishlistProvider';
 import CartDrawer from '@/components/CartDrawer';
 import ScrollTopOnRoute from '@/components/ScrollTopOnRoute';
+import AnnouncementBar from '@/components/AnnouncementBar';
+import Nav from '@/components/Nav';
 
 export default function PublicChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ export default function PublicChrome({ children }: { children: React.ReactNode }
           <ScrollTopOnRoute />
         </Suspense>
         <Cursor />
+        <AnnouncementBar/>
         <Nav />
         <div className="route-content">{children}</div>
         <Footer />

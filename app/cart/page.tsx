@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CartPageClient from './CartPageClient';
+import RecommendedCarousel from './RecommendedCarousel';
 import { bankTransferEnabled } from '@/lib/bank';
 
 export const metadata: Metadata = {
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 
 export default function CartPage() {
   // Resolved on the server — the bank env vars must never reach the client.
-  return <CartPageClient bankEnabled={bankTransferEnabled()} />;
+  return (
+    <>
+      <CartPageClient bankEnabled={bankTransferEnabled()} />
+      <RecommendedCarousel />
+    </>
+  );
 }

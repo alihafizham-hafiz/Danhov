@@ -13,9 +13,8 @@ const FAINT = '#b3a8a3';
 const RED = '#AC3438';
 const LINE = 'rgba(43, 36, 34, 0.10)';
 
-export default async function OrderSuccessPage({ searchParams }: { searchParams: Search }) {
-  const orderId   = searchParams.order_id;
-  const sessionId = searchParams.session_id;
+export default async function OrderSuccessPage({ searchParams }: { searchParams: Promise<Search> }) {
+  const { order_id: orderId, session_id: sessionId } = await searchParams;
 
   // Authorize.Net uses order_id. session_id remains for legacy Stripe links.
   const result = sessionId

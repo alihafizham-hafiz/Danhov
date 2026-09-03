@@ -19,14 +19,15 @@ export const revalidate = 300;
 export default async function MensPage() {
   if (!MENS_ENABLED) notFound();
 
-  const rawProducts = await fetchProductsWithPricingByCategory('mens');
+  const DB_CATEGORY = 'mens';
+  const rawProducts = await fetchProductsWithPricingByCategory(DB_CATEGORY);
   const priceMap = await computeListingPriceMap(rawProducts);
   const products = rawProducts.map(p => ({ ...p, price_computed: priceMap[p.sku] }));
   return (
     <>
       <ListingSchema category="mens" title="Men's Jewelry" />
       <ListingPage
-      category="mens"
+      category={DB_CATEGORY}
       title="Men's Jewelry"
       subtitle="Strength. Refined."
       showMetalFilter={false}
