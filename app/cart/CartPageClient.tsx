@@ -409,7 +409,7 @@ export default function CartPageClient({ bankEnabled }: { bankEnabled?: boolean 
               <span style={{ fontSize: '10px', color: '#fff', fontWeight: 'bold', textTransform: 'uppercase' }}>Blue Box</span>
             </div>
             <div>
-              <h4 style={{ fontSize: '18px', fontFamily: 'Georgia, serif', fontWeight: 'normal' }}>The Danhov Blue Box®</h4>
+              <h4 style={{ fontSize: '18px', fontFamily: 'Georgia, serif', fontWeight: 'normal' }}>The DANHOV Blue Box®</h4>
               <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.7)', marginTop: '4px', lineHeight: 1.5 }}>
                 Every purchase comes in an iconic Tiffany Blue Box® crowned with a white satin ribbon
               </p>

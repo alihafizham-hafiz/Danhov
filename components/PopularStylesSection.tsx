@@ -33,7 +33,7 @@ interface PopularStylesProps {
 
 export default function PopularStylesSection({
   title = 'Most Popular Summer Styles',
-  subtitle = 'Lock by Danhov',
+  subtitle = 'Lock by DANHOV',
   description = "Lock is an expression of love's enduring protection.",
   shopLinkText = 'Shop the Collection',
   shopLinkHref = '/fine-jewelry',
@@ -45,42 +45,77 @@ export default function PopularStylesSection({
   collectionSize,
 }: PopularStylesProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const scrollbarRef = useRef<HTMLDivElement>(null);
+  const isRecenteringRef = useRef(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const loopCopies = 9;
+  const loopProducts = products.length > 0
+    ? Array.from({ length: loopCopies }, () => products).flat()
+    : [];
 
   const handleScroll = () => {
-    if (trackRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      if (maxScroll > 0) {
-        const progress = (scrollLeft / maxScroll) * 100;
-        setScrollProgress(progress);
-      }
+    const track = trackRef.current;
+    const firstSlide = track?.querySelector<HTMLElement>('.popstyles-slide');
+    if (!track || !firstSlide || products.length === 0 || isRecenteringRef.current) return;
+
+    const gap = Number.parseFloat(getComputedStyle(firstSlide.parentElement as HTMLElement).columnGap) || 0;
+    const groupWidth = (firstSlide.offsetWidth + gap) * products.length;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+
+    if (groupWidth > 0 && (track.scrollLeft <= 0 || track.scrollLeft >= maxScroll)) {
+      isRecenteringRef.current = true;
+      track.scrollLeft += track.scrollLeft <= 0 ? groupWidth : -groupWidth;
+      isRecenteringRef.current = false;
     }
+
+    if (maxScroll > 0) {
+      const progress = ((track.scrollLeft % groupWidth) / groupWidth) * 100;
+      setScrollProgress(Math.max(0, Math.min(100, progress)));
+    }
+  };
+
+  const handleScrollbarClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    const scrollbar = scrollbarRef.current;
+    const firstSlide = track?.querySelector<HTMLElement>('.popstyles-slide');
+    if (!track || !scrollbar || !firstSlide || products.length === 0) return;
+
+    const gap = Number.parseFloat(getComputedStyle(firstSlide.parentElement as HTMLElement).columnGap) || 0;
+    const step = firstSlide.offsetWidth + gap;
+    const groupWidth = step * products.length;
+    const bounds = scrollbar.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+    const groupStart = Math.floor(track.scrollLeft / groupWidth) * groupWidth;
+    track.scrollTo({ left: groupStart + progress * groupWidth, behavior: 'smooth' });
   };
 
   useEffect(() => {
     const track = trackRef.current;
-    if (track) {
-      track.addEventListener('scroll', handleScroll);
-      handleScroll(); // Initial check
-      return () => track.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
+    if (!track || products.length === 0) return;
 
-  const scrollLeft = () => {
-    if (trackRef.current) {
-      trackRef.current.scrollBy({ left: -400, behavior: 'smooth' });
-    }
+    const firstSlide = track.querySelector<HTMLElement>('.popstyles-slide');
+    if (!firstSlide) return;
+
+    const gap = Number.parseFloat(getComputedStyle(firstSlide.parentElement as HTMLElement).columnGap) || 0;
+    const groupWidth = (firstSlide.offsetWidth + gap) * products.length;
+    track.scrollLeft = groupWidth * Math.floor(loopCopies / 2);
+    track.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => track.removeEventListener('scroll', handleScroll);
+  }, [products.length]);
+
+  const scrollByCard = (direction: -1 | 1) => {
+    const track = trackRef.current;
+    const slide = track?.querySelector<HTMLElement>('.popstyles-slide');
+    if (!track || !slide) return;
+
+    const gap = Number.parseFloat(getComputedStyle(slide.parentElement as HTMLElement).columnGap) || 0;
+    const step = slide.offsetWidth + gap;
+    const currentIndex = Math.round(track.scrollLeft / step);
+    track.scrollTo({ left: (currentIndex + direction) * step, behavior: 'smooth' });
   };
-
-  const scrollRight = () => {
-    if (trackRef.current) {
-      trackRef.current.scrollBy({ left: 400, behavior: 'smooth' });
-    }
-  };
-
-  const loopProducts = products.length > 0 ? [...products, ...products, ...products] : [];
 
   return (
     <section className="popstyles-section">
@@ -147,20 +182,23 @@ export default function PopularStylesSection({
                   </>
                 );
 
-                return product.product ? (
-                  <button
-                    key={`${product.id}-${idx}`}
-                    type="button"
-                    className="popstyles-card"
-                    onClick={() => setSelectedProduct(product.product ?? null)}
-                    aria-label={`Open product details for ${product.name}`}
-                  >
-                    {cardBody}
-                  </button>
-                ) : (
-                  <Link key={`${product.id}-${idx}`} href={product.href} className="popstyles-card">
-                    {cardBody}
-                  </Link>
+                return (
+                  <div key={`${product.id}-${idx}`} className="popstyles-slide">
+                    {product.product ? (
+                      <button
+                        type="button"
+                        className="popstyles-card"
+                        onClick={() => setSelectedProduct(product.product ?? null)}
+                        aria-label={`Open product details for ${product.name}`}
+                      >
+                        {cardBody}
+                      </button>
+                    ) : (
+                      <Link href={product.href} className="popstyles-card">
+                        {cardBody}
+                      </Link>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -169,19 +207,29 @@ export default function PopularStylesSection({
 
         {/* Professional Controls & Interactive Progress Line (Matching your reference image) */}
         <div className="popstyles-controls">
-          <button type="button" className="popstyles-nav-btn" onClick={scrollLeft} aria-label="Scroll left">
-            ‹
+          <button type="button" className="popstyles-nav-btn" onClick={() => scrollByCard(-1)} aria-label="Previous product">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
           </button>
           
-          <div className="popstyles-scrollbar-track">
+          <div
+            className="popstyles-scrollbar-track"
+            ref={scrollbarRef}
+            onClick={handleScrollbarClick}
+            role="slider"
+            aria-label="Popular styles slide position"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(scrollProgress)}
+            tabIndex={0}
+          >
             <div 
               className="popstyles-scrollbar-thumb" 
-              style={{ transform: `translateX(${scrollProgress}%)` }}
+              style={{ transform: `translateX(${scrollProgress * 1.5}%)` }}
             />
           </div>
 
-          <button type="button" className="popstyles-nav-btn" onClick={scrollRight} aria-label="Scroll right">
-            ›
+          <button type="button" className="popstyles-nav-btn" onClick={() => scrollByCard(1)} aria-label="Next product">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
           </button>
         </div>
       </div>

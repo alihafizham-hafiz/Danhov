@@ -199,7 +199,6 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  cursor: none;
   user-select: text;
   -webkit-user-select: text;
 }
@@ -227,32 +226,6 @@ p, h1, h2, h3, h4, h5, h6, li, blockquote, figcaption, td, th {
   user-select: text;
   -webkit-user-select: text;
   cursor: text;
-}
-
-/* CUSTOM CURSOR — must sit ABOVE every other UI surface, including the
-   floating chat button (z-index 99999) and modals (z-index 99998). Use
-   the int max so any third-party widget added later still sits below. */
-.cursor-wrap {
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 2147483647;
-  user-select: none; -webkit-user-select: none;
-  will-change: transform;
-}
-.cursor-icon {
-  display: block;
-  transition: opacity 0.1s ease;
-  opacity: 0.95;
-}
-.cursor-wrap.cursor--hover .cursor-icon {
-  transform: scale(1.4);
-  opacity: 1;
-}
-/* On dark surfaces (chat header, video, modals) the cursor should still
-   be visible. Force a light tint when over .dpicker-card, #dnh-win, etc. */
-.cursor-wrap.cursor--on-dark .cursor-icon {
-  filter: invert(1) brightness(1.4);
 }
 
 /* NAV — site-wide top bar.
@@ -6815,104 +6788,6 @@ footer {
    FAST-NAV + AUTH-GATE + ATB TRUST  (refresh pass)
    ───────────────────────────────────────────────────────────────────── */
 
-/* Loading state — full-viewport polished placeholder shown by
-   app/loading.tsx during route transitions.
-   The route-loader fills the .route-content area with the site's cream
-   tone so the customer never sees a blank white flash between the old
-   and new pages. A thin red progress bar sits at the very top, and a
-   small centred DANHOV mark + breathing ring confirms the page is
-   working. */
-/* Initial full-page splash (first hard load) — same mark as the route loader */
-.initial-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 100000;
-  background: #fff8f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.6s ease;
-}
-.initial-loader.is-done {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.route-loader {
-  position: fixed;
-  inset: 0;
-  background: #fff8f6;
-  z-index: 9000;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.route-loader-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 35%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--logo-red), transparent);
-  animation: route-loader-slide 1.1s ease-in-out infinite;
-}
-.route-loader-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-.route-loader-ring {
-  width: 180px;
-  height: 180px;
-  animation: route-loader-spin 18s linear infinite;
-}
-/* Static brand mark centered inside the spinning ring */
-.route-loader-ringwrap {
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-.route-loader-mark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: auto;
-  height: 58px;
-  transform: translate(-50%, -50%);
-  animation: route-mark-pulse 2.4s ease-in-out infinite;
-}
-@keyframes route-mark-pulse {
-  0%, 100% { opacity: 0.72; }
-  50%      { opacity: 1; }
-}
-.route-loader-text {
-  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  color: var(--logo-red);
-}
-@keyframes route-loader-slide {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(380%); }
-}
-@keyframes route-loader-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-@keyframes route-loader-breathe {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.7;
-  }
-}
-
 /* AddToBag trust line under the CTA */
 .atb-trust {
   display: flex;
@@ -7473,14 +7348,6 @@ footer {
     max-width: 100%;
   }
 
-  /* Cursor follower → off on touch / small screens. The component is
-     <Cursor /> rendering .cursor-wrap with .cursor-icon inside — that's
-     the small red ring icon that was appearing above the hamburger. */
-  .cursor-wrap,
-  .cursor-icon,
-  .cursor,
-  .cursor-dot,
-  .cursor-ring { display: none !important; }
 }
 
 /* Landscape phones — short viewports where stacking the ring under
@@ -7814,12 +7681,6 @@ aside {
     max-width: 100%;
     overflow-x: hidden;
   }
-  /* The custom cursor div the page injects is fixed-positioned but
-     occasionally inherits very large dimensions on touch. Hard-cap it. */
-  .cursor-wrap,
-  .cursor-dot,
-  .cursor-ring { display: none !important; }
-  body { cursor: auto !important; }
 }
 
 /* Updated footer contact + social icons row */
@@ -11654,14 +11515,16 @@ aside {
 }
 
 .popstyles-track-container {
-  width: 100vw;
-  max-width: 100vw;
-  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0;
   margin-bottom: 36px;
-  padding: 0 6vw;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -11673,12 +11536,18 @@ aside {
   display: flex;
   gap: 28px;
   padding-bottom: 8px;
-  width: 100%;
+  width: max-content;
+}
+
+.popstyles-slide {
+  flex: 0 0 calc((100vw - 84px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
 }
 
 .popstyles-card {
-  flex: 0 0 calc((100vw - 12vw - 84px) / 4);
-  min-width: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: #ffffff;
@@ -11760,12 +11629,21 @@ aside {
 .popstyles-nav-btn {
   background: transparent;
   border: none;
-  font-size: 28px;
   font-weight: 300;
   color: #1a1410;
   cursor: pointer;
   padding: 0 4px;
   transition: color 0.2s, transform 0.2s;
+}
+
+.popstyles-nav-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .popstyles-nav-btn:hover {
@@ -11779,6 +11657,7 @@ aside {
   background: rgba(26, 20, 16, 0.2);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .popstyles-scrollbar-thumb {
@@ -11796,14 +11675,14 @@ aside {
     padding: 0 16px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
   }
 
   .popstyles-list {
     gap: 16px;
-    width: max-content;
   }
 
-  .popstyles-card {
+  .popstyles-slide {
     flex: 0 0 calc(100vw - 32px);
     min-width: 0;
     scroll-snap-align: center;
@@ -11919,23 +11798,16 @@ aside {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: #f7ebe8;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   transition: transform 0.25s ease, background 0.25s ease;
   pointer-events: none;
 }
 
-.ed-split-media-wrap:hover .ed-split-play-badge {
-  transform: translate(-50%, -50%) scale(1.08);
-  background: #f7ebe8;
-}
-
 .ed-split-play-icon {
   font-size: 16px;
-  color: #1a1410;
+  color: white;
   margin-left: 2px;
 }
 
@@ -12150,23 +12022,18 @@ aside {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: #f7ebe8;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   transition: transform 0.25s ease, background 0.25s ease;
   pointer-events: none;
 }
 
-.ed-rev-media-wrap:hover .ed-rev-play-badge {
-  transform: translate(-50%, -50%) scale(1.08);
-  background:  #f7ebe8;
-}
 
 .ed-rev-play-icon {
   font-size: 16px;
-  color: #1a1410;
+  color: white;
   margin-left: 2px;
 }
 
@@ -12238,7 +12105,7 @@ aside {
 
 
 /* new card grid layout desing  */
-/* ── The Danhov Experience Section ──────────────────────────── */
+/* ── The DANHOV Experience Section ──────────────────────────── */
 .danhov-exp-section {
   background: #ffffff;
   padding: 96px 0 110px;

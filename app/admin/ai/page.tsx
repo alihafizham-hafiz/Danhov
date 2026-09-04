@@ -13,7 +13,7 @@ const WELCOME: Msg = {
 I can help you modify any product in the DANHOV catalog using plain English. Here are some examples:
 
 - *"Find the Abbraccio Swirl Band and update its main image to [URL]"*
-- *"Change the name of product AE520 to 'Danhov Abbraccio Solitaire'"*
+- *"Change the name of product AE520 to 'DANHOV Abbraccio Solitaire'"*
 - *"Search for Per Lei rings and show me their details"*
 - *"Set the description of the Voltaggio ring to: ..."*
 - *"Mark SKU XY123 as inactive"*

@@ -33,10 +33,10 @@ const COLLECTION_META: Record<string, {
     aiPrompt: "I love the Classico collection's timeless solitaires. Help me find my ideal setting — I want something that will look beautiful forever.",
   },
   norme: {
-    displayName: 'Norme de Danhov',
+    displayName: 'Norme de DANHOV',
     meaning: 'The Standard',
     subtitle: 'Foundational forms that define DANHOV\'s benchmark for excellence in gold work.',
-    aiPrompt: "I'm exploring Norme de Danhov — the foundational forms. Can you explain what sets these apart and help me find the right piece?",
+    aiPrompt: "I'm exploring Norme de DANHOV — the foundational forms. Can you explain what sets these apart and help me find the right piece?",
   },
   carezza: {
     displayName: 'Carezza',

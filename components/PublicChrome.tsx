@@ -4,8 +4,6 @@ import { Suspense } from 'react';
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 import Footer from '@/components/Footer';
-import Cursor from '@/components/Cursor';
-import InitialLoader from '@/components/InitialLoader';
 import { CartProvider } from '@/components/CartProvider';
 import WishlistProvider from '@/components/WishlistProvider';
 import CartDrawer from '@/components/CartDrawer';
@@ -21,12 +19,10 @@ export default function PublicChrome({ children }: { children: React.ReactNode }
 
   return (
     <CartProvider>
-      <InitialLoader />
       <WishlistProvider>
         <Suspense fallback={null}>
           <ScrollTopOnRoute />
         </Suspense>
-        <Cursor />
         <AnnouncementBar/>
         <Nav />
         <div className="route-content">{children}</div>

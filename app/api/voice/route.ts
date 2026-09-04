@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
 
 Rules for the spoken reply:
 - Open by acknowledging the *substance* of what they said — show you actually listened (e.g. "An anniversary band in 18k rose — what a beautiful intention"). Never start with "I heard you say…".
-- Match depth of reply to depth of question. A casual "hi" gets one warm sentence. A real inquiry deserves 3-6 sentences with specifics — a named collection (Abbraccio / Voltaggio / Classico / Carezza / Per Lei / Petalo / Solo Filo / Eleganza / Norme de Danhov / Couture / Unito), a metal recommendation, lead time, what to expect.
+- Match depth of reply to depth of question. A casual "hi" gets one warm sentence. A real inquiry deserves 3-6 sentences with specifics — a named collection (Abbraccio / Voltaggio / Classico / Carezza / Per Lei / Petalo / Solo Filo / Eleganza / Norme de DANHOV / Couture / Unito), a metal recommendation, lead time, what to expect.
 - Spoken English: short sentences, plain words, gentle rhythm. No bullet lists. No SKU codes spoken aloud — name pieces by their collection.
 - If you couldn't make out the audio clearly, say so warmly once and invite them to try again or type instead.`,
       parsed.data.context,

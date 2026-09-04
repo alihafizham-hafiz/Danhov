@@ -29,7 +29,7 @@ const COLLECTIONS = [
     href: '/collection/classico',
   },
   {
-    label: 'Norme de Danhov',
+    label: 'Norme de DANHOV',
     value: 'norme',
     meaning: 'The Standard',
     body: "Foundational forms that define DANHOV's benchmark for excellence in gold work.",

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { diamondCategoryKey } from '@/lib/diamond-categories';
 
 // ── Diamond media: still image + loupe360 360° viewer on hover ───────────
@@ -304,7 +304,6 @@ function getMarkup(isLabgrown: boolean, fancyColors: string[], markups?: Record<
 const VALID_SHAPES: Shape[] = ['ROUND', 'OVAL', 'PRINCESS', 'CUSHION', 'EMERALD', 'PEAR', 'HEART', 'MARQUISE', 'RADIANT', 'ASSCHER'];
 
 export default function DiamondPicker({ settingSlug, metal, onSelected, initialOfferId, initialItems, initialTotalCount, existingOfferId, inOrderOfferId, orderDiamondIds, markups }: Props) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   // Honour a ?shape= deep link from the homepage shape tiles so the
   // grid pre-filters to whatever the customer clicked.
@@ -433,6 +432,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
   // hold is non-fatal — the studio re-confirms availability at checkout.
   async function selectStone(d: Diamond) {
     if (holding) return;
+    const preservedSettingSlug = settingSlug || window.sessionStorage.getItem('danhov_ring_builder_setting') || undefined;
     setSelected(d.id);
     setHolding(d.id);
     setErr(null);
@@ -445,6 +445,20 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
       body: JSON.stringify({ offer_id: d.id, stone: d }),
     }).catch(() => {});
 
+    const qs = new URLSearchParams();
+    if (orderDiamondIds && orderDiamondIds.length > 0) {
+      qs.set('diamonds', [...orderDiamondIds, d.id].join('|'));
+    } else {
+      qs.set('diamond', d.id);
+    }
+    if (preservedSettingSlug) qs.set('setting', preservedSettingSlug);
+    if (metal) qs.set('metal', metal);
+    qs.set('dcat', diamondCategoryKey(labgrown, fancyColors[0]));
+
+    // Move to Step 3 immediately. Availability holds are best-effort and
+    // must never block or interrupt the ring review navigation.
+    window.location.assign(`/ring-builder/review?${qs.toString()}`);
+
     let holdId: string | null = null;
     try {
       const holdRes = await fetch('/api/nivoda/hold', {
@@ -453,7 +467,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
         body: JSON.stringify({
           offer_id: d.id,
           session_id: sessionId,
-          setting_slug: settingSlug,
+          setting_slug: preservedSettingSlug,
         }),
       });
       if (holdRes.ok) {
@@ -469,20 +483,7 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
 
     onSelected?.(d.id, holdId ?? '');
 
-    const qs = new URLSearchParams();
-    if (orderDiamondIds && orderDiamondIds.length > 0) {
-      // ADD mode: append new stone ID to the existing list
-      const allIds = [...orderDiamondIds, d.id];
-      qs.set('diamonds', allIds.join('|'));
-    } else {
-      qs.set('diamond', d.id);
-    }
-    if (settingSlug) qs.set('setting', settingSlug);
-    if (holdId) qs.set('hold', holdId);
-    if (metal) qs.set('metal', metal);
-    // Carry the markup category so the review page prices the stone identically
-    qs.set('dcat', diamondCategoryKey(labgrown, fancyColors[0]));
-    router.push(`/ring-builder/review?${qs.toString()}`);
+    void holdId;
   }
 
 

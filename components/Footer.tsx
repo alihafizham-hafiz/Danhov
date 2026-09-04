@@ -35,7 +35,7 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
   {
     heading: 'Services',
     links: [
-      { label: 'Contact a Danhov Expert', href: '/expert' },
+      { label: 'Contact a DANHOV Expert', href: '/expert' },
       { label: 'Request Repair', href: '/repair' },
       { label: 'Personalization', href: '/personalization' },
     ],
@@ -44,8 +44,8 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
     heading: 'About',
     links: [
       { label: 'Sustainability', href: '/sustainability' },
-      { label: 'Danhov Careers', href: '/careers' },
-      { label: 'Danhov for the Press', href: '/press' },
+      { label: 'DANHOV Careers', href: '/careers' },
+      { label: 'DANHOV for the Press', href: '/press' },
     ],
   },
   {
@@ -68,7 +68,7 @@ const DEFAULT_SOCIALS: FooterLink[] = [
 
 export default function Footer({
   columns = DEFAULT_COLUMNS,
-  copyrightText = '© Danhov. 2026',
+  copyrightText = '© DANHOV. 2026',
   locationText = 'United States',
   locationHref = '/location',
   socials = DEFAULT_SOCIALS,

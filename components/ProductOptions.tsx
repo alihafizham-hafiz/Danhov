@@ -44,10 +44,10 @@ export default function ProductOptions({
     : (price_display ?? null);
 
   function goToDiamond() {
-    const params = new URLSearchParams();
-    params.set('setting', slug);
+    const params = new URLSearchParams({ setting: slug });
     if (metal) params.set('metal', metal);
-    router.push(`/ring-builder/diamond?${params.toString()}`);
+    window.sessionStorage.setItem('danhov_ring_builder_setting', slug);
+    router.push(`/ring-builder?${params.toString()}`);
   }
 
   function buyRingOnly() {

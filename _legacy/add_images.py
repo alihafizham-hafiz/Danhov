@@ -31,7 +31,7 @@ IMAGES = {
     "WE520P":     H1 + "w/e/we520p_r1_wg_1__2.jpg",
     "WE531VQ-R":  H1 + "r/i/ring_1_.jpg",
     "WE532UH":    H1 + "r/1/r1_4_3.jpg",
-    # Norme de Danhov
+    # Norme de DANHOV
     "RE601P":     H1 + "l/e/le541p-wg1.jpg",
     "RE573P":     H1 + "r/e/re573p_1_r1_wg.jpg",
     "RE570P":     H1 + "r/_/r_2_1_1_1.jpg",
@@ -161,7 +161,7 @@ DESCS = {
     "WE520P":     "A timeless cathedral solitaire holds a radiant center stone in six-prong white gold perfection.",
     "WE531VQ-R":  "Graceful tapered white gold prongs elevate a round brilliant diamond in clean, classic splendor.",
     "WE532UH":    "A refined cathedral setting frames the center diamond with understated white gold elegance.",
-    # Norme de Danhov
+    # Norme de DANHOV
     "RE601P":     "The Norme signature crescent band cradles a brilliant center stone in a serene architectural frame.",
     "RE573P":     "Sleek converging gold bands meet beneath the center diamond in geometric Norme precision.",
     "RE570P":     "A refined bypass design allows two elegant bands to cross beneath a luminous center stone.",
@@ -201,7 +201,7 @@ DESCS = {
     "FE110":      "Slim gold petals align in a tulip form, elevating the center diamond in refined botanical splendor.",
     # Solo Filo
     "SE108":      "A single continuous gold thread spirals around a brilliant diamond in masterful Solo Filo artistry.",
-    "SE125":      "Danhov's signature single-thread design cradles the center stone in an impossibly delicate setting.",
+    "SE125":      "DANHOV's signature single-thread design cradles the center stone in an impossibly delicate setting.",
     "SE107":      "One unbroken strand of polished gold loops elegantly to secure the center diamond in ethereal grace.",
     "SE513UQ":    "A single pavé-set wire wraps the center diamond in the minimalist Solo Filo tradition.",
     "SE517UH":    "Delicate gold wire traces an organic path around the center diamond in handcrafted artistry.",
@@ -238,7 +238,7 @@ DESCS = {
     "AH501U":     "A cushion-cut gemstone set in a yellow gold pavé halo for an earring of vintage glamour.",
     "RH505U":     "White gold pavé studs scatter light in every direction for a quietly brilliant daytime look.",
     # Fine Jewelry Pendants
-    "RP503U":     "The Danhov Shamrock pendant in white gold—a delicate symbol of fortune and enduring elegance.",
+    "RP503U":     "The DANHOV Shamrock pendant in white gold—a delicate symbol of fortune and enduring elegance.",
     "LP531U":     "A pavé diamond pendant suspends from a fine chain with luminous, understated grace.",
     "ZP507U":     "A geometric gold pendant captures light from every facet in a sculptural fine jewelry statement.",
     # Fine Jewelry Rings & Bands

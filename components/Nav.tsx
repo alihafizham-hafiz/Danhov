@@ -68,7 +68,7 @@ const ENGAGEMENT_RINGS_MEGA: CardsMegaContent = {
     { image: '/RINGS-1X/product-5.png', title: 'How to Choose an Engagement Ring', href: '/engagement-rings/' },
   ],
   footerText: {
-    text: 'Book Your Appointment with a Danhov Diamond Expert, or Explore Our',
+    text: 'Book Your Appointment with a DANHOV Diamond Expert, or Explore Our',
     linkText: 'Guide to Diamonds.',
     href: '/guide-to-diamonds',
   },
@@ -157,7 +157,7 @@ const WATCHES_MEGA: StandardMegaContent = {
     {
       title: 'Curated Shops',
       items: [
-        { label: 'Danhov Blue Watches', href: '/watches/danhov-blue' },
+        { label: 'DANHOV Blue Watches', href: '/watches/danhov-blue' },
         { label: 'Diamond Watches', href: '/watches/diamond' },
         { label: 'Gold Watches', href: '/watches/gold' },
         { label: 'Stainless Steel Watches', href: '/watches/stainless-steel' },
@@ -167,11 +167,11 @@ const WATCHES_MEGA: StandardMegaContent = {
     {
       title: 'Shop By Collection',
       items: [
-        { label: 'Danhov HardWear', href: '/watches/hardwear' },
-        { label: 'Danhov Eternity', href: '/watches/eternity' },
+        { label: 'DANHOV HardWear', href: '/watches/hardwear' },
+        { label: 'DANHOV Eternity', href: '/watches/eternity' },
         { label: 'Union Square', href: '/watches/union-square' },
         { label: 'Atlas', href: '/watches/atlas' },
-        { label: 'Danhov Rope', href: '/watches/rope' },
+        { label: 'DANHOV Rope', href: '/watches/rope' },
       ],
     },
   ],

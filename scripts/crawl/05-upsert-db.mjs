@@ -12,7 +12,7 @@
  *   • slug = kebab(sku) — a SINGLE path segment. The app routes products via
  *     /product/[slug] and existing rows use slug = sku.toLowerCase(); the raw
  *     danhov slugs contain slashes and would break that route.
- *   • collection = display label (e.g. "Norme de Danhov") so the listing-page
+ *   • collection = display label (e.g. "Norme de DANHOV") so the listing-page
  *     filter chips (which map label → slug) work.
  *
  * Write strategy ("replace all", FK-safe):
@@ -52,7 +52,7 @@ const COLLECTION_LABEL = {
   tubetto: 'Tubetto',
   unito: 'Unito',
   voltaggio: 'Voltaggio',
-  'norme-de-danhov': 'Norme de Danhov',
+  'norme-de-danhov': 'Norme de DANHOV',
   perlina: 'Perlina',
   'her-bands': 'Her Bands',
   'his-bands': 'His Bands',
@@ -68,7 +68,7 @@ const COLLECTION_LABEL = {
 // Known collection labels for name-based inference when a product only came
 // through the section sweep (collection == null).
 const NAME_COLLECTIONS = [
-  'Abbraccio', 'Voltaggio', 'Classico', 'Norme de Danhov', 'Carezza',
+  'Abbraccio', 'Voltaggio', 'Classico', 'Norme de DANHOV', 'Carezza',
   'Per Lei', 'Petalo', 'Solo Filo', 'Eleganza', 'Couture', 'Unito',
   'Tubetto', 'Perlina',
 ];

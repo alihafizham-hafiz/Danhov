@@ -17,8 +17,8 @@ type Props = {
 };
 
 const CARD_WIDTH = 308; // 280px card + 28px gap
-const STEP_DURATION = 500; // ms the smooth scroll takes
-const PAUSE_DURATION = 1600; // ms to pause between moves
+const STEP_DURATION = 450; // ms each smooth scroll takes
+const PAUSE_DURATION = 1100; // ms to pause between moves
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -45,12 +45,38 @@ export default function CollectionsSlider({ cards }: Props) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let paused = false;
+    let animationFrame: number | null = null;
     let stepTimer: ReturnType<typeof setTimeout> | null = null;
     let pauseTimer: ReturnType<typeof setTimeout> | null = null;
 
     function clearTimers() {
+      if (animationFrame !== null) { cancelAnimationFrame(animationFrame); animationFrame = null; }
       if (stepTimer) { clearTimeout(stepTimer); stepTimer = null; }
       if (pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; }
+    }
+
+    function animateTo(target: number) {
+      const slider = wrap;
+      if (!slider) return;
+
+      const start = slider.scrollLeft;
+      const distance = target - start;
+      const startedAt = performance.now();
+
+      const frame = (now: number) => {
+        const progress = Math.min(1, (now - startedAt) / STEP_DURATION);
+        const eased = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        slider.scrollLeft = start + distance * eased;
+        if (progress < 1 && !paused) {
+          animationFrame = requestAnimationFrame(frame);
+        } else {
+          animationFrame = null;
+        }
+      };
+
+      animationFrame = requestAnimationFrame(frame);
     }
 
     function doStep() {
@@ -61,7 +87,7 @@ export default function CollectionsSlider({ cards }: Props) {
       if (target >= half) {
         wrap.scrollLeft = 0;
       } else {
-        wrap.scrollTo({ left: target, behavior: 'smooth' });
+        animateTo(target);
       }
 
       stepTimer = setTimeout(() => {

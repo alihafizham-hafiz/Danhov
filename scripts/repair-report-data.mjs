@@ -39,13 +39,13 @@ async function main() {
     console.log('Dry run. Re-run with --apply to update production product records.');
     console.log(`Price-on-request: ${PRICE_ON_REQUEST.length}`);
     console.log(`Voltaggio collection: ${VOLTAGGIO.length}`);
-    console.log(`Norme de Danhov collection: ${NORME_DE_DANHOV.length}`);
+    console.log(`Norme de DANHOV collection: ${NORME_DE_DANHOV.length}`);
     return;
   }
 
   await updateSkus(PRICE_ON_REQUEST, { price_display: 'Price on request' });
   await updateSkus(VOLTAGGIO, { collection: 'Voltaggio' });
-  await updateSkus(NORME_DE_DANHOV, { collection: 'Norme de Danhov' });
+  await updateSkus(NORME_DE_DANHOV, { collection: 'Norme de DANHOV' });
   await updateSkus(['HE500P'], { collection: 'Diamante' });
   await updateSkus(
     ['RE650P', 'RE651CH', 'RE651CLR', 'RE651P', 'RE651VH'],

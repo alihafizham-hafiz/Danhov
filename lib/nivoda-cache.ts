@@ -138,7 +138,18 @@ export async function cachedSearchDiamonds(
     // Stale — try live fetch first, but already have a backup.
   }
 
-  const live = await searchDiamonds(filters, opts);
+  let live: Awaited<ReturnType<typeof searchDiamonds>>;
+  try {
+    live = await searchDiamonds(filters, opts);
+  } catch (error) {
+    // Missing credentials or a provider outage should still reach the
+    // stale-cache/synthetic-catalog fallback below.
+    live = {
+      ok: false,
+      error: error instanceof Error ? error.message : String(error),
+      errors: [],
+    };
+  }
   if (live.ok) {
     try {
       await sb.from('nivoda_search_cache').upsert(

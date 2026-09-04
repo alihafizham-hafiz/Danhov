@@ -4,7 +4,7 @@
  *
  * Per product:
  *   sku       ← data-product-sku
- *   name      ← <title> (Danhov prefix kept, " | Danhov" suffix trimmed)
+ *   name      ← <title> (DANHOV prefix kept, " | DANHOV" suffix trimmed)
  *   price     ← <meta property="product:price:amount">
  *   desc      ← <meta name="description">
  *   images[]  ← every gallery "full":"…" URL, JSON-unescaped, cache-stripped
@@ -52,7 +52,7 @@ function extractImages(html) {
 function parseProduct(html) {
   const sku = SKU_RE.exec(html)?.[1] || null;
   let name = clean(OGTITLE_RE.exec(html)?.[1] || TITLE_RE.exec(html)?.[1] || '');
-  name = name.replace(/\s*\|\s*Danhov.*$/i, '').trim();
+  name = name.replace(/\s*\|\s*DANHOV.*$/i, '').trim();
   const priceRaw = PRICE_RE.exec(html)?.[1] || null;
   const price = priceRaw ? Number(priceRaw) : null;
   const description = clean(DESC_RE.exec(html)?.[1] || '');

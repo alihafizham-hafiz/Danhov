@@ -61,7 +61,7 @@ export default function AdminShell({
         <Link href="/admin" className="adm-brand" onClick={() => setNavOpen(false)}>
           <Image
             src="/danhov-logo-transparent.png"
-            alt="Danhov"
+            alt="DANHOV"
             width={150}
             height={23}
             style={{ objectFit: 'contain' }}
@@ -118,7 +118,7 @@ export default function AdminShell({
         <Link href="/admin" className="adm-header-brand">
           <Image
             src="/danhov-logo-transparent.png"
-            alt="Danhov"
+            alt="DANHOV"
             width={110}
             height={20}
             style={{ objectFit: 'contain' }}

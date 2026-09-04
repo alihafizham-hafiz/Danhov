@@ -151,7 +151,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/danhovs-gold-swirl-engagement-rings-speak-of-timeless-love',
-    title: "Danhov's Gold Swirl Engagement Rings Speak of Timeless Love",
+    title: "DANHOV's Gold Swirl Engagement Rings Speak of Timeless Love",
     category: 'Engagement Rings',
     date: 'August 21, 2023',
     excerpt:
@@ -161,7 +161,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/unveiling-the-uniquely-brilliant-engagement-rings-by-danhov',
-    title: 'Unveiling the Uniquely Brilliant Engagement Rings by Danhov',
+    title: 'Unveiling the Uniquely Brilliant Engagement Rings by DANHOV',
     category: 'Engagement Rings',
     date: 'August 18, 2023',
     excerpt:
@@ -251,7 +251,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/shop-smart-save-money-and-the-planet-with-danhovs-lab-grown-diamonds-online',
-    title: "Shop Smart: Save Money And The Planet With Danhov's Lab-Grown Diamonds Online",
+    title: "Shop Smart: Save Money And The Planet With DANHOV's Lab-Grown Diamonds Online",
     category: 'Diamonds',
     date: 'April 20, 2023',
     excerpt:
@@ -261,7 +261,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/romantic-blooms-danhovs-floral-and-rose-gold-engagement-rings',
-    title: "Romantic Blooms: Danhov's Floral and Rose Gold Engagement Rings for Every Style",
+    title: "Romantic Blooms: DANHOV's Floral and Rose Gold Engagement Rings for Every Style",
     category: 'Engagement Rings',
     date: 'April 19, 2023',
     excerpt:
@@ -271,7 +271,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/the-ultimate-symbol-of-love-danhovs-abbraccio-engagement-ring-collection',
-    title: "The Ultimate Symbol of Love: Danhov's Abbraccio Engagement Ring Collection",
+    title: "The Ultimate Symbol of Love: DANHOV's Abbraccio Engagement Ring Collection",
     category: 'Engagement Rings',
     date: 'April 14, 2023',
     excerpt:
@@ -291,7 +291,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/danhovs-cushion-cut-engagement-rings-a-timeless-and-trending-choice',
-    title: "Danhov's Cushion Cut Engagement Rings: A Timeless and Trending Choice",
+    title: "DANHOV's Cushion Cut Engagement Rings: A Timeless and Trending Choice",
     category: 'Engagement Rings',
     date: 'March 20, 2023',
     excerpt:
@@ -301,7 +301,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'engagement-rings-2/crafted-with-love-the-beauty-of-handmade-engagement-rings-by-danhov',
-    title: 'Crafted With Love: The Beauty Of Handmade Engagement Rings By Danhov',
+    title: 'Crafted With Love: The Beauty Of Handmade Engagement Rings By DANHOV',
     category: 'Engagement Rings',
     date: 'March 17, 2023',
     excerpt:

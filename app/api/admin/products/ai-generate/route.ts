@@ -50,7 +50,7 @@ const ALLOWED_MIMES = new Set([
 ]);
 
 const COLLECTIONS = [
-  'Abbraccio', 'Voltaggio', 'Classico', 'Norme de Danhov',
+  'Abbraccio', 'Voltaggio', 'Classico', 'Norme de DANHOV',
   'Carezza', 'Per Lei', 'Petalo', 'Solo Filo',
   'Eleganza', 'Couture', 'Unito',
 ];

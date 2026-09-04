@@ -513,3 +513,22 @@
     position: static;
   }
 }
+
+.dnh-pdp-packaging-video-wrap {
+  position: relative;
+  cursor: pointer;
+}
+
+.dnh-pdp-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}

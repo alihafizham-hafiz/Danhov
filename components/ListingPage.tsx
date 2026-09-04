@@ -217,7 +217,7 @@ export default function ListingPage({
     return () => { document.body.style.overflow = ''; };
   }, [drawerOpen]);
 
-  const getProductBrand = (product: Product) => product.collection || product.category || 'Danhov';
+  const getProductBrand = (product: Product) => product.collection || product.category || 'DANHOV';
 
   const getProductMetals = (product: Product): string[] => {
     const rawMetals = parseStringList(product.metals);

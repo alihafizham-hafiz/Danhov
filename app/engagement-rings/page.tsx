@@ -23,7 +23,7 @@ const COLLECTIONS = [
   { label: 'Abbraccio', value: 'abbraccio' },
   { label: 'Voltaggio', value: 'voltaggio' },
   { label: 'Classico', value: 'classico' },
-  { label: 'Norme de Danhov', value: 'norme' },
+  { label: 'Norme de DANHOV', value: 'norme' },
   { label: 'Carezza', value: 'carezza' },
   { label: 'Per Lei', value: 'per-lei' },
   { label: 'Petalo', value: 'petalo' },

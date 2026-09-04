@@ -71,7 +71,7 @@ function affiliateConfirmHtml(name: string): string {
       <p style="margin:0 0 16px;">Dear ${name},</p>
       <p style="margin:0 0 16px;">Thank you for applying to the DANHOV Affiliate Program. We review every application individually — you can expect a response from our team within <strong>two business days</strong>.</p>
       <p style="margin:0 0 16px;">While you wait, feel free to explore the collection at <a href="https://danhov.com" style="color:#AC3438;text-decoration:none;">danhov.com</a>.</p>
-      <p style="margin:16px 0 0;font-style:italic;color:#7a5c58;">"Waves are the ocean." — Jack Danhov</p>
+      <p style="margin:16px 0 0;font-style:italic;color:#7a5c58;">"Waves are the ocean." — Jack DANHOV</p>
     </td></tr>
     <tr><td style="padding:20px 44px 28px;text-align:center;background:#fff8f6;border-top:1px solid rgba(172,52,56,0.06);font-size:11px;color:#7a5c58;">
       <a href="mailto:care@danhov.com" style="color:#AC3438;text-decoration:none;">care@danhov.com</a> · (424) 421-4072

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect,useRef, useState } from 'react';
 import { useCart } from '@/components/CartProvider';
 import ProductGallery from '@/components/ProductGallery';
 import { Product } from './ListingPage';
@@ -17,12 +17,12 @@ type AccordionItem = {
 };
 
 const PDP_ACCORDIONS: AccordionItem[] = [
-  { title: "Blue Box", content: "Every Danhov luxury creation is presented in an iconic presentation box..." },
+  { title: "Blue Box", content: "Every DANHOV luxury creation is presented in an iconic presentation box..." },
   { title: "Complimentary Shipping & Returns", content: "We offer complimentary shipping and insured returns..." },
   { title: "Ask a Client Advisor", content: "Experience personalized service tailored to your every need..." },
   { title: "Responsibly Sourced", content: "Dedicated efforts to responsibly source precious metals and diamonds." },
   { title: "Size Guide", content: "Determine correct bracelet, necklace, or ring sizing." },
-  { title: "Visit a Store", content: "Visit an authorized Danhov partner boutique." }
+  { title: "Visit a Store", content: "Visit an authorized DANHOV partner boutique." }
 ];
 
 export default function ProductDetailModal({ product, onClose }: ProductModalProps) {
@@ -30,7 +30,7 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
   const [addedMessage, setAddedMessage] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(product?.default_metal || '');
-  const [isZoomed, setIsZoomed] = useState(false);
+
 
   const safeProduct = product;
   const defaultMetal = safeProduct?.default_metal || '';
@@ -109,6 +109,30 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
     setOpenAccordion(openAccordion === index ? null : index);
   };
 
+  const openDiamondBuilder = () => {
+    if (!safeProduct) return;
+    const params = new URLSearchParams({ setting: safeProduct.slug });
+    const chosenMetal = selectedOption || safeProduct.default_metal;
+    if (chosenMetal) params.set('metal', chosenMetal);
+    window.sessionStorage.setItem('danhov_ring_builder_setting', safeProduct.slug);
+    window.location.assign(`/ring-builder?${params.toString()}`);
+  };
+
+  const [isZoomed, setIsZoomed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
   const handleAddToCart = () => {
     if (!safeProduct) return;
     const chosenMetal = selectedOption || safeProduct.default_metal || 'platinum';
@@ -196,6 +220,9 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
                 </div>
 
                 <div className="dnh-pdp-actions">
+                  <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={openDiamondBuilder}>
+                    <span>Choose Your Diamond</span>
+                  </button>
                   <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={handleAddToCart}>
                     <span>{addedMessage ? 'Added to Cart ✓' : 'Add to cart'}</span>
                   </button>
@@ -258,7 +285,20 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
           {/* Accordion Footer Section */}
           <div className="dnh-pdp-bottom-section">
             <div className="dnh-pdp-bottom-left-img">
-              <video src="/Vedios/Packaging.mp4" controls muted playsInline preload="metadata" aria-label="Packaging" />
+     <div className="dnh-pdp-packaging-video-wrap" onClick={togglePlay}>
+      <video
+        ref={videoRef}
+        src="/Vedios/Packaging.mp4"
+        muted
+        playsInline
+        preload="metadata"
+        aria-label="Packaging"
+        className="dnh-pdp-packaging-video"
+      />
+      <div className={`ed-split-play-badge ${isPlaying ? 'is-playing' : ''}`}>
+    <span className="ed-split-play-icon">{isPlaying ? '❚❚' : '▶'}</span>
+  </div>
+    </div>
             </div>
             <div className="dnh-pdp-bottom-right-accordion">
               {PDP_ACCORDIONS.map((item, index) => {

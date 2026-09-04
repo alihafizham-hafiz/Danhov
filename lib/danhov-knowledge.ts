@@ -23,7 +23,7 @@ Engagement Rings (11 collections):
 - Abbraccio  — Italian for "embrace." Signature swirl/twist designs that wrap the stone in flowing metal.
 - Voltaggio  — Tension-set rings; the diamond appears to float, held by precise spring of metal. Modern, architectural.
 - Classico   — Timeless solitaires and classic three-stones. Refined elegance.
-- Norme de Danhov — The "rules" of DANHOV: clean lines, mathematical proportion, contemporary sophistication.
+- Norme de DANHOV — The "rules" of DANHOV: clean lines, mathematical proportion, contemporary sophistication.
 - Carezza    — Italian for "caress." Soft, curvilinear settings.
 - Per Lei    — "For her." Romantic, feminine designs.
 - Petalo     — "Petal." Floral-inspired motifs.

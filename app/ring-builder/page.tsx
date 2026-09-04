@@ -11,7 +11,19 @@ export const metadata: Metadata = {
   alternates: { canonical: '/ring-builder' },
 };
 
-export default function RingBuilderLandingPage() {
+type LandingSearch = { setting?: string; metal?: string };
+
+export default async function RingBuilderLandingPage({
+  searchParams,
+}: {
+  searchParams: LandingSearch | Promise<LandingSearch>;
+}) {
+  const params = await searchParams;
+  const diamondParams = new URLSearchParams();
+  if (params.setting) diamondParams.set('setting', params.setting);
+  if (params.metal) diamondParams.set('metal', params.metal);
+  const diamondHref = `/ring-builder/diamond${diamondParams.toString() ? `?${diamondParams.toString()}` : ''}`;
+
   return (
     <main className="builder-page">
       <BuilderStepper current={1} hasSetting={false} hasDiamond={false} />
@@ -43,6 +55,9 @@ export default function RingBuilderLandingPage() {
             Pick your shape, carat, color, clarity and cut. Every diamond is GIA-graded,
             conflict-free and ethically traced.
           </p>
+          <Link href={diamondHref} className="builder-path-btn builder-path-btn--primary" style={{ alignSelf: 'center' }}>
+            Choose a Diamond
+          </Link>
         </article>
         <article className="builder-intro-card">
           <span className="builder-intro-step">III</span>

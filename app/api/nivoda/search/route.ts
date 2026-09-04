@@ -58,19 +58,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Diagnostic precondition: if Nivoda creds aren't in the env, return a
-  // clear 503 with detail rather than throwing inside the client.
-  if (!process.env.NIVODA_USERNAME || !process.env.NIVODA_PASSWORD) {
-    console.error('/api/nivoda/search: NIVODA_USERNAME / NIVODA_PASSWORD not configured');
-    return NextResponse.json(
-      {
-        error: 'Diamond search is not yet configured.',
-        detail: 'NIVODA_USERNAME / NIVODA_PASSWORD missing from server env. Add them in Vercel → Settings → Environment Variables, then redeploy.',
-      },
-      { status: 503 }
-    );
-  }
-
   try {
     const result = await cachedSearchDiamonds(
       body.filters as NivodaSearchFilters,

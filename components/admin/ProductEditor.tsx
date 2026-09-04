@@ -93,7 +93,7 @@ const SKU_COLLECTION: Record<string, string> = {
   A: 'Abbraccio',
   V: 'Voltaggio',
   C: 'Classico',
-  N: 'Norme de Danhov',
+  N: 'Norme de DANHOV',
   R: 'Carezza',
   P: 'Per Lei',
   T: 'Petalo',

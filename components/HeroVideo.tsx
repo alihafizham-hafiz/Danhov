@@ -15,6 +15,7 @@ export default function HeroVideo() {
 
     const start = () => {
       video.src = '/Vedios/Vedio_Hero.mp4';
+      video.playbackRate = 0.75; 
       video.play().catch(() => {});
     };
 

@@ -67,7 +67,11 @@
   cursor: default;
 }
 .rb-step--done .rb-step-link { color: #6b5e57; }
-.rb-step--locked .rb-step-link { opacity: 0.45; cursor: default; pointer-events: none; }
+.rb-step--locked .rb-step-link {
+  color: #9a8f86;
+  cursor: default;
+  pointer-events: none;
+}
 
 .rb-step-badge {
   flex-shrink: 0;

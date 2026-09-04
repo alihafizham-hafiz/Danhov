@@ -20,7 +20,7 @@ SOURCE_FILES = {
             'abbraccio': 'Abbraccio',
             'voltaggio': 'Voltaggio',
             'classico': 'Classico',
-            'norme': 'Norme de Danhov',
+            'norme': 'Norme de DANHOV',
             'carezza': 'Carezza',
             'per-lei': 'Per Lei',
             'petalo': 'Petalo',

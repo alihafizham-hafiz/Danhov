@@ -335,7 +335,7 @@ export default function CheckoutPage() {
                         <div className="checkout-packaging-visual" aria-hidden="true" />
                         <div className="checkout-packaging-copy">
                           <div className="checkout-packaging-title">Classic</div>
-                          <p>Your item will be carefully delivered in the iconic Danhov &amp; Co. blue gift box with white ribbon.</p>
+                          <p>Your item will be carefully delivered in the iconic DANHOV &amp; Co. blue gift box with white ribbon.</p>
                         </div>
                       </div>
 
