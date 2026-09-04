@@ -3,7 +3,9 @@
 import { useEffect,useRef, useState } from 'react';
 import { useCart } from '@/components/CartProvider';
 import ProductGallery from '@/components/ProductGallery';
+import DiamondPicker, { type Diamond, SHAPE_PHOTO } from '@/components/DiamondPicker';
 import { Product } from './ListingPage';
+
 import './ProductDetail.css';
 
 type ProductModalProps = {
@@ -30,6 +32,8 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
   const [addedMessage, setAddedMessage] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(product?.default_metal || '');
+  const [diamondPickerOpen, setDiamondPickerOpen] = useState(false);
+  const [chosenDiamond, setChosenDiamond] = useState<Diamond | null>(null);
 
 
   const safeProduct = product;
@@ -111,11 +115,58 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
 
   const openDiamondBuilder = () => {
     if (!safeProduct) return;
-    const params = new URLSearchParams({ setting: safeProduct.slug });
-    const chosenMetal = selectedOption || safeProduct.default_metal;
-    if (chosenMetal) params.set('metal', chosenMetal);
-    window.sessionStorage.setItem('danhov_ring_builder_setting', safeProduct.slug);
-    window.location.assign(`/ring-builder?${params.toString()}`);
+    setChosenDiamond(null);
+    setDiamondPickerOpen(true);
+  };
+
+  const settingPrice = parseFloat((safeProduct?.price_display ?? '').replace(/[^0-9.]/g, '')) || 0;
+  const diamondPrice = chosenDiamond ? Math.round((chosenDiamond.price ?? 0) * 2.3) : 0;
+  const ringTotal = settingPrice + diamondPrice;
+
+  // Fallback chain for the selected diamond's image: real Nivoda photo →
+  // shape-based placeholder photo → generic round placeholder.
+  const chosenDiamondImage = chosenDiamond
+    ? (chosenDiamond.diamond.image
+        || SHAPE_PHOTO[(chosenDiamond.diamond.certificate?.shape || 'ROUND').toUpperCase()]
+        || SHAPE_PHOTO['ROUND'])
+    : null;
+
+  const addRingToCart = (goToCart = false) => {
+    if (!safeProduct || !chosenDiamond) return;
+    const cert = chosenDiamond.diamond.certificate;
+    const chosenMetal = selectedOption || safeProduct.default_metal || 'platinum';
+    addItem({
+      id: `${safeProduct.id}:ring:${chosenDiamond.id}`,
+      sku: safeProduct.sku,
+      slug: safeProduct.slug,
+      name: safeProduct.name,
+      price_num: ringTotal,
+      price_display: `$${ringTotal.toLocaleString('en-US')}`,
+      image: selectedVariantImage,
+      collection: safeProduct.collection || '',
+      metal: chosenMetal,
+      variant_key: `${chosenMetal}:ring:${chosenDiamond.id}`,
+      variant_label: selectedVariant?.label || chosenMetal,
+      qty: 1,
+      bundle: {
+        setting_price_usd: settingPrice,
+        diamond: {
+          offer_id: chosenDiamond.id,
+          hold_id: null,
+          shape: cert?.shape || 'Round',
+          carat: cert?.carats || 0,
+          color: cert?.color || '—',
+          clarity: cert?.clarity || '—',
+          cut: cert?.cut || '—',
+          lab: cert?.lab || null,
+          cert_number: cert?.certNumber || null,
+          price_usd: diamondPrice,
+          image: chosenDiamond.diamond.image,
+        },
+      },
+    });
+    if (goToCart) window.location.assign('/checkout');
+    else setAddedMessage(true);
   };
 
   const [isZoomed, setIsZoomed] = useState(false);
@@ -220,15 +271,35 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
                 </div>
 
                 <div className="dnh-pdp-actions">
-                  <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={openDiamondBuilder}>
-                    <span>Choose Your Diamond</span>
-                  </button>
-                  <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={handleAddToCart}>
-                    <span>{addedMessage ? 'Added to Cart ✓' : 'Add to cart'}</span>
-                  </button>
-                  <button type="button" className="dnh-pdp-btn-champagne dnh-slide-btn">
-                    <span>Contact your advisor</span>
-                  </button>
+                  {!chosenDiamond ? (
+                    <>
+                      <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={openDiamondBuilder}>
+                        <span>Select a diamond</span>
+                      </button>
+                      <button type="button" className="dnh-pdp-btn-black dnh-slide-btn" onClick={handleAddToCart}>
+                        <span>{addedMessage ? 'Added to Cart ✓' : 'Add to cart'}</span>
+                      </button>
+                      <button type="button" className="dnh-pdp-btn-champagne dnh-slide-btn">
+                        <span>Contact your advisor</span>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {chosenDiamondImage && (
+                        <img
+                          src={chosenDiamondImage}
+                          alt="Selected diamond"
+                          className="dnh-pdp-selected-diamond-image"
+                        />
+                      )}
+                      <div className="dnh-pdp-diamond-summary">
+                        <strong>{chosenDiamond.diamond.certificate?.carats?.toFixed(2) || '—'} ct {chosenDiamond.diamond.certificate?.shape || 'Round'} Diamond</strong>
+                        <span>Diamond ${diamondPrice.toLocaleString('en-US')} · Ring total ${ringTotal.toLocaleString('en-US')}</span>
+                      </div>
+                      <button type="button" className="dnh-pdp-btn-black" onClick={() => addRingToCart(false)}>Add Ring to Cart</button>
+                      <button type="button" className="dnh-pdp-btn-champagne" onClick={() => addRingToCart(true)}>Checkout</button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -322,6 +393,30 @@ export default function ProductDetailModal({ product, onClose }: ProductModalPro
 
         </div>
       </div>
+      {diamondPickerOpen && (
+        <div className="dnh-diamond-picker-overlay" onClick={() => setDiamondPickerOpen(false)}>
+          <div className="dnh-diamond-picker-dialog" onClick={(event) => event.stopPropagation()}>
+            <div className="dnh-diamond-picker-header">
+              <h2>Select a diamond</h2>
+              <button type="button" onClick={() => setDiamondPickerOpen(false)} aria-label="Close diamond picker">×</button>
+            </div>
+            <DiamondPicker
+              settingSlug={safeProduct.slug}
+              metal={selectedOption || safeProduct.default_metal || undefined}
+              embedded
+              onEmbeddedSelect={(diamond) => {
+                setChosenDiamond(diamond);
+                setDiamondPickerOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
+}
+
+function parsePrice(value: string | null | undefined): number {
+  if (!value) return 0;
+  return parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
 }

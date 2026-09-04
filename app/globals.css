@@ -4,9 +4,9 @@
    .module.css files or appended sections below.
    ────────────────────────────────────────────────────────────────────────── */
 
-   @import "tailwindcss";
-@source "../app";
-@source "../components";
+  @import "tailwindcss";
+@source "../app/**/*.{js,jsx,ts,tsx}";
+@source "../components/**/*.{js,jsx,ts,tsx}";
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 a { text-decoration: none; color: inherit; }
 * { user-select: text; -webkit-user-select: text; }
@@ -12216,7 +12216,8 @@ aside {
 }
 
 .danhov-footer-container {
-  max-width: 1500px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
   padding: 0 48px;
   box-sizing: border-box;
@@ -12349,13 +12350,6 @@ aside {
     gap: 8px;
   }
 }
-
-
-
-
-/* mega menu start here  */
-
-
 /* Mega Menu Dropdown Container */
 .mega-menu-dropdown {
   position: absolute;
@@ -12378,10 +12372,11 @@ aside {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  width: 100% !important;
 }
 
 .mega-menu-container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
 

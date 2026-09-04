@@ -14,7 +14,7 @@ export default function HeroVideo() {
     if (!video) return;
 
     const start = () => {
-      video.src = '/Vedios/Vedio_Hero.mp4';
+      video.src = '/Vedios/Vedio_white.mp4' ;
       video.playbackRate = 0.75; 
       video.play().catch(() => {});
     };
@@ -24,7 +24,7 @@ export default function HeroVideo() {
     } else {
       window.addEventListener('load', start, { once: true });
       return () => window.removeEventListener('load', start);
-    }
+    } 
   }, []);
 
   return (

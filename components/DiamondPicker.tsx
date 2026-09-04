@@ -19,7 +19,7 @@ import { diamondCategoryKey } from '@/lib/diamond-categories';
 const LOUPE360_NATIVE = 500;
 
 // Photographic shape images — used as card placeholder when Nivoda has no image
-const SHAPE_PHOTO: Record<string, string> = {
+export const SHAPE_PHOTO: Record<string, string> = {
   ROUND:    '/diamond-shapes/round.jpg',
   OVAL:     '/diamond-shapes/oval.jpg',
   CUSHION:  '/diamond-shapes/cushion.jpg',
@@ -292,6 +292,9 @@ type Props = {
   orderDiamondIds?: string[];
   /** Per-category markup multipliers from the diamond_markups table. Falls back to 2.3× if not provided. */
   markups?: Record<string, number>;
+  /** Render inside a product-detail modal instead of navigating to review. */
+  embedded?: boolean;
+  onEmbeddedSelect?: (diamond: Diamond) => void;
 };
 
 function getMarkup(isLabgrown: boolean, fancyColors: string[], markups?: Record<string, number>): number {
@@ -303,7 +306,7 @@ function getMarkup(isLabgrown: boolean, fancyColors: string[], markups?: Record<
 
 const VALID_SHAPES: Shape[] = ['ROUND', 'OVAL', 'PRINCESS', 'CUSHION', 'EMERALD', 'PEAR', 'HEART', 'MARQUISE', 'RADIANT', 'ASSCHER'];
 
-export default function DiamondPicker({ settingSlug, metal, onSelected, initialOfferId, initialItems, initialTotalCount, existingOfferId, inOrderOfferId, orderDiamondIds, markups }: Props) {
+export default function DiamondPicker({ settingSlug, metal, onSelected, initialOfferId, initialItems, initialTotalCount, existingOfferId, inOrderOfferId, orderDiamondIds, markups, embedded = false, onEmbeddedSelect }: Props) {
   const searchParams = useSearchParams();
   // Honour a ?shape= deep link from the homepage shape tiles so the
   // grid pre-filters to whatever the customer clicked.
@@ -444,6 +447,11 @@ export default function DiamondPicker({ settingSlug, metal, onSelected, initialO
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ offer_id: d.id, stone: d }),
     }).catch(() => {});
+
+    if (embedded) {
+      onEmbeddedSelect?.(d);
+      return;
+    }
 
     const qs = new URLSearchParams();
     if (orderDiamondIds && orderDiamondIds.length > 0) {

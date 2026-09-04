@@ -1,6 +1,66 @@
+@import '../app/ring-builder/builder.css';
+
 /* ============================================================
    PRODUCT DETAIL PAGE (PDP) MODAL STYLES
 ============================================================ */
+
+.dnh-diamond-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 12, 8, 0.58);
+  overflow-y: auto;
+}
+
+.dnh-diamond-picker-dialog {
+  width: min(1440px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(20, 12, 8, 0.28);
+}
+
+.dnh-diamond-picker-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(172, 52, 56, 0.12);
+  background: #fff;
+}
+
+.dnh-diamond-picker-header h2 {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #2a1d18;
+}
+
+.dnh-diamond-picker-header button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(42, 29, 24, 0.18);
+  background: #fff;
+  color: #2a1d18;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .dnh-diamond-picker-overlay { padding: 0; }
+  .dnh-diamond-picker-dialog { max-height: 100vh; }
+  .dnh-diamond-picker-header { padding: 14px 16px; }
+  .dnh-diamond-picker-header h2 { font-size: 24px; }
+}
 
 .dnh-pdp-modal-backdrop {
   position: fixed;
@@ -242,6 +302,28 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.dnh-pdp-selected-diamond-image {
+  width: 90;
+  max-width: 180px;
+  height: 90px;
+  object-fit: cover;
+  align-self: start;
+  background: #f7f3f1;
+  border: 1px solid #e5dcd3;
+}
+
+.dnh-pdp-diamond-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.dnh-pdp-diamond-summary strong {
+  font-weight: 700;
 }
 
 .dnh-pdp-find-store {
