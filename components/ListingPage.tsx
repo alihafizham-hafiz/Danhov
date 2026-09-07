@@ -80,6 +80,12 @@ const FAQ_ITEMS: FaqItem[] = [
 
 const DEFAULT_PRICE_MAX = 89000;
 
+const CATEGORY_BANNERS: Record<string, string> = {
+  fine: '/sub%20category%20banner/1.png',
+  engagement: '/sub%20category%20banner/2.png',
+  wedding: '/sub%20category%20banner/3.png',
+};
+
 const normalizeFilterValue = (value: string) =>
   value.trim().toLowerCase().replace(/[_-]+/g, ' ').replace(/\s+/g, ' ');
 
@@ -125,7 +131,7 @@ function ListingFaqSection() {
                     <div className="collapsible-header white">
                       <button type="button" className="title body_serif_16_p text-size-lg text-left accordion-item w-100" onClick={() => toggleAccordion(index)}>
                         <span>{item.question}</span>
-                        <span className={`dnh-faq-arrow ${isOpen ? 'is-open' : ''}`}>↓</span>
+                        <span className={`dnh-faq-arrow ${isOpen ? 'is-open' : ''}`}>â†“</span>
                       </button>
                     </div>
                     {isOpen && (
@@ -159,6 +165,7 @@ export default function ListingPage({
   personalizeChecked = false,
   onPersonalizeChange,
   products = [], // Use the pre-fetched products passed from the server
+  category,
 }: ListingPageProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -211,6 +218,7 @@ export default function ListingPage({
   }, [products]);
 
   const activeLabel = sortOptions.find((option) => option.value === sortValue)?.label ?? 'Sort By';
+  const bannerImage = category ? CATEGORY_BANNERS[category] : undefined;
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : '';
@@ -312,12 +320,8 @@ export default function ListingPage({
   return (
     <main className="dnh-listing-page">
       {/* BANNER HERO */}
-      <section className="dnh-banner">
-        <div className="dnh-banner-bg" style={{ backgroundImage: `url(/Banner_listing.jpeg)` }} />
-        <div className="dnh-banner-content">
-          <h1 className="dnh-banner-title">{title}</h1>
-          <p className="dnh-banner-subtitle">{subtitle}</p>
-        </div>
+      <section className={`dnh-banner${bannerImage ? ' dnh-banner--category' : ''}`}>
+        <div className="dnh-banner-bg" style={{ backgroundImage: `url(${bannerImage || '/Banner_listing.jpeg'})` }} />
       </section>
 
       {/* TOOLBAR */}
@@ -372,7 +376,7 @@ export default function ListingPage({
                   <span className="dnh-product-badge">{productBrand}</span>
                   <img src={mainImg} alt={product.name} className="dnh-product-img dnh-product-img-main" />
                   <img src={hoverImg} alt="" aria-hidden="true" className="dnh-product-img dnh-product-img-hover" />
-                  <button type="button" className="dnh-product-wishlist" aria-label="Add to wishlist">♡</button>
+                  <button type="button" className="dnh-product-wishlist" aria-label="Add to wishlist">â™¡</button>
                 </div>
 
                 <div className="dnh-product-info">
@@ -401,7 +405,7 @@ export default function ListingPage({
       <aside className={`dnh-drawer ${drawerOpen ? 'is-open' : ''}`}>
         <div className="dnh-drawer-header">
           <span>Filters</span>
-          <button type="button" className="dnh-drawer-close" onClick={() => setDrawerOpen(false)}>×</button>
+          <button type="button" className="dnh-drawer-close" onClick={() => setDrawerOpen(false)}>Ã—</button>
         </div>
         <div className="dnh-drawer-body">
           <details className="dnh-plp-filter-group" open>

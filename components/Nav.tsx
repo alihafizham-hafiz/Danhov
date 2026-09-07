@@ -51,21 +51,16 @@ interface NavLinkItem {
   sub?: string;
   megaMenu?: MegaMenuContent;
 }
-
-// ==========================================
-// MEGA MENU DATA DEFINITIONS (DANHOV BRANDED)
-// ==========================================
-
 // 1. Engagement Rings Mega Menu (Style with 6 Grid Cards + Footer Callout)
 const ENGAGEMENT_RINGS_MEGA: CardsMegaContent = {
   type: 'cards',
   cards: [
-    { image: '/RINGS-1X/product-1.png', title: 'Ring', href: '/engagement-rings/'},
-    { image: '/RINGS-1X/product-2.png', title: 'Ring', href: '/engagement-rings/' },
-    { image: '/RINGS-1X/product-3.png', title: 'Ring', href: '/engagement-rings/' },
-    { image: '/RINGS-1X/product-3.png', title: 'Ring', href: '/engagement-rings/' },
-    { image: '/RINGS-1X/product-4.png', title: 'Ring', href: '/engagement-rings/' },
-    { image: '/RINGS-1X/product-5.png', title: 'How to Choose an Engagement Ring', href: '/engagement-rings/' },
+    { image: '/6 rings shings/Ring_1.png', title: 'Ring', href: '/engagement-rings/'},
+    { image: '/6 rings shings/Ring_2.png', title: 'Ring', href: '/engagement-rings/' },
+    { image: '/6 rings shings/Ring_3.png', title: 'Ring', href: '/engagement-rings/' },
+    { image: '/6 rings shings/Ring_4.png', title: 'Ring', href: '/engagement-rings/' },
+    { image: '/6 rings shings/Ring_5.png', title: 'Ring', href: '/engagement-rings/' },
+    { image: '/6 rings shings/Ring_6.png', title: 'How to Choose an Engagement Ring', href: '/engagement-rings/' },
   ],
   footerText: {
     text: 'Book Your Appointment with a DANHOV Diamond Expert, or Explore Our',
@@ -113,7 +108,7 @@ const WEDDING_BANDS_MEGA: StandardMegaContent = buildDynamicMegaItems(
     { label: 'Wedding Band Guide', href: '/wedding-bands' },
     { label: 'Shop All Wedding Bands', href: '/wedding-bands' },
   ],
-  '/RINGS-1X/product-book.png',
+  '/6 rings shings/wedding_bands.png',
   'Explore Wedding Bands',
   '/wedding-bands'
 );
@@ -136,7 +131,7 @@ const FINE_JEWELRY_MEGA: StandardMegaContent = buildDynamicMegaItems(
     { label: 'Shop All Fine Jewelry', href: '/fine-jewelry' },
     { label: 'Men\'s Jewelry', href: '/mens' },
   ],
-  '/RINGS-1X/product-bok.png',
+  '/6 rings shings/fine_jewl.png',
   'Discover Fine Jewelry',
   '/fine-jewelry'
 );
@@ -176,7 +171,7 @@ const WATCHES_MEGA: StandardMegaContent = {
     },
   ],
   promo: {
-    image: '/images/watch-promo.jpg',
+    image: '/6 rings shings/Build_you.png',
     title: 'Shop Now',
     href: '/watches',
   },
@@ -309,7 +304,7 @@ export default function Nav() {
         'Collections',
         'More wedding styles',
         weddingItems,
-        '/RINGS-1X/product-book.png',
+        '/6 rings shings/wedding_bands.png',
         'Explore Wedding Bands',
         '/wedding-bands'
       );
@@ -318,7 +313,7 @@ export default function Nav() {
         'Collections',
         'More fine jewelry',
         fineItems,
-        '/RINGS-1X/product-bok.png',
+        '/6 rings shings/fine_jewl.png',
         'Discover Fine Jewelry',
         '/fine-jewelry'
       );

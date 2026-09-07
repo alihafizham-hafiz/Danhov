@@ -19,7 +19,7 @@ export default function EditorialReverseSection({
   shopLinkText = 'SHOP THE COLLECTION',
   shopLinkHref = '/fine-jewelry',
   mediaType = 'video',
-  mediaSrc = '/Vedio_section.mp4',
+  mediaSrc = '/Vedio_section_dont.mp4',
   posterSrc = '',
 }: EditorialReverseProps) {
   const videoRef = useRef<HTMLVideoElement>(null);

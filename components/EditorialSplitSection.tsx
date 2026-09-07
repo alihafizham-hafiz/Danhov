@@ -19,7 +19,7 @@ export default function EditorialSplitSection({
   shopLinkText = 'SHOP THE COLLECTION',
   shopLinkHref = '/fine-jewelry',
   mediaType = 'video',
-  mediaSrc = '/Vedios/Vedio_white.mp4',
+  mediaSrc = '/Vedios/Vedio_white_editor.mp4',
   posterSrc = '/Fallback_white.pngs',
 }: EditorialSplitProps) {
   const videoRef = useRef<HTMLVideoElement>(null);

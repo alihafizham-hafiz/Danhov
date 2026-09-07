@@ -9,12 +9,6 @@
 }
 
 
-/* =========================================================
-   DANHOV — LISTING PAGE TYPOGRAPHY
-   Body: Santral Book
-   Headings: Sterling SSM
-========================================================= */
-
 .dnh-listing-page {
   font-family: 'Santral Book', sans-serif;
 }
@@ -54,6 +48,18 @@
   justify-content: center;  /* Horizontally center */
   text-align: center;
  
+}
+
+
+/* Category artwork is supplied at a 24:5 ratio and already includes its copy. */
+.dnh-banner--category {
+  aspect-ratio: 24 / 5;
+  min-height: 0;
+  max-height: none;
+}
+
+.dnh-banner--category .dnh-banner-bg {
+  background-position: center;
 }
 
 .dnh-banner-bg {
