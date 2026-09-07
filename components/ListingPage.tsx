@@ -80,6 +80,15 @@ const FAQ_ITEMS: FaqItem[] = [
 
 const DEFAULT_PRICE_MAX = 89000;
 
+const SPIRITUAL_MESSAGES: string[] = [
+  'Waves are the ocean.',
+  'Love is the absence of judgment.',
+  'We are already whole.',
+  'The circle has no end.',
+  'Sacred geometry. Eternal love.',
+  'The spiral does not end. It returns.',
+];
+
 const CATEGORY_BANNERS: Record<string, string> = {
   fine: '/sub%20category%20banner/1.png',
   engagement: '/sub%20category%20banner/2.png',
@@ -317,12 +326,30 @@ export default function ListingPage({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const gridItems = displayedProducts.reduce<Array<{ type: 'product'; product: Product } | { type: 'message'; text: string }>>((items, product, index) => {
+    items.push({ type: 'product', product });
+    if ((index + 1) % 6 === 0) {
+      const messageIndex = Math.floor(index / 6) % SPIRITUAL_MESSAGES.length;
+      items.push({ type: 'message', text: SPIRITUAL_MESSAGES[messageIndex] });
+    }
+    return items;
+  }, []);
+
   return (
     <main className="dnh-listing-page">
       {/* BANNER HERO */}
       <section className={`dnh-banner${bannerImage ? ' dnh-banner--category' : ''}`}>
         <div className="dnh-banner-bg" style={{ backgroundImage: `url(${bannerImage || '/Banner_listing.jpeg'})` }} />
       </section>
+
+      {/* SLIDING SPIRITUAL MESSAGES */}
+      <div className="dnh-message-ticker">
+        <div className="dnh-message-ticker-track">
+          {[...SPIRITUAL_MESSAGES, ...SPIRITUAL_MESSAGES].map((message, index) => (
+            <span className="dnh-message-ticker-item" key={index}>{message}</span>
+          ))}
+        </div>
+      </div>
 
       {/* TOOLBAR */}
       <div className="dnh-toolbar">
@@ -365,7 +392,16 @@ export default function ListingPage({
       {/* PRODUCT GRID */}
       <section className="dnh-product-section">
         <div className="dnh-product-grid">
-          {displayedProducts.map((product) => {
+          {gridItems.map((item, index) => {
+            if (item.type === 'message') {
+              return (
+                <div className="dnh-message-card" key={`message-${index}`}>
+                  <span className="dnh-message-card-quote">&ldquo;{item.text}&rdquo;</span>
+                </div>
+              );
+            }
+
+            const product = item.product;
             const mainImg = getProductImage(product, 0);
             const hoverImg = getProductImage(product, 1) || mainImg;
             const productBrand = getProductBrand(product);
